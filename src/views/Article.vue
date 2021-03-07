@@ -1,7 +1,7 @@
 <template>
     <header-layout
         title="What is a carbon footprint?">
-        <div>
+        <div class="gap-h--m">
             <p>
                 Carbon footrprint is the amount of greanhouse gases released into the atmosphere during production, transportaion or usage of anything. Some things hendrerit mauris. In nec ante quis dui venenatis luctus eu sit amet tortor. Phasellus ut viverra quam. Mauris dapibus volutpat viverra. Vestibulum arcu elit, semper ac malesuada sed, ultrices et tortor. In ornare sed nunc ac lobortis. Nam ac congue nisi, in mollis velit. Aliquam dignissim ligula a nibh dignissim tempus.
             </p>

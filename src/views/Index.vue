@@ -5,7 +5,7 @@
             <logo></logo>
         </div>
         <search-input class="gap-h--m" @search="search($event)"></search-input>
-        <div class="row space--around gap-v--l gap-h--m">
+        <div class="row space-around gap-v--l gap-h--m">
         <div class="column center gap--l">
             <div class="">1.2k</div>
             <div class="primary small gap-top--s">footprints</div>
@@ -73,7 +73,7 @@ export default {
       this.$router.push({
         path: "search",
         query: {
-          s: searchString,
+          q: searchString,
         },
       });
     },

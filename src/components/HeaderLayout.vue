@@ -7,8 +7,13 @@
                 </button>
             </div>
             <h3 class="gap-right--m ellipsis">{{ title }}</h3>
+            <div v-if="action" class="gap-h--s">
+                <button @click="$emit('action')" class="btn btn--primary">
+                    {{ action }}
+                </button>
+            </div>
         </header>
-        <div class="container container--header-pad gap-h--m">
+        <div class="container container--header-pad">
             <slot></slot>
         </div>
     </div>
@@ -17,7 +22,7 @@
 <script>
 export default {
   name: 'HeaderLayout',
-  props: ['title', 'titleSecondary']
+  props: ['title', 'titleSecondary', 'action']
 }
 </script>
 

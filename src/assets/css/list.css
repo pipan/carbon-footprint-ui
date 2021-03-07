@@ -1,0 +1,16 @@
+.list-item {
+    padding: var(--m);
+}
+
+.list-item.list-item--interactive {
+    cursor: pointer;
+}
+
+.list-item.list-item--interactive:hover .list-item__title {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.list-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}

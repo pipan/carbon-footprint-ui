@@ -7,11 +7,13 @@
     position: absolute;
     background-color: var(--bg-secondary);
     border-radius: var(--roundness-l);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow);
 }
-
 .context__item {
+    display: block;
     padding: var(--m);
+    color: var(--fg-primary);
+    text-decoration: none;
 }
 
 .context__item:hover {

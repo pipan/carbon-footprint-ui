@@ -20,3 +20,30 @@ label {
     font-weight: 400;
     color: var(--fg-secondary);
 }
+
+.radio {
+    display: flex;
+    flex-direction: row;
+    gap: var(--m);
+    flex-wrap: wrap;
+}
+
+.radio__option {
+    border: 1px solid var(--fg-secondary);
+    padding: var(--s) var(--m);
+    border-radius: 3em;
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+}
+.radio__option.radio__option--selected {
+    border-color: var(--primary);
+    background-color: var(--primary);
+    color: var(--fg-dark);
+}
+.radio__option:hover {
+    background-color: var(--hover);
+}
+.radio__option.radio__option--selected:hover {
+    background-color: var(--primary);
+}

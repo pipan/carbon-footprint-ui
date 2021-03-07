@@ -2,8 +2,7 @@
     <div class="abs abs--top abs--right">
         <context-menu ref="context">
             <div>
-                <router-link to="create" append class="context__item" @click.native="close()">New{{'\xa0'}}Footprint</router-link>
-                <div class="context__item">Settings</div>
+                <router-link to="/footprint/1/update" append class="context__item">Edit</router-link>
             </div>
         </context-menu>
     </div>
@@ -12,7 +11,7 @@
 <script>
 import ContextMenu from '../components/ContextMenu.vue';
 export default {
-    name: 'AppContext',
+    name: 'FootprintContext',
     components: { ContextMenu },
     methods: {
         close: function () {

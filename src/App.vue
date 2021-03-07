@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <router-view/>
-  </div>
+    <div>
+        <router-view/>
+        <router-view name="modal"/>
+    </div>
 </template>
 
 <style>
@@ -10,6 +11,7 @@
 @import "./assets/css/typography.css";
 @import "./assets/css/button.css";
 @import "./assets/css/input.css";
+@import "./assets/css/list.css";
 
 @import "./assets/css/modal.css";
 @import "./assets/css/context.css";

@@ -1,0 +1,47 @@
+.row {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+.row.space--around {
+    justify-content: space-around;
+}
+.row.middle {
+    align-items: center;
+}
+.row.right {
+    justify-content: flex-end;
+}
+
+.column {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.column.center {
+    align-items: center;
+}
+
+.flex {
+    flex: 1 0 auto;
+}
+
+.abs {
+    position: absolute;
+}
+.abs.abs--top {
+    top: 0px;
+}
+.abs.abs--bottom {
+    bottom: 0px;
+}
+.abs.abs--right {
+    right: 0px;
+}
+.abs.abs--left {
+    left: 0px;
+}
+
+.hide {
+    display: none;
+}

@@ -1,0 +1,32 @@
+:root {
+    --header-height: 56px;
+}
+
+.container {
+    margin: auto;
+    width: 100%;
+    max-width: 540px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.container.container--header-pad {
+    width: 100%;
+    margin-top: var(--header-height);
+}
+
+header {
+    position: fixed;
+    z-index: 10;
+    top: 0px;
+    width: 100%;
+    height: var(--header-height);
+    background-color: var(--bg-primary);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+header.elevate {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}

@@ -1,0 +1,19 @@
+.context {
+    position: relative;
+    z-index: 10;
+}
+
+.context__menu {
+    position: absolute;
+    background-color: var(--bg-secondary);
+    border-radius: var(--roundness-l);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.context__item {
+    padding: var(--m);
+}
+
+.context__item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}

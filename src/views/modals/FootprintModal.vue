@@ -1,6 +1,6 @@
 <template>
     <app-modal
-        title="Cover Transportation"
+        modal-title="Cover Transportation"
         @click-outside="close()">
         <div>
             <div class="modal__body">
@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="modal__footer">
-                <router-link to="/footprint/2" class="btn btn--primary">OPEN</router-link>
+                <router-link :to="{ name: 'footprint', params: { id: 2 } }" replace class="btn btn--primary">OPEN</router-link>
                 <div class="gap-right--m">
                     <button @click="close()" class="btn btn--secondary">CLOSE</button>
                 </div>
@@ -28,6 +28,7 @@ import AppModal from "../../components/AppModal.vue";
 export default {
     name: "FootprintModal",
     components: { AppModal, CarbonResult },
+    props: ['id', 'componentId'],
     methods: {
         close: function () {
             this.$root.$data.stores.history.back({ name: 'footprint', params: { id: this.id } });

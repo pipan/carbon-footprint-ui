@@ -38,5 +38,5 @@
 .modal__footer {
     display: flex;
     flex-direction: row-reverse;
-    padding: var(--s) var(--m) var(--m) var(--m);
+    padding: var(--s) var(--m);
 }

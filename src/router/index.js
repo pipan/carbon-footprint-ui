@@ -61,15 +61,22 @@ const routes = [
             default: Footprint,
             modal: FootprintInput
         },
-        props: true
+        props: {
+            default: true,
+            modal: true
+        }
     },
     {
         path: '/footprint/:id/component/:componentId',
+        name: 'footprint.component',
         components: {
             default: Footprint,
             modal: FootprintModal
         },
-        props: true
+        props: {
+            default: true,
+            modal: true
+        }
     },
     {
         path: '/footprint/:id/update',

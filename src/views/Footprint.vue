@@ -15,7 +15,7 @@
                             <span class="gap-top--s small secondary">pages</span>
                         </div>
                     </router-link>
-                    <button class="btn" @click="$root.$data.stores.history.reset()">
+                    <button class="btn">
                         <div class="column center">
                             <span>{{ 120 | unit("length") }}</span>
                             <span class="gap-top--s small secondary">width</span>
@@ -35,7 +35,9 @@
                     </section>
                     <section class="gap-top--l">
                         <h3 @click="openComponent()">Components</h3>
-                        <component-chart class="chart gap-v--m"></component-chart>
+                        <component-chart 
+                            class="chart gap-v--m"
+                            @select="$router.push({ name: 'footprint.component', params: { id: id, componentId: 'cmp'} })"/>
                     </section>
                 </div>
             </div>
@@ -50,6 +52,7 @@ import CarbonResult from "../components/CarbonResult.vue";
 import ComponentChart from '../components/ComponentChart.vue';
 export default {
     name: "Footprint",
+    props: ['id'],
     components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart },
     data: function () {
         return {

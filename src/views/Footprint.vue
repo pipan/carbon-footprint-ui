@@ -1,7 +1,7 @@
 <template>
     <header-layout
         title="Book"
-        back-url="/">
+        :back-url="{ name: 'index' }">
         <div class="rel">
             <footprint-context/>
             <div>
@@ -15,7 +15,7 @@
                             <span class="gap-top--s small secondary">pages</span>
                         </div>
                     </router-link>
-                    <button class="btn">
+                    <button class="btn" @click="$root.$data.stores.history.reset()">
                         <div class="column center">
                             <span>{{ 120 | unit("length") }}</span>
                             <span class="gap-top--s small secondary">width</span>

@@ -1,6 +1,7 @@
 <template>
     <header-layout
         title="Book"
+        :back-url="{ name: 'footprint', params: { id } }"
         action="SAVE"
         @action="save()">
         <div>
@@ -33,6 +34,7 @@ import HeaderLayout from "../components/HeaderLayout.vue";
 export default {
     name: "FootprintUpdate",
     components: { HeaderLayout },
+    props: ['id'],
     data: function () {
         return {
             item: {

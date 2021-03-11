@@ -10,17 +10,7 @@ export default {
     props: ['backUrl'],
     methods: {
         back: function () {
-            if (window.history.length > this.$root.$data.historyOriginIndex) {
-                this.$router.go(-1);
-                return;
-            }
-            
-            if (this.backUrl) {
-                this.$router.replace(this.backUrl);
-                return;
-            }
-
-            this.$emit('back');
+            this.$root.$data.stores.history.back(this.backUrl)
         }
     }
 }

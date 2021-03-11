@@ -29,10 +29,12 @@ const routes = [
         children: [
             {
                 path: '',
+                name: 'index',
                 component: Index
             },
             {
                 path: 'search',
+                name: 'search',
                 component: Search,
                 props: function (route) {
                     return {
@@ -44,10 +46,12 @@ const routes = [
     },
     {
         path: '/create',
+        name: 'footprint.create',
         component: FootprintUpdate
     },
     {
         path: '/footprint/:id',
+        name: 'footprint',
         component: Footprint,
         props: true
     },
@@ -69,7 +73,9 @@ const routes = [
     },
     {
         path: '/footprint/:id/update',
+        name: 'footprint.update',
         component: FootprintUpdate,
+        props: true
     },
     {
         path: '/footprint/:id/update/name',
@@ -77,6 +83,7 @@ const routes = [
             default: FootprintUpdate,
             modal: NameEdit
         },
+        props: true
     },
     {
         path: '/footprint/:id/update/type',
@@ -84,6 +91,7 @@ const routes = [
             default: FootprintUpdate,
             modal: TypeEdit
         },
+        props: true
     },
     {
         path: '/article/what-is-a-carbon-footprint',

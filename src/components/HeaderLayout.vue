@@ -2,7 +2,7 @@
     <div class="container">
         <header class="elevate">
             <div class="gap--s">
-                <back-button :backUrl="backUrl">
+                <back-button :back-url="backUrl">
                     <button class="btn btn--circle">
                         <span class="material-icons">arrow_back</span>
                     </button>

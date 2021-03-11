@@ -1,5 +1,7 @@
 <template>
-    <app-modal title="Cover Transportation" ref="modal">
+    <app-modal
+        title="Cover Transportation"
+        @click-outside="close()">
         <div>
             <div class="modal__body">
                 <div class="row middle">
@@ -28,7 +30,7 @@ export default {
     components: { AppModal, CarbonResult },
     methods: {
         close: function () {
-            this.$refs.modal.close();
+            this.$root.$data.stores.history.back({ name: 'footprint', params: { id: this.id } });
         },
     }
 };

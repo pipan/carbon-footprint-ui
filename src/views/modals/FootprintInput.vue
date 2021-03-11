@@ -34,11 +34,7 @@ export default {
     components: { AppModal },
     methods: {
         close: function () {
-            if (window.history.length > this.$root.$data.historyOriginIndex) {
-                this.$router.go(-1);
-                return;
-            }
-            this.$router.replace({ path: '/footprint/:id', params: { id: this.id } });
+            this.$root.$data.stores.history.back({ name: 'footprint', params: { id: this.id } });
         },
     }
 };

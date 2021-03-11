@@ -2,9 +2,11 @@
     <div class="container">
         <header class="elevate">
             <div class="gap--s">
-                <button @click="$router.go(-1)" class="btn btn--circle">
-                    <span class="material-icons">arrow_back</span>
-                </button>
+                <back-button :backUrl="backUrl">
+                    <button class="btn btn--circle">
+                        <span class="material-icons">arrow_back</span>
+                    </button>
+                </back-button>
             </div>
             <h3 class="gap-right--m ellipsis">{{ title }}</h3>
             <div v-if="action" class="gap-h--s">
@@ -20,9 +22,11 @@
 </template>
 
 <script>
+import BackButton from './BackButton.vue'
 export default {
+  components: { BackButton },
   name: 'HeaderLayout',
-  props: ['title', 'titleSecondary', 'action']
+  props: ['title', 'titleSecondary', 'action', 'backUrl']
 }
 </script>
 

@@ -13,6 +13,19 @@
     background-color: rgba(255, 255, 255, 0.05);
 }
 
+select {
+    background-color: var(--bg-secondary);
+    color: var(--fg-primary);
+    border: none;
+    border-radius: var(--roundness);
+    padding: var(--s);
+    font-size: 1em;
+}
+
+select:hover {
+    background-color: var(--hover);
+}
+
 label {
     display: block;
     font-size: 1rem;
@@ -38,12 +51,8 @@ label {
 }
 .radio__option.radio__option--selected {
     border-color: var(--primary);
-    background-color: var(--primary);
-    color: var(--fg-dark);
+    color: var(--primary);
 }
 .radio__option:hover {
     background-color: var(--hover);
-}
-.radio__option.radio__option--selected:hover {
-    background-color: var(--primary);
 }

@@ -1,10 +1,5 @@
 <template>
-    <div class="container">
-        <app-context></app-context>
-        <div class="gap-v--l gap-h--m">
-            <logo></logo>
-        </div>
-        <search-input class="gap-h--m" @search="search($event)"></search-input>
+    <div>
         <div class="row space-around gap-v--l gap-h--m">
         <div class="column center gap--l">
             <div class="">1.2k</div>
@@ -62,22 +57,8 @@
 </template>
 
 <script>
-import AppContext from '../components/AppContext.vue';
-import Logo from '../components/Logo.vue';
-import SearchInput from "../components/SearchInput.vue";
 export default {
-  name: "Index",
-  components: { SearchInput, AppContext, Logo },
-  methods: {
-    search: function (searchString) {
-      this.$router.push({
-        path: "search",
-        query: {
-          q: searchString,
-        },
-      });
-    },
-  },
+    name: "Index"
 };
 </script>
 

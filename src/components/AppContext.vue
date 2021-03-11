@@ -2,7 +2,7 @@
     <div class="abs abs--top abs--right">
         <context-menu ref="context">
             <div>
-                <router-link to="create" append class="context__item" @click.native="close()">New{{'\xa0'}}Footprint</router-link>
+                <router-link :to="{path: 'create'}" class="context__item" @click.native="close()">New{{'\xa0'}}Footprint</router-link>
                 <div class="context__item">Settings</div>
             </div>
         </context-menu>

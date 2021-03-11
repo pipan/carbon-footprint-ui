@@ -112,3 +112,7 @@ body {
     box-shadow: var(--shadow);
     padding: 0px var(--m);
 }
+
+.chart {
+    height: 260px;
+}

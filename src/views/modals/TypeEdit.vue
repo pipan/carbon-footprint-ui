@@ -1,5 +1,5 @@
 <template>
-    <modal title="Footprint Type" ref="modal">
+    <app-modal modal-title="Footprint Type" ref="modal">
         <div>
             <div class="modal__body">
                 <div class="radio">
@@ -18,14 +18,14 @@
                 </div>
             </div>
         </div>
-    </modal>
+    </app-modal>
 </template>
 
 <script>
-import Modal from "../../components/Modal.vue";
+import AppModal from "../../components/AppModal.vue";
 export default {
     name: "TypeEdit",
-    components: { Modal },
+    components: { AppModal },
     data: function () {
         return {
             items: ['Production', 'Transportation', 'Use', 'Other'],

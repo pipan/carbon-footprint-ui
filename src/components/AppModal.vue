@@ -1,8 +1,8 @@
 <template>
-    <div class="modal" @click.stop="close()">
+    <div class="modal" @click.stop="$emit('click-outside')">
         <div class="modal__canvas" @click.stop>
             <div class="modal__header">
-                <h3>{{ title }}</h3>
+                <h3>{{ modalTitle }}</h3>
             </div>
             <slot></slot>
         </div>
@@ -11,13 +11,8 @@
 
 <script>
 export default {
-    name: "Modal",
-    props: ['title'],
-    methods: {
-        close: function () {
-            this.$router.go(-1);
-        },
-    }
+    name: "AppModal",
+    props: ['modalTitle']
 };
 </script>
 

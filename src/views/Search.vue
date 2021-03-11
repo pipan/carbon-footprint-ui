@@ -1,14 +1,5 @@
 <template>
-    <div class="container">
-        <app-context></app-context>
-        <div class="gap-v--l gap-h--m">
-            <logo></logo>
-        </div>
-        <search-input
-        class="gap-h--m"
-        :query="query"
-        @search="search($event)"
-        ></search-input>
+    <div>
         <div class="gap-v--l">
             <search-list-item
                 v-for="(item, index) in items"
@@ -25,9 +16,6 @@
 </template>
 
 <script>
-import SearchInput from "../components/SearchInput.vue";
-import AppContext from "../components/AppContext.vue";
-import Logo from '../components/Logo.vue';
 import SearchListItem from '../components/SearchListItem.vue';
 export default {
     name: "Search",
@@ -55,17 +43,7 @@ export default {
             ]
         }
     },
-    components: { SearchInput, AppContext, Logo, SearchListItem },
-    methods: {
-        search: function (searchString) {
-        this.$router.push({
-            path: "search",
-            query: {
-                q: searchString,
-            },
-        });
-        },
-    }
+    components: { SearchListItem }
 };
 </script>
 

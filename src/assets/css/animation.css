@@ -1,0 +1,20 @@
+ .animation--fade-leave-active, .animation--fade-enter-active {
+    transition-property: opacity;
+    transition-duration: 0.16s;
+    transition-timing-function: ease-out;
+}
+.animation--fade-enter, .animation--fade-leave-to {
+    opacity: 0;
+}
+
+.animate--all {
+    transition: all 0.16s ease-out;
+}
+
+.animation--blur {
+    filter: blur(2px);
+}
+
+.animate--fast {
+    transition-duration: 0.08s !important;
+}

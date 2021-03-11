@@ -8,17 +8,17 @@
             </div>
         </div>
         <div class="abs abs--bottom abs--left abs--right gap--l">
-            <logo></logo>
+            <app-logo/>
         </div>
     </div>
 </template>
 
 <script>
 import AppContext from '../components/AppContext.vue';
-import Logo from '../components/Logo.vue';
+import AppLogo from '../components/AppLogo.vue';
 export default {
   name: "NotFound",
-  components: { AppContext, Logo },
+  components: { AppContext, AppLogo },
 };
 </script>
 

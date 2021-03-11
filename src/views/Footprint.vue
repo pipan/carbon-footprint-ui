@@ -1,28 +1,29 @@
 <template>
     <header-layout
-        title="Book">
-        <div>
-            <footprint-context></footprint-context>
+        title="Book"
+        back-url="/">
+        <div class="rel">
+            <footprint-context/>
             <div>
                 <carbon-result
                     class="gap-v--l"
-                    carbon="0.34"></carbon-result>
+                    carbon="0.34" />
                 <div class="detail__inputs">
-                    <button class="btn">
+                    <router-link to="input/pages" append class="btn">
                         <div class="column center">
                             <span>220</span>
                             <span class="gap-top--s small secondary">pages</span>
                         </div>
-                    </button>
+                    </router-link>
                     <button class="btn">
                         <div class="column center">
-                            <span>12 cm</span>
+                            <span>{{ 120 | unit("length") }}</span>
                             <span class="gap-top--s small secondary">width</span>
                         </div>
                     </button>
                     <button class="btn">
                         <div class="column center">
-                            <span>27 cm</span>
+                            <span>{{ 270 | unit("length") }}</span>
                             <span class="gap-top--s small secondary">height</span>
                         </div>
                     </button>
@@ -33,7 +34,8 @@
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id enim nec nulla ultrices tempus ac a sapien. Maecenas eu lobortis nisl. Mauris posuere consectetur metus, quis tempus purus tincidunt et.</p>
                     </section>
                     <section class="gap-top--l">
-                        <h3>Components</h3>
+                        <h3 @click="openComponent()">Components</h3>
+                        <component-chart class="chart gap-v--m"></component-chart>
                     </section>
                 </div>
             </div>
@@ -45,9 +47,10 @@
 import FootprintContext from "../components/FootprintContext.vue";
 import HeaderLayout from "../components/HeaderLayout.vue";
 import CarbonResult from "../components/CarbonResult.vue";
+import ComponentChart from '../components/ComponentChart.vue';
 export default {
     name: "Footprint",
-    components: { HeaderLayout, FootprintContext, CarbonResult },
+    components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart },
     data: function () {
         return {
             item: {
@@ -56,6 +59,14 @@ export default {
                 title: 'Book',
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dfgdf gd fgdfgf ...'
             }
+        }
+    },
+    methods: {
+        openComponent: function () {
+            this.$router.push({
+                path: 'component/id',
+                append: true
+            })
         }
     }
 };

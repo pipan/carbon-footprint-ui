@@ -1,6 +1,6 @@
 <template>
     <div class="column center">
-        <div class="primary large thin">{{ carbon }}</div>
+        <div class="primary large">{{ carbon }}</div>
         <div class="gap-top--s">
             <span class="carbon-unit carbon-unit--secondary">
                 <span class="carbon-unit__weight">{{ unit }}</span>

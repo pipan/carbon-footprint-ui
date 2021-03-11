@@ -1,5 +1,5 @@
 <template>
-    <modal title="Footprint Name" ref="modal">
+    <app-modal modal-title="Footprint Name" ref="modal">
         <div>
             <div class="modal__body">
                 <input id="footprint-name" class="input" type="text" name="name" autocomplete="off" />
@@ -11,14 +11,14 @@
                 </div>
             </div>
         </div>
-    </modal>
+    </app-modal>
 </template>
 
 <script>
-import Modal from "../../components/Modal.vue";
+import AppModal from "../../components/AppModal.vue";
 export default {
     name: "NameEdit",
-    components: { Modal },
+    components: { AppModal },
     methods: {
         close: function () {
             this.$refs.modal.close();

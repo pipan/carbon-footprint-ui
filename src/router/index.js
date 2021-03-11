@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import SearchLayout from '../views/layouts/SearchLayout.vue'
+
 import Index from '../views/Index.vue'
 import Search from '../views/Search.vue'
 import NotFound from '../views/NotFound.vue'
@@ -8,43 +10,62 @@ import Article from '../views/Article.vue'
 import Footprint from '../views/Footprint.vue'
 import FootprintUpdate from '../views/FootprintUpdate.vue'
 
-import CreateFootprint from '../views/modals/CreateFootprint.vue'
 import NameEdit from '../views/modals/NameEdit.vue'
 import TypeEdit from '../views/modals/TypeEdit.vue'
+import FootprintModal from '../views/modals/FootprintModal.vue'
+import FootprintInput from '../views/modals/FootprintInput.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
     {
         path: '',
-        component: Index,
-    },
-    {
-        path: '/create',
-        components: {
-            default: Index,
-            modal: CreateFootprint
-        },
-    },
-    {
-        path: '/search',
-        component: Search,
+        component: SearchLayout,
         props: function (route) {
             return {
                 query: route.query.q
             }
-        }
+        },
+        children: [
+            {
+                path: '',
+                component: Index
+            },
+            {
+                path: 'search',
+                component: Search,
+                props: function (route) {
+                    return {
+                        query: route.query.q
+                    }
+                },
+            }
+        ]
     },
     {
-        path: '/search/create',
-        components: {
-            default: Search,
-            modal: CreateFootprint
-        },
+        path: '/create',
+        component: FootprintUpdate
     },
     {
         path: '/footprint/:id',
         component: Footprint,
+        props: true
+    },
+    {
+        path: '/footprint/:id/input/:inputId',
+        components: {
+            default: Footprint,
+            modal: FootprintInput
+        },
+        props: true
+    },
+    {
+        path: '/footprint/:id/component/:componentId',
+        components: {
+            default: Footprint,
+            modal: FootprintModal
+        },
+        props: true
     },
     {
         path: '/footprint/:id/update',

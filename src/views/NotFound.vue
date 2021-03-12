@@ -2,9 +2,8 @@
     <header-layout
         title=""
         :back-url="{ name: 'index' }">
-        <div>
+        <div style="height: calc(100vh - 56px)">
             <div class="container">
-                <app-context></app-context>
                 <div class="column center" style="position:relative; top: 160px">
                     <img src="/image/404.svg" />
                     <div class="thin gap-top--l">Page you are looking for had not been found</div>
@@ -18,12 +17,11 @@
 </template>
 
 <script>
-import AppContext from '../components/AppContext.vue';
 import AppLogo from '../components/AppLogo.vue';
-import HeaderLayout from '../components/HeaderLayout.vue';
+import HeaderLayout from './layouts/HeaderLayout.vue';
 export default {
     name: "NotFound",
-    components: { AppContext, AppLogo, HeaderLayout },
+    components: { AppLogo, HeaderLayout },
 };
 </script>
 

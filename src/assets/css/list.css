@@ -6,7 +6,7 @@
     cursor: pointer;
 }
 
-.list-item.list-item--interactive:hover .list-item__title {
+.list-item.list-item--interactive .list-item__title:hover {
     color: var(--primary);
     text-decoration: underline;
 }

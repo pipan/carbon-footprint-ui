@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <header class="elevate">
             <div class="gap--s">
                 <back-button :back-url="backUrl">
@@ -15,14 +15,14 @@
                 </button>
             </div>
         </header>
-        <div class="container container--header-pad">
+        <div class="container container--header-pad">  
             <slot></slot>
         </div>
     </div>
 </template>
 
 <script>
-import BackButton from './BackButton.vue'
+import BackButton from '../../components/BackButton.vue'
 export default {
   components: { BackButton },
   name: 'HeaderLayout',

@@ -17,12 +17,12 @@ export default {
                 barThickness: 36,
                 data: [30, 18, 12, 11, 7, 2],
                 backgroundColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
+                    'rgba(117, 208, 102, 1)',
+                    'rgba(59, 109, 236, 1)',
+                    'rgba(205, 205, 205, 1)',
+                    'rgba(59, 109, 236, 1)',
+                    'rgba(205, 205, 205, 1)',
+                    'rgba(230, 234, 41, 1)'
                 ],
                 borderWidth: 0
             }]
@@ -34,6 +34,9 @@ export default {
             },
             onClick: function (point, event) {
                 console.log(point, event);
+                if (event.length <= 0) {
+                    return;
+                }
                 self.select(event);
             },
             scales: {            
@@ -42,6 +45,11 @@ export default {
                         display: true,
                         color: 'rgba(255, 255, 255, 0.1)',
                         tickMarkLength: 0,
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: '% of emited CO2',
+                        color: 'rgba(255, 255, 255, 1)'
                     },
                     ticks: {
                         beginAtZero: true,

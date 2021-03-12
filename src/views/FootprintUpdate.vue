@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import HeaderLayout from "../components/HeaderLayout.vue";
+import HeaderLayout from "./layouts/HeaderLayout.vue";
 export default {
     name: "FootprintUpdate",
     components: { HeaderLayout },

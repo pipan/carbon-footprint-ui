@@ -47,7 +47,7 @@
 
 <script>
 import FootprintContext from "../components/FootprintContext.vue";
-import HeaderLayout from "../components/HeaderLayout.vue";
+import HeaderLayout from "./layouts/HeaderLayout.vue";
 import CarbonResult from "../components/CarbonResult.vue";
 import ComponentChart from '../components/ComponentChart.vue';
 export default {

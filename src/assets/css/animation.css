@@ -12,7 +12,7 @@
 }
 
 .animation--blur {
-    filter: blur(2px);
+    /* filter: blur(2px); */ /* fixed position is buged if blur is applied (tested in FF) */
 }
 
 .animate--fast {

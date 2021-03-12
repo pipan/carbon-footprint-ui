@@ -10,7 +10,7 @@ export default {
     props: ['backUrl'],
     methods: {
         back: function () {
-            this.$root.$data.stores.history.back(this.backUrl)
+            this.$services.history.back(this.backUrl)
         }
     }
 }

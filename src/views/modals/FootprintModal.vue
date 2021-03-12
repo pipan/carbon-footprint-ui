@@ -31,7 +31,7 @@ export default {
     props: ['id', 'componentId'],
     methods: {
         close: function () {
-            this.$root.$data.stores.history.back({ name: 'footprint', params: { id: this.id } });
+            this.$services.history.back({ name: 'footprint', params: { id: this.id } });
         },
     }
 };

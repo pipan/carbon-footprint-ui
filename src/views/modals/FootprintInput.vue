@@ -34,7 +34,7 @@ export default {
     components: { AppModal },
     methods: {
         close: function () {
-            this.$root.$data.stores.history.back({ name: 'footprint', params: { id: this.id } });
+            this.$services.history.back({ name: 'footprint', params: { id: this.id } });
         },
     }
 };

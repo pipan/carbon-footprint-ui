@@ -14,7 +14,7 @@ export default {
         this.renderChart({
             labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
             datasets: [{
-                barThickness: 36,
+                barThickness: 28,
                 data: [30, 18, 12, 11, 7, 2],
                 backgroundColor: [
                     'rgba(117, 208, 102, 1)',

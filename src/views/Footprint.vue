@@ -17,13 +17,13 @@
                     </router-link>
                     <button class="btn">
                         <div class="column center">
-                            <span>{{ 120 | unit("length") }}</span>
+                            <span>{{ 120 | unitHuman("length") }}</span>
                             <span class="gap-top--s small secondary">width</span>
                         </div>
                     </button>
                     <button class="btn">
                         <div class="column center">
-                            <span>{{ 270 | unit("length") }}</span>
+                            <span>{{ 270 | unitHuman("length") }}</span>
                             <span class="gap-top--s small secondary">height</span>
                         </div>
                     </button>

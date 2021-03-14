@@ -18,12 +18,7 @@ import CarbonResult from './CarbonResult.vue'
 export default {
     name: 'SearchListItem',
     components: { CarbonResult },
-    props: ['item', 'verified'],
-    computed: {
-        unit: function () {
-            return 'g'
-        }
-    }
+    props: ['item', 'verified']
 }
 </script>
 

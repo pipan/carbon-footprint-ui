@@ -7,7 +7,11 @@ import router from './router'
 import unitStore from './stores/UnitStore';
 import searchStore from './stores/SearchStore';
 
-import Unit from "./filters/Unit";
+import toUnit from "./filters/ToUnit";
+import unitHuman from "./filters/UnitHuman";
+import unitLabel from "./filters/UnitLabel";
+import unitValue from "./filters/UnitValue";
+
 import HistoryService from './services/HistoryService';
 
 Vue.prototype.$services = {
@@ -16,7 +20,10 @@ Vue.prototype.$services = {
 Vue.use(Vuex)
 Vue.config.productionTip = false
 
-Vue.filter('unit', Unit);
+Vue.filter('toUnit', toUnit);
+Vue.filter('unitLabel', unitLabel);
+Vue.filter('unitValue', unitValue);
+Vue.filter('unitHuman', unitHuman);
 
 new Vue({
     router: router,

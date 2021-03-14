@@ -8,7 +8,7 @@
                     <carbon-result class="gap-h--l" carbon="0.11"></carbon-result>
                     <div class="column">
                         <div>weight: 60g</div>
-                        <div class="gap-top--s">distance: {{ 120000000 | unit("length")}}</div>
+                        <div class="gap-top--s">distance: {{ 120000000 | unitHuman("length")}}</div>
                     </div>
                 </div>
             </div>

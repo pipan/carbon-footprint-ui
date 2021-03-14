@@ -18,6 +18,9 @@ export default {
             }
             return this.$route.matched[0].components.modal !== undefined
         }
+    },
+    mounted: function () {
+        this.$store.dispatch('unit/load');
     }
 }
 </script>

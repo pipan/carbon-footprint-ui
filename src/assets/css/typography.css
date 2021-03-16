@@ -31,6 +31,7 @@ p.no-gap-before {
 
 a {
     color: var(--primary);
+    cursor: pointer;
 }
 a.link--no-style {
     text-decoration: none;

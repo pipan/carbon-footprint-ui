@@ -4,20 +4,23 @@ import Vuex from 'vuex'
 import App from './App.vue'
 import router from './router'
 
-import unitStore from './stores/UnitStore';
-import searchStore from './stores/SearchStore';
-import footprintStore from './stores/FootprintStore';
+import unitStore from './stores/UnitStore'
+import searchStore from './stores/SearchStore'
+import footprintStore from './stores/FootprintStore'
 
-import ellipsis from "./filters/Ellipsis";
-import precision from "./filters/Precision";
-import titleCase from "./filters/TitleCase";
-import UnitFactory from "./filters/UnitFactory";
+import ellipsis from "./filters/Ellipsis"
+import precision from "./filters/Precision"
+import titleCase from "./filters/TitleCase"
+import UnitFactory from "./filters/UnitFactory"
 
-import HistoryService from './services/HistoryService';
+import HistoryService from './services/HistoryService'
+
+import AppLink from './components/AppLink.vue'
 
 Vue.prototype.$services = {
     history: new HistoryService(router)
 };
+Vue.component('app-link', AppLink)
 Vue.use(Vuex)
 Vue.config.productionTip = false
 let store = new Vuex.Store({

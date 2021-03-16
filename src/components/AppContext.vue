@@ -2,7 +2,7 @@
     <div class="abs abs--top abs--right">
         <context-menu ref="context">
             <div>
-                <router-link :to="{path: 'create'}" class="context__item" @click.native="close()">New{{'\xa0'}}Footprint</router-link>
+                <button class="btn context__item" @click="navigate({path: 'create'})">New{{'\xa0'}}Footprint</button>
                 <div class="context__item">Settings</div>
             </div>
         </context-menu>
@@ -17,6 +17,9 @@ export default {
     methods: {
         close: function () {
             this.$refs.context.close();
+        },
+        navigate: function (route) {
+            this.$services.history.push(route)
         }
     }
 }

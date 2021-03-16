@@ -1,6 +1,6 @@
 <template>
     <form class="search gap-h--m" @submit.prevent="submit(queryValue)">
-        <input v-model="queryValue" type="text" name="search" class="search__input" placeholder="search" />
+        <input v-model="queryValue" type="text" name="search" class="search__input" placeholder="search" autocomplete="off" />
         <button type="submit" class="search__btn">
             <span class="material-icons">search</span>
         </button>

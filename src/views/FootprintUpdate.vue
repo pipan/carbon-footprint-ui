@@ -5,14 +5,14 @@
         action="SAVE"
         @action="save()">
         <div>
-            <router-link to="name" append class="list-item list-item--interactive column">
+            <app-link route="name" append class="list-item list-item--interactive column">
                 <div>Name</div>
                 <div class="secondary gap-top--s">Book</div>
-            </router-link>
-            <router-link to="type" append class="list-item list-item--interactive column">
+            </app-link>
+            <app-link route="type" append class="list-item list-item--interactive column">
                 <div>Type</div>
                 <div class="secondary gap-top--s">Other</div>
-            </router-link>
+            </app-link>
             <div class="list-item list-item--interactive column">
                 <div>Tags</div>
                 <div class="secondary gap-top--s">Click to add tags</div>

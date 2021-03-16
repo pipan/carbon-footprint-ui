@@ -96,8 +96,8 @@ body {
 }
 
 .list-item__carbon {
-    width: 80px;
-    min-width: 80px;
+    width: 90px;
+    min-width: 90px;
     display: flex;
     flex-direction: column;
     align-items: center;

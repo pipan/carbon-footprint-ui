@@ -34,6 +34,13 @@ label {
     color: var(--fg-secondary);
 }
 
+select {
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+    text-align: center;
+}
+
 .radio {
     display: flex;
     flex-direction: row;

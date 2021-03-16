@@ -17,7 +17,7 @@
         <div class="column gap-h--m gap-bottom--l">
         <article class="column">
             <h3>
-                <router-link class="link--no-style" to="article/what-is-a-carbon-footprint">What is a carbon footprint?</router-link>
+                <app-link class="link--no-style" route="article/what-is-a-carbon-footprint">What is a carbon footprint?</app-link>
             </h3>
             <p class="secondary compact no-gap-before">
             Carbon footrprint is the amount of greanhouse gases released into the
@@ -26,7 +26,7 @@
         </article>
         <article class="column gap-top--l">
             <h3>
-                <router-link class="link--no-style" to="article/2">
+                <app-link class="link--no-style" route="article/2">
                     <span>Why is footprint measured in </span>
                     <span class="carbon-unit">
                     <span class="carbon-unit__weight">kg</span>
@@ -36,7 +36,7 @@
                     </span>
                     </span>
                     <span>?</span>
-                </router-link>
+                </app-link>
             </h3>
             <p class="secondary compact no-gap-before">
             CO2 is the most iconic greenhouse gas molecule. Therofore, it is used
@@ -45,7 +45,7 @@
         </article>
         <article class="column gap-top--l">
             <h3>
-                <router-link class="link--no-style" to="article/3">How can I create a new footprint?</router-link>
+                <app-link class="link--no-style" route="article/3">How can I create a new footprint?</app-link>
             </h3>
             <p class="secondary compact no-gap-before">
             Every footprint is internaly represented as a mathematical function.

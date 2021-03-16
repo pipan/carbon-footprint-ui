@@ -1,7 +1,9 @@
 <template>
     <div class="column center">
         <h1>
-            <router-link class="link--no-style" to="/"><span class="primary">C</span>arbon</router-link>
+            <app-link class="link--no-style" :route="{ name: 'index' }">
+                <span class="primary">C</span><span>arbon</span>
+            </app-link>
         </h1>
         <div class="gap-top--s thin">footprint</div>
     </div>
@@ -10,7 +12,6 @@
 <script>
 export default {
     name: 'AppLogo',
-    props: []
 }
 </script>
 

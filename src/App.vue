@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="!loading">
         <transition name="animation--fade" mode="out-in">
             <router-view :class="{'animation--blur': isModalOpen, 'animate--all': isModalOpen, 'animate--fast': !isModalOpen}" />
         </transition>
@@ -17,6 +17,9 @@ export default {
                 return false
             }
             return this.$route.matched[0].components.modal !== undefined
+        },
+        loading: function () {
+            return this.$store.state.unit.loading
         }
     },
     mounted: function () {

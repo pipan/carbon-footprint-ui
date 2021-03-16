@@ -1,18 +1,27 @@
 export default class HistoryService {
-    originalIndex = 0
+    length = 0
     router = null
 
     constructor (router) {
         this.router = router;
-        this.originalIndex = window.history.length
     }
 
-    back (fallbackPath) {
-        if (window.history.length > this.originalIndex) {
+    back (fallbackRoute) {
+        if (this.length > 0) {
+            this.length--
             this.router.go(-1);
             return;
         }
 
+        this.replace(fallbackRoute);
+    }
+
+    push (route) {
+        this.length++
+        this.router.push(route)
+    }
+
+    replace (fallbackPath) {
         this.router.replace(fallbackPath);
     }
 }

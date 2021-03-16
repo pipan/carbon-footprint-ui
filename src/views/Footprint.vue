@@ -1,43 +1,38 @@
 <template>
     <header-layout
-        title="Book"
+        :title="$store.state.footprint.item.name"
         :back-url="{ name: 'index' }">
-        <div class="rel">
+        <div class="rel" v-if="$store.state.footprint.item">
             <footprint-context/>
             <div>
                 <carbon-result
-                    class="gap-v--l"
-                    carbon="0.34" />
-                <div class="detail__inputs">
-                    <router-link to="input/pages" append class="btn">
-                        <div class="column center">
-                            <span>220</span>
-                            <span class="gap-top--s small secondary">pages</span>
-                        </div>
-                    </router-link>
-                    <button class="btn">
-                        <div class="column center">
-                            <span>{{ 120 | unitHuman("length") }}</span>
-                            <span class="gap-top--s small secondary">width</span>
-                        </div>
-                    </button>
-                    <button class="btn">
-                        <div class="column center">
-                            <span>{{ 270 | unitHuman("length") }}</span>
-                            <span class="gap-top--s small secondary">height</span>
-                        </div>
-                    </button>
+                    class="gap-top--l"
+                    :carbon="$store.state.footprint.item.carbon"
+                    layout="row"/>
+                <div class="gap-top--l" v-if="hasInput">
+                    <div class="detail__inputs gap-h--m">
+                        <button
+                            v-for="input in $store.state.footprint.item.inputs"
+                            :key="input.name"
+                            @click="openInput(input.id)"
+                            class="btn">
+                            <div class="column center">
+                                <span>{{ input.value | unitHuman(input.unit.id) }}</span>
+                                <span class="gap-top--s small secondary">{{ input.name }}</span>
+                            </div>
+                        </button>
+                    </div>
                 </div>
                 <div class="gap-v--l gap-h--m">
                     <section>
                         <h3>Description</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id enim nec nulla ultrices tempus ac a sapien. Maecenas eu lobortis nisl. Mauris posuere consectetur metus, quis tempus purus tincidunt et.</p>
+                        <p>{{ $store.state.footprint.item.description }}</p>
                     </section>
                     <section class="gap-top--l">
-                        <h3 @click="openComponent()">Components</h3>
+                        <h3>Components</h3>
                         <component-chart 
-                            class="chart gap-v--m"
-                            @select="$router.push({ name: 'footprint.component', params: { id: id, componentId: 'cmp'} })"/>
+                            class="chart gap-top--m"
+                            @select="openComponent('cmp')"/>
                     </section>
                 </div>
             </div>
@@ -54,22 +49,47 @@ export default {
     name: "Footprint",
     props: ['id'],
     components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart },
-    data: function () {
-        return {
-            item: {
-                id: 1,
-                carbon: 0.34,
-                title: 'Book',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dfgdf gd fgdfgf ...'
-            }
+    methods: {
+        openComponent: function (componentId) {
+            this.$services.history.push({
+                name: 'footprint.component',
+                params: {
+                    id: this.id,
+                    componentId: componentId
+                }
+            })
+        },
+        openInput: function (inputId) {
+            this.$services.history.push({
+                name: 'footprint.input',
+                params: {
+                    id: this.id,
+                    inputId: inputId
+                },
+                query: this.$route.query
+            })
         }
     },
-    methods: {
-        openComponent: function () {
-            this.$router.push({
-                path: 'component/id',
-                append: true
-            })
+    computed: {
+        hasInput: function () {
+            return this.$store.state.footprint.item.inputs
+                && this.$store.state.footprint.item.inputs.length > 0;
+        }
+    },
+    mounted: function () {
+        this.$store.dispatch('footprint/load', { id: this.id, inputs: this.$route.query })
+    },
+    watch: {
+        id: function (newValue) {
+            this.$store.dispatch('footprint/load', { id: newValue, inputs: this.$route.query })
+        },
+        $route: function (newValue, oldValue) {
+            // console.log("watch", newValue.query, oldValue.query)
+            // if (JSON.stringify(newValue.query) === JSON.stringify(oldValue.query)) {
+            //     return
+            // }
+            console.log("refresh", newValue.query, oldValue.query)
+            this.$store.dispatch('footprint/refresh', {id: this.id, inputs: newValue.query})
         }
     }
 };

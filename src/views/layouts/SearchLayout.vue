@@ -24,10 +24,10 @@ export default {
     props: ['query'],
     methods: {
         search: function (searchString) {
-            this.$router.push({
-                path: "search",
+            this.$services.history.push({
+                name: "search",
                 query: {
-                q: searchString,
+                    q: searchString,
                 },
             });
         },

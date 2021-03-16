@@ -6,6 +6,9 @@
 .row.space-around {
     justify-content: space-around;
 }
+.row.center {
+    justify-content: center;
+}
 .row.middle {
     align-items: center;
 }

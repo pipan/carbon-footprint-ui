@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="modal__footer">
-                <router-link :to="{ name: 'footprint', params: { id: 2 } }" replace class="btn btn--primary">OPEN</router-link>
+                <button class="btn btn--primary">OPEN</button>
                 <div class="gap-right--m">
                     <button @click="close()" class="btn btn--secondary">CLOSE</button>
                 </div>
@@ -33,6 +33,14 @@ export default {
         close: function () {
             this.$services.history.back({ name: 'footprint', params: { id: this.id } });
         },
+        openFootprint: function (id) {
+            this.$services.history.replace({
+                name: 'footprint',
+                params: {
+                    id: id
+                }
+            })
+        }
     }
 };
 </script>

@@ -57,6 +57,7 @@ const routes = [
     },
     {
         path: '/footprint/:id/input/:inputId',
+        name: 'footprint.input',
         components: {
             default: Footprint,
             modal: FootprintInput

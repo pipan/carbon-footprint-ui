@@ -26,7 +26,18 @@ import BackButton from '../../components/BackButton.vue'
 export default {
   components: { BackButton },
   name: 'HeaderLayout',
-  props: ['title', 'titleSecondary', 'action', 'backUrl']
+  props: ['title', 'titleSecondary', 'action', 'backUrl'],
+  watch: {
+      title: function (newValue, oldValue) {
+          if (newValue === oldValue) {
+              return
+          }
+          this.$services.title.set(newValue + " | Carbon Footprint")
+      }
+  },
+  mounted: function () {
+      this.$services.title.set(this.title + " | Carbon Footprint")
+  }
 }
 </script>
 

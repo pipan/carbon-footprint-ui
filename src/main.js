@@ -14,11 +14,13 @@ import titleCase from "./filters/TitleCase"
 import UnitFactory from "./filters/UnitFactory"
 
 import HistoryService from './services/HistoryService'
+import TitleService from './services/TitleService'
 
 import AppLink from './components/AppLink.vue'
 
 Vue.prototype.$services = {
-    history: new HistoryService(router)
+    history: new HistoryService(router),
+    title: new TitleService()
 };
 Vue.component('app-link', AppLink)
 Vue.use(Vuex)

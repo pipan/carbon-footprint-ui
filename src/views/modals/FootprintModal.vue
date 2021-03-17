@@ -5,7 +5,7 @@
         <div>
             <div class="modal__body">
                 <div class="row middle">
-                    <carbon-result class="gap-h--l" carbon="0.11"></carbon-result>
+                    <carbon-result class="gap-h--l" :carbon="110"></carbon-result>
                     <div class="column">
                         <div>weight: 60g</div>
                         <div class="gap-top--s">distance: {{ 120000000 | unitHuman("length")}}</div>

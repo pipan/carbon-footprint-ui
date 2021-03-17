@@ -1,6 +1,6 @@
 <template>
     <header-layout
-        title=""
+        title="404"
         :back-url="{ name: 'index' }">
         <div style="height: calc(100vh - 56px)">
             <div class="container">

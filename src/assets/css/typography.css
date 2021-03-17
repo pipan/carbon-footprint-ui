@@ -58,15 +58,15 @@ p.secondary {
 }
 
 .small {
-    font-size: 0.8rem;
+    font-size: 0.8em;
 }
 
 .medium {
-    font-size: 1rem;
+    font-size: 1em;
 }
 
 .large {
-    font-size: 1.6rem;
+    font-size: 1.5em;
 }
 
 .thin {

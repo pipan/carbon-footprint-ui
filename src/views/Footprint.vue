@@ -5,10 +5,12 @@
         <div class="rel" v-if="$store.state.footprint.item">
             <footprint-context/>
             <div>
-                <carbon-result
-                    class="gap-top--l"
-                    :carbon="$store.state.footprint.item.carbon"
-                    layout="row"/>
+                <div class="large">
+                    <carbon-result
+                        class="gap-top--l"
+                        :carbon="$store.state.footprint.item.eval"
+                        layout="row"/>
+                </div>
                 <div class="gap-top--l" v-if="hasInput">
                     <div class="detail__inputs gap-h--m">
                         <button
@@ -32,6 +34,7 @@
                         <h3>Components</h3>
                         <component-chart 
                             class="chart gap-top--m"
+                            :items="chartItems"
                             @select="openComponent('cmp')"/>
                     </section>
                 </div>
@@ -55,8 +58,9 @@ export default {
                 name: 'footprint.component',
                 params: {
                     id: this.id,
-                    componentId: componentId
-                }
+                    componentId: componentId,    
+                },
+                query: this.$route.query
             })
         },
         openInput: function (inputId) {
@@ -74,6 +78,16 @@ export default {
         hasInput: function () {
             return this.$store.state.footprint.item.inputs
                 && this.$store.state.footprint.item.inputs.length > 0;
+        },
+        chartItems: function () {
+            let items = []
+            for (let item of this.$store.state.footprint.item.components) {
+                items.push({
+                    name: item.name,
+                    value: item.eval
+                })
+            }
+            return items
         }
     },
     mounted: function () {

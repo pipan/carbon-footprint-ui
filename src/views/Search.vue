@@ -31,10 +31,12 @@ export default {
     watch: {
         query: function (newValue) {
             this.search(newValue)
+            this.$services.title.set("search for \"" + newValue + "\" | Carbon Footprint")
         }
     },
     mounted: function () {
         this.search(this.query)
+        this.$services.title.set("search for \"" + this.query + "\" | Carbon Footprint")
     },
     methods: {
         search: function (query) {

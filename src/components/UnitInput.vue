@@ -3,7 +3,7 @@
         <input
             id="footprint-name"
             class="input"
-            type="number"
+            type="text"
             step="any"
             name="name"
             autocomplete="off"

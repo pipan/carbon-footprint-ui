@@ -1,7 +1,7 @@
 <template>
     <div @click="$emit('select', item.id)" class="list-item list-item--interactive row">
         <div class="list-item__carbon">
-            <carbon-result :carbon="item.carbon"/>
+            <carbon-result :carbon="item.eval"/>
         </div>
         <div class="column gap-left--s">
             <div class="row middle">

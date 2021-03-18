@@ -2,7 +2,7 @@
     <div class="abs abs--top abs--right">
         <context-menu ref="context">
             <div>
-                <app-link route="/footprint/1/update" class="context__item">Edit</app-link>
+                <app-link :route="{ name: 'footprint.write', params: { id } }" class="context__item">Edit</app-link>
             </div>
         </context-menu>
     </div>
@@ -12,6 +12,9 @@
 import ContextMenu from '../components/ContextMenu.vue';
 export default {
     name: 'FootprintContext',
+    props: {
+        id: [String, Number]
+    },
     components: { ContextMenu },
     methods: {
         close: function () {

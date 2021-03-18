@@ -7,7 +7,9 @@
 <script>
 export default {
     name: 'BackButton',
-    props: ['backUrl'],
+    props: {
+        backUrl: [Object, String]
+    },
     methods: {
         back: function () {
             this.$services.history.back(this.backUrl)

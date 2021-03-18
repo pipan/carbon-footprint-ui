@@ -1,5 +1,5 @@
 <template>
-    <a @click.prevent="navigate()">
+    <a :href="$router.resolve(route).href" @click.prevent="navigate()">
         <slot></slot>
     </a>
 </template>

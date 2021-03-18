@@ -41,6 +41,10 @@ select {
     text-align: center;
 }
 
+textarea {
+    resize: vertical;
+}
+
 .radio {
     display: flex;
     flex-direction: row;

@@ -1,26 +1,22 @@
 <template>
     <header-layout
-        title="Book"
-        :back-url="{ name: 'footprint', params: { id } }"
+        :title="draft.name"
+        :back-url="{ name: 'index' }"
         action="SAVE"
         @action="save()">
         <div>
-            <app-link route="name" append class="list-item list-item--interactive column">
+            <app-link :route="{ name: 'footprint.write.name', params: { id } }" class="list-item list-item--interactive link--inherit column">
                 <div>Name</div>
-                <div class="secondary gap-top--s">Book</div>
+                <div class="secondary gap-top--s">{{ draft.name }}</div>
             </app-link>
-            <app-link route="type" append class="list-item list-item--interactive column">
+            <!-- <app-link :route="{ name: 'footprint.write.type', params: { id } }" class="list-item list-item--interactive link--inherit column">
                 <div>Type</div>
-                <div class="secondary gap-top--s">Other</div>
-            </app-link>
-            <div class="list-item list-item--interactive column">
-                <div>Tags</div>
-                <div class="secondary gap-top--s">Click to add tags</div>
-            </div>
-            <div class="list-item list-item--interactive column">
+                <div class="secondary gap-top--s">{{ draft.type.name }}</div>
+            </app-link> -->
+            <app-link :route="{ name: 'footprint.write.description', params: { id } }" class="list-item list-item--interactive link--inherit column">
                 <div>Description</div>
                 <div class="secondary gap-top--s">Click to edit description</div>
-            </div>
+            </app-link>
             <div class="list-item list-item--interactive column">
                 <div>Model</div>
                 <div class="secondary gap-top--s">Click to edit model</div>
@@ -31,24 +27,40 @@
 
 <script>
 import HeaderLayout from "./layouts/HeaderLayout.vue";
+import CreateBehavior from "./behaviors/CreateBehavior";
+import UpdateBehavior from "./behaviors/UpdateBehavior";
 export default {
     name: "FootprintUpdate",
     components: { HeaderLayout },
-    props: ['id'],
+    props: {
+        id: [String, Number]
+    },
     data: function () {
         return {
-            item: {
-                id: 1,
-                carbon: 0.34,
-                title: 'Book',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dfgdf gd fgdfgf ...'
+            behaviors: {
+                new: new CreateBehavior(this.$store),
+                default: new UpdateBehavior(this.$store)
             }
         }
     },
-    methods: {
-        save: function () {
-            console.log("SAVE");
+    computed: {
+        draft: function () {
+            return this.$store.getters['draft/model']
         }
+    },
+    methods: {
+        getBehavior(id) {
+            if (this.behaviors[id]) {
+                return this.behaviors[id]
+            }
+            return this.behaviors.default
+        },
+        save: function () {
+            this.getBehavior(this.id).save(this.id)
+        }
+    },
+    created: function() {
+        this.getBehavior(this.id).load(this.id)
     }
 };
 </script>

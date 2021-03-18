@@ -2,7 +2,7 @@
     <div class="abs abs--top abs--right">
         <context-menu ref="context">
             <div>
-                <button class="btn context__item" @click="navigate({path: 'create'})">New{{'\xa0'}}Footprint</button>
+                <button class="btn context__item" @click="navigate({ name: 'footprint.create' })">New{{'\xa0'}}Footprint</button>
                 <div class="context__item">Settings</div>
             </div>
         </context-menu>

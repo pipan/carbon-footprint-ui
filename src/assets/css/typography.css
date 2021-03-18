@@ -33,7 +33,7 @@ a {
     color: var(--primary);
     cursor: pointer;
 }
-a.link--no-style {
+a.link--no-style, a.link--inherit, a.link--inherit:visited, a.link--inherit:hover {
     text-decoration: none;
     color: var(--fg-primary);
 }
@@ -77,5 +77,5 @@ p.secondary {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    flex: 1 0 0;
+    flex: 1 0 auto;
 }

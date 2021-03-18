@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import ModelFetch from './api/ModelFetch'
+
 import App from './App.vue'
 import router from './router'
 
 import unitStore from './stores/UnitStore'
 import searchStore from './stores/SearchStore'
 import footprintStore from './stores/FootprintStore'
+import draftStoreFactory from './stores/DraftStore'
 
 import ellipsis from "./filters/Ellipsis"
 import precision from "./filters/Precision"
@@ -17,6 +20,10 @@ import HistoryService from './services/HistoryService'
 import TitleService from './services/TitleService'
 
 import AppLink from './components/AppLink.vue'
+
+let apis = {
+    model: new ModelFetch()
+}
 
 Vue.prototype.$services = {
     history: new HistoryService(router),
@@ -29,7 +36,8 @@ let store = new Vuex.Store({
     modules: {
         unit: unitStore,
         search: searchStore,
-        footprint: footprintStore
+        footprint: footprintStore,
+        draft: draftStoreFactory(apis.model)
     }
 });
 let unitFactory = new UnitFactory(store.state.unit)

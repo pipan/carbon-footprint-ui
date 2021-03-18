@@ -51,6 +51,7 @@ export default {
     },
     methods: {
         onInputChange: function (value) {
+            value = parseFloat(value)
             if (!this.selectedScale) {
                 this.change(value)
                 return

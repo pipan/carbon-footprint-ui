@@ -12,6 +12,7 @@ import FootprintUpdate from '../views/FootprintUpdate.vue'
 
 import NameEdit from '../views/modals/NameEdit.vue'
 import TypeEdit from '../views/modals/TypeEdit.vue'
+import DescriptionEdit from '../views/DescriptionEdit.vue'
 import FootprintModal from '../views/modals/FootprintModal.vue'
 import FootprintInput from '../views/modals/FootprintInput.vue'
 
@@ -47,7 +48,48 @@ const routes = [
     {
         path: '/create',
         name: 'footprint.create',
-        component: FootprintUpdate
+        redirect: {
+            name: 'footprint.write',
+            params: {
+                id: 'new'
+            }
+        }
+    },
+    {
+        path: '/write/:id',
+        name: 'footprint.write',
+        component: FootprintUpdate,
+        props: true
+    },
+    {
+        path: '/write/:id/name',
+        name: 'footprint.write.name',
+        components: {
+            default: FootprintUpdate,
+            modal: NameEdit
+        },
+        props: {
+            default: true,
+            modal: true
+        }
+    },
+    {
+        path: '/write/:id/type',
+        name: 'footprint.write.type',
+        components: {
+            default: FootprintUpdate,
+            modal: TypeEdit
+        },
+        props: {
+            default: true,
+            modal: true
+        }
+    },
+    {
+        path: '/write/:id/description',
+        name: 'footprint.write.description',
+        component: DescriptionEdit,
+        props: true
     },
     {
         path: '/footprint/:id',

@@ -3,7 +3,7 @@
         :title="$store.state.footprint.item.name"
         :back-url="{ name: 'index' }">
         <div class="rel" v-if="$store.state.footprint.item">
-            <footprint-context/>
+            <footprint-context :id="id"/>
             <div>
                 <div class="large">
                     <carbon-result
@@ -90,7 +90,7 @@ export default {
             return items
         }
     },
-    mounted: function () {
+    created: function () {
         this.$store.dispatch('footprint/load', { id: this.id, inputs: this.$route.query })
     },
     watch: {

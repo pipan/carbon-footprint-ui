@@ -1,5 +1,7 @@
 <template>
-    <app-modal modal-title="Footprint Type" ref="modal">
+    <app-modal
+        modal-title="Footprint Type"
+        @click-outside="close()">
         <div>
             <div class="modal__body">
                 <div class="radio">
@@ -34,7 +36,7 @@ export default {
     },
     methods: {
         close: function () {
-            this.$refs.modal.close();
+            this.$services.history.back({ name: 'footprint.create' })
         },
         select: function (value) {
             this.value = value;

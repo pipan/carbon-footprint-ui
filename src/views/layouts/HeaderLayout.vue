@@ -8,14 +8,17 @@
                     </button>
                 </back-button>
             </div>
-            <h3 class="gap-right--m ellipsis">{{ title }}</h3>
-            <div v-if="action" class="gap-h--s">
+            <div class="column flex">
+                <h3 class="gap-right--s ellipsis">{{ title }}</h3>
+                <div class="small secondary" v-if="secondary">{{ secondary }}</div>
+            </div>
+            <div v-if="action" class="gap-right--s">
                 <button @click="$emit('action')" class="btn btn--primary">
                     {{ action }}
                 </button>
             </div>
         </header>
-        <div class="container container--header-pad">  
+        <div class="container container--header-pad column flex--grow">  
             <slot></slot>
         </div>
     </div>
@@ -26,7 +29,12 @@ import BackButton from '../../components/BackButton.vue'
 export default {
   components: { BackButton },
   name: 'HeaderLayout',
-  props: ['title', 'titleSecondary', 'action', 'backUrl'],
+  props: {
+      title: String,
+      secondary: String,
+      action: String,
+      backUrl: [Object, String]
+  },
   watch: {
       title: function (newValue, oldValue) {
           if (newValue === oldValue) {

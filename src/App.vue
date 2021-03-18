@@ -1,7 +1,7 @@
 <template>
-    <div v-if="!loading">
+    <div v-if="!loading" class="column flex--grow">
         <transition name="animation--fade" mode="out-in">
-            <router-view :class="{'animation--blur': isModalOpen, 'animate--all': isModalOpen, 'animate--fast': !isModalOpen}" />
+            <router-view class="column flex--grow" :class="{'animation--blur': isModalOpen, 'animate--all': isModalOpen, 'animate--fast': !isModalOpen}" />
         </transition>
         <transition name="animation--fade">
             <router-view name="modal" ref="modal"/>

@@ -17,6 +17,10 @@ a.btn {
     color: var(--primary);
 }
 
+.btn.btn--danger {
+    color: var(--danger);
+}
+
 .btn:active {
     transform: scale(0.92);
 }

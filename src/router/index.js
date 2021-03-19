@@ -13,6 +13,8 @@ import FootprintUpdate from '../views/FootprintUpdate.vue'
 import NameEdit from '../views/modals/NameEdit.vue'
 import TypeEdit from '../views/modals/TypeEdit.vue'
 import DescriptionEdit from '../views/DescriptionEdit.vue'
+import ModelEdit from '../views/ModelEdit.vue'
+import InputEdit from '../views/modals/InputEdit.vue'
 import FootprintModal from '../views/modals/FootprintModal.vue'
 import FootprintInput from '../views/modals/FootprintInput.vue'
 
@@ -90,6 +92,24 @@ const routes = [
         name: 'footprint.write.description',
         component: DescriptionEdit,
         props: true
+    },
+    {
+        path: '/write/:id/model',
+        name: 'footprint.write.model',
+        component: ModelEdit,
+        props: true
+    },
+    {
+        path: '/write/:id/model/input/:inputId',
+        name: 'footprint.write.input',
+        components: {
+            default: ModelEdit,
+            modal: InputEdit
+        },
+        props: {
+            default: true,
+            modal: true
+        }
     },
     {
         path: '/footprint/:id',

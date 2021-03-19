@@ -49,6 +49,12 @@ export default {
             return this.$store.getters['unit/scaleMap'][this.selectValue]
         }
     },
+    watch: {
+        unitId: function (newValue) {
+            this.inputValue = this.$options.filters.unitValue(this.value, newValue),
+            this.selectValue = this.$options.filters.unitLabelId(this.value, newValue)
+        }
+    },
     methods: {
         onInputChange: function (value) {
             value = parseFloat(value)

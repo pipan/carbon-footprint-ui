@@ -14,12 +14,16 @@
 }
 
 select {
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
     background-color: var(--bg-secondary);
     color: var(--fg-primary);
     border: none;
     border-radius: var(--roundness);
-    padding: var(--s);
+    padding: var(--s) var(--m);
     font-size: 1em;
+    text-align: center;
 }
 
 select:hover {
@@ -32,13 +36,6 @@ label {
     padding-bottom: var(--m);
     font-weight: 400;
     color: var(--fg-secondary);
-}
-
-select {
-    -moz-appearance:none; /* Firefox */
-    -webkit-appearance:none; /* Safari and Chrome */
-    appearance:none;
-    text-align: center;
 }
 
 textarea {

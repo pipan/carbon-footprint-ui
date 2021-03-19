@@ -23,6 +23,28 @@ export default function (modelFetch) {
             setDescription: function (state, data) {
                 state.draft = Object.assign({}, state.draft, { description: data })
             },
+            setInput: function (state, data) {
+                let valueCopy = Object.assign({}, data.value)
+                if (!state.draft.inputs) {
+                    state.draft.inputs = [...state.og.inputs]
+                }
+                let inputs = [...state.draft.inputs]
+                if (inputs[data.index]) {
+                    inputs[data.index] = valueCopy
+                } else {
+                    inputs.push(valueCopy)
+                }
+                state.draft = Object.assign({}, state.draft, { inputs: inputs })
+            },
+            removeInput: function (state, index) {
+                if (!state.draft.inputs || !state.draft.inputs[index]) {
+                    return
+                }
+                
+                let inputs = [...state.draft.inputs]
+                inputs.splice(index, 1)
+                state.draft = Object.assign({}, state.draft, { inputs: inputs })
+            },
             setOg: function (state, data) {
                 state.og = Object.assign({}, data)
             },

@@ -15,8 +15,8 @@ export default class CreateBehavior {
                 name: 'Other'
             },
             description: "",
-            inputs: {},
-            components: {}
+            inputs: [],
+            components: []
         })
     }
 

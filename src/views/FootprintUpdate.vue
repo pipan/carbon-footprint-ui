@@ -17,10 +17,10 @@
                 <div>Description</div>
                 <div class="secondary gap-top--s">Click to edit description</div>
             </app-link>
-            <div class="list-item list-item--interactive column">
+            <app-link :route="{ name: 'footprint.write.model', params: { id } }" class="list-item list-item--interactive link--inherit column">
                 <div>Model</div>
                 <div class="secondary gap-top--s">Click to edit model</div>
-            </div>
+            </app-link>
         </div>
     </header-layout>
 </template>

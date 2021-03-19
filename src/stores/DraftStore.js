@@ -35,6 +35,12 @@ export default function (modelFetch) {
                 context.state.saving = true
 
                 return modelFetch.create(context.getters.model)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json()
+                        }
+                        throw Error("somethings wrong");
+                    })
                     .then(json => {
                         context.state.saving = false
                         context.commit('reset')

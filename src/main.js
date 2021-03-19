@@ -18,20 +18,16 @@ import UnitFactory from "./filters/UnitFactory"
 
 import HistoryService from './services/HistoryService'
 import TitleService from './services/TitleService'
+import DraftService from './services/DraftService'
 
 import AppLink from './components/AppLink.vue'
+
+Vue.use(Vuex)
 
 let apis = {
     model: new ModelFetch()
 }
 
-Vue.prototype.$services = {
-    history: new HistoryService(router),
-    title: new TitleService()
-};
-Vue.component('app-link', AppLink)
-Vue.use(Vuex)
-Vue.config.productionTip = false
 let store = new Vuex.Store({
     modules: {
         unit: unitStore,
@@ -40,8 +36,17 @@ let store = new Vuex.Store({
         draft: draftStoreFactory(apis.model)
     }
 });
-let unitFactory = new UnitFactory(store.state.unit)
 
+Vue.prototype.$services = {
+    history: new HistoryService(router),
+    title: new TitleService(),
+    draft: new DraftService(store)
+};
+
+Vue.component('app-link', AppLink)
+Vue.config.productionTip = false
+
+let unitFactory = new UnitFactory(store.state.unit)
 Vue.filter('toUnit', unitFactory.filter.bind(unitFactory));
 Vue.filter('unitLabel', unitFactory.filterLabel.bind(unitFactory));
 Vue.filter('unitLabelText', unitFactory.filterLabelText.bind(unitFactory));

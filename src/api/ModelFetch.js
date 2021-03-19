@@ -26,7 +26,7 @@ export default class ModelFetch {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(model)
-        }).then(response => response.json());
+        })
     }
 
     update(id, model) {       
@@ -38,6 +38,6 @@ export default class ModelFetch {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(model)
-        }).then(response => response.json());
+        })
     }
 }

@@ -35,6 +35,7 @@ export default {
         }
     },
     created: function () {
+        this.$services.draft.load(this.id)
         this.internalValue = this.draft.description
     },
     beforeDestroy: function () {

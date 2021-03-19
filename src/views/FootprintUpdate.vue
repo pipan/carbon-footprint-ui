@@ -27,21 +27,11 @@
 
 <script>
 import HeaderLayout from "./layouts/HeaderLayout.vue";
-import CreateBehavior from "./behaviors/CreateBehavior";
-import UpdateBehavior from "./behaviors/UpdateBehavior";
 export default {
     name: "FootprintUpdate",
     components: { HeaderLayout },
     props: {
         id: [String, Number]
-    },
-    data: function () {
-        return {
-            behaviors: {
-                new: new CreateBehavior(this.$store),
-                default: new UpdateBehavior(this.$store)
-            }
-        }
     },
     computed: {
         draft: function () {
@@ -49,18 +39,21 @@ export default {
         }
     },
     methods: {
-        getBehavior(id) {
-            if (this.behaviors[id]) {
-                return this.behaviors[id]
-            }
-            return this.behaviors.default
-        },
         save: function () {
-            this.getBehavior(this.id).save(this.id)
+            this.$services.draft.save(this.id)
+                .then((result) => {
+                    console.log("after save", result)
+                    this.$services.history.replace({
+                        name: 'footprint',
+                        params: {
+                            id: result.id
+                        }
+                    })
+                })
         }
     },
     created: function() {
-        this.getBehavior(this.id).load(this.id)
+        this.$services.draft.load(this.id)
     }
 };
 </script>

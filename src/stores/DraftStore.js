@@ -23,12 +23,18 @@ export default function (modelFetch) {
             setDescription: function (state, data) {
                 state.draft = Object.assign({}, state.draft, { description: data })
             },
+            setComponents: function (state, data) {
+                state.draft = Object.assign({}, state.draft, { components: data })
+            },
             setInput: function (state, data) {
                 let valueCopy = Object.assign({}, data.value)
-                if (!state.draft.inputs) {
-                    state.draft.inputs = [...state.og.inputs]
+                let inputs = []
+                if (state.draft.inputs) {
+                    inputs = [...state.draft.inputs]
+                } else {
+                    inputs = [...state.og.inputs]
                 }
-                let inputs = [...state.draft.inputs]
+                
                 if (inputs[data.index]) {
                     inputs[data.index] = valueCopy
                 } else {
@@ -37,11 +43,17 @@ export default function (modelFetch) {
                 state.draft = Object.assign({}, state.draft, { inputs: inputs })
             },
             removeInput: function (state, index) {
-                if (!state.draft.inputs || !state.draft.inputs[index]) {
+                let inputs = []
+                if (state.draft.inputs) {
+                    inputs = [...state.draft.inputs]
+                } else {
+                    inputs = [...state.og.inputs]
+                }
+                
+                if (!inputs.length === 0 || !inputs[index]) {
                     return
                 }
                 
-                let inputs = [...state.draft.inputs]
                 inputs.splice(index, 1)
                 state.draft = Object.assign({}, state.draft, { inputs: inputs })
             },
@@ -73,6 +85,12 @@ export default function (modelFetch) {
                 context.state.saving = true
 
                 return modelFetch.update(id, context.getters.model)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json()
+                        }
+                        throw Error("somethings wrong");
+                    })
                     .then(json => {
                         context.state.saving = false
                         context.commit('reset')

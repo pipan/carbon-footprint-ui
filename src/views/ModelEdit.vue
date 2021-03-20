@@ -66,12 +66,13 @@ export default {
     },
     created: function () {
         this.$services.draft.load(this.id)
+        this.internalValue = JSON.stringify(this.draft.components)
     },
     beforeDestroy: function () {
-        // if (this.internalValue == this.draft.description) {
-        //     return
-        // }
-        // this.$store.commit('draft/setDescription', this.internalValue)
+        if (this.internalValue == JSON.stringify(this.draft.components)) {
+            return
+        }
+        this.$store.commit('draft/setComponents', JSON.parse(this.internalValue))
     }
 };
 </script>

@@ -42,7 +42,6 @@ export default {
         save: function () {
             this.$services.draft.save(this.id)
                 .then((result) => {
-                    console.log("after save", result)
                     this.$services.history.replace({
                         name: 'footprint',
                         params: {

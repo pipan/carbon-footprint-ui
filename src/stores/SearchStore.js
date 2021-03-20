@@ -22,7 +22,9 @@ export default {
     },
     actions: {
         load: function (context, data) {
-            const url = process.env.VUE_APP_API_HOST + "/api/search?query=" + encodeURI(data.query) + "&output=9";
+
+
+            const url = process.env.VUE_APP_API_HOST + "/api/search?query=" + encodeURI(data.query) + "&output=9" + "&page=" + encodeURI(data.page);
             fetch(url).then(response => response.json())
                 .then(json => {
                     context.commit('set', json)

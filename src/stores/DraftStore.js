@@ -26,6 +26,9 @@ export default function (modelFetch) {
             setComponents: function (state, data) {
                 state.draft = Object.assign({}, state.draft, { components: data })
             },
+            setOutput: function (state, data) {
+                state.draft = Object.assign({}, state.draft, { output_unit_id: data })
+            },
             setInput: function (state, data) {
                 let valueCopy = Object.assign({}, data.value)
                 let inputs = []
@@ -108,6 +111,7 @@ export default function (modelFetch) {
                     context.commit('reset')
                 }
                 modelFetch.get(id)
+                    .then(response => response.json())
                     .then(json => {
                         context.commit('setType', {id: 9, name: 'Other'})
                         context.commit('setOg', json)

@@ -38,6 +38,11 @@ label {
     color: var(--fg-secondary);
 }
 
+label.label--inline {
+    padding-bottom: 0px;
+    padding-right: var(--m);
+}
+
 textarea {
     resize: vertical;
 }

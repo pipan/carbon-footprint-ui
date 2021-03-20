@@ -22,7 +22,7 @@ export default {
             return this.$store.state.unit.loading
         }
     },
-    mounted: function () {
+    created: function () {
         this.$store.dispatch('unit/load');
     }
 }

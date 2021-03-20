@@ -41,7 +41,8 @@ const routes = [
                 component: Search,
                 props: function (route) {
                     return {
-                        query: route.query.q
+                        query: route.query.q,
+                        page: parseInt(route.query.p),
                     }
                 },
             }

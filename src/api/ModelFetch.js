@@ -14,7 +14,7 @@ export default class ModelFetch {
         
         const url = process.env.VUE_APP_API_HOST + "/api/model/" + encodeURI(id) + queryString
 
-        return fetch(url).then(response => response.json())
+        return fetch(url)
     }
 
     create(model) {       

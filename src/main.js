@@ -8,7 +8,7 @@ import router from './router'
 
 import unitStore from './stores/UnitStore'
 import searchStore from './stores/SearchStore'
-import footprintStore from './stores/FootprintStore'
+import footprintStoreFactory from './stores/FootprintStore'
 import draftStoreFactory from './stores/DraftStore'
 
 import ellipsis from "./filters/Ellipsis"
@@ -24,7 +24,7 @@ import AppLink from './components/AppLink.vue'
 
 Vue.use(Vuex)
 
-let apis = {
+let api = {
     model: new ModelFetch()
 }
 
@@ -32,8 +32,8 @@ let store = new Vuex.Store({
     modules: {
         unit: unitStore,
         search: searchStore,
-        footprint: footprintStore,
-        draft: draftStoreFactory(apis.model)
+        footprint: footprintStoreFactory(api.model),
+        draft: draftStoreFactory(api.model)
     }
 });
 

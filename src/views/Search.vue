@@ -16,7 +16,8 @@
                 class="gap-v--m"
                 :page="$store.state.search.pagination.page"
                 :limit="$store.state.search.pagination.limit"
-                :total="$store.state.search.pagination.total" />
+                :total="$store.state.search.pagination.total"
+                @select="selectPage($event)"/>
         </div>
     </div>
 </template>
@@ -26,22 +27,40 @@ import AppPagination from '../components/AppPagination.vue';
 import SearchListItem from '../components/SearchListItem.vue';
 export default {
     name: "Search",
-    props: ['query'],
+    props: {
+        query: String,
+        page: {
+            type: Number,
+            default: 1
+        }
+    },
     components: { SearchListItem, AppPagination },
     watch: {
         query: function (newValue) {
-            this.search(newValue)
-            this.$services.title.set("search for \"" + newValue + "\" | Carbon Footprint")
+            this.load(newValue, this.page)
+        },
+        page: function (newValue) {
+            this.load(this.query, newValue)
         }
     },
-    mounted: function () {
-        this.search(this.query)
-        this.$services.title.set("search for \"" + this.query + "\" | Carbon Footprint")
+    created: function () {
+        this.load(this.query, this.page)
     },
     methods: {
-        search: function (query) {
+        load: function (query, page) {
+            this.$services.title.set("search for \"" + query + "\" in page " + page + " | Carbon Footprint")
             this.$store.dispatch('search/load', {
-                query: query
+                query: query,
+                page: page
+            })
+        },
+        selectPage: function (page) {
+            this.$services.history.push({
+                name: 'search',
+                query: {
+                    q: this.query,
+                    p: page
+                }
             })
         },
         openFootprint: function (id) {

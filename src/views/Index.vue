@@ -59,7 +59,7 @@
 <script>
 export default {
     name: "Index",
-    mounted: function () {
+    created: function () {
         this.$services.title.set("Carbon Footprint")
     }
 };

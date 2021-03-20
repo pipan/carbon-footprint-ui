@@ -5,8 +5,8 @@
         :back-url="{ name: 'footprint.write', params: { id } }">
         <div class="column flex">
             <div class="gap-top--m">
-                <div class="detail__inputs">
-                    <div class="row middle flex">
+                <div class="detail__inputs row middle">
+                    <div class="row middle flex wrap">
                         <span class="secondary" v-if="!hasInputs">no input</span>
                         <input-button
                             v-for="(input, index) of draft.inputs"
@@ -23,9 +23,17 @@
                 </div>
             </div>
             <div class="column gap-top--m gap-h--m flex">
-                <textarea class="input flex" v-model="internalValue"></textarea>
+                <textarea class="input flex" v-model="internalComponents"></textarea>
             </div>
-            <div class="row center middle gap--m">Output: unknown</div>
+            <div class="row center middle gap--m">
+                <label class="label--inline" for="output_unit_id">Output</label>
+                <select id="output_unit_id" v-model="internalOutput">
+                    <option
+                        v-for="unit of $store.state.unit.items"
+                        :key="unit.id"
+                        :value="unit.id">{{ unit.name }}</option>
+                </select>
+            </div>
         </div>
         
     </header-layout>
@@ -42,7 +50,8 @@ export default {
     },
     data: function () {
         return {
-            internalValue: ""
+            internalComponents: "",
+            internalOutput: 1
         }
     },
     computed: {
@@ -66,13 +75,16 @@ export default {
     },
     created: function () {
         this.$services.draft.load(this.id)
-        this.internalValue = JSON.stringify(this.draft.components)
+        this.internalComponents = JSON.stringify(this.draft.components)
+        this.internalOutput = this.draft.output_unit_id
     },
     beforeDestroy: function () {
-        if (this.internalValue == JSON.stringify(this.draft.components)) {
-            return
+        if (this.internalComponents != JSON.stringify(this.draft.components)) {
+            this.$store.commit('draft/setComponents', JSON.parse(this.internalComponents))
         }
-        this.$store.commit('draft/setComponents', JSON.parse(this.internalValue))
+        if (this.internalOutput != this.draft.output_unit_id) {
+            this.$store.commit('draft/setOutput', this.internalOutput)
+        }
     }
 };
 </script>

@@ -64,7 +64,7 @@ export default {
             this.value = newValue.default_value
         }
     },
-    mounted: function () {
+    created: function () {
         if (!this.input) {
             this.value = ""
             return

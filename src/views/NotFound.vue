@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="column center" style="position:relative; top: 160px">
                     <img src="/image/404.svg" />
-                    <div class="thin gap-top--l">Page you are looking for had not been found</div>
+                    <div class="thin gap-top--l">{{ description }}</div>
                 </div>
             </div>
             <div class="abs abs--bottom abs--left abs--right gap--l">
@@ -22,6 +22,12 @@ import HeaderLayout from './layouts/HeaderLayout.vue';
 export default {
     name: "NotFound",
     components: { AppLogo, HeaderLayout },
+    props: {
+        description: {
+            type: String,
+            default: 'This page does not exists'
+        }
+    }
 };
 </script>
 

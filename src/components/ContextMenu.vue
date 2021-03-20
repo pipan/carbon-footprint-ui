@@ -25,7 +25,7 @@ export default {
             visible: false
         }
     },
-    mounted: function () {
+    created: function () {
         if (!this.opened) {
             return;
         }

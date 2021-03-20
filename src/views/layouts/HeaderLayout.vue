@@ -43,7 +43,7 @@ export default {
           this.$services.title.set(newValue + " | Carbon Footprint")
       }
   },
-  mounted: function () {
+  created: function () {
       this.$services.title.set(this.title + " | Carbon Footprint")
   }
 }

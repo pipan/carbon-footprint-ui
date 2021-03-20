@@ -1,5 +1,5 @@
 <template>
-    <div class="row center" v-if="pages">
+    <div v-if="isVisible" class="row center">
         <button
             class="btn"
             :class="{'btn--primary': p === page}"
@@ -26,6 +26,9 @@ export default {
         },
         normPage: function () {
             return Math.min(Math.max(this.page, 0), this.maxPage);
+        },
+        isVisible: function () {
+            return this.pages.length > 0
         },
         pages: function () {
             let range = [this.normPage - 2, this.normPage + 2];

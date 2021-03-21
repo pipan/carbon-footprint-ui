@@ -36,10 +36,17 @@
                             <p>{{ $store.state.footprint.item.description }}</p>
                         </section>
                         <section class="gap-top--l">
-                            <h3>Components</h3>
+                            <div class="row middle">
+                                <h3 class="flex">Components</h3>
+                                <input-swich-icon
+                                    :value="chartSwitchValue"
+                                    :options="chartSwitchOptions"
+                                    @change="chartSwitchValue = $event"/>
+                            </div>
                             <component-chart 
-                                class="chart gap-top--m"
+                                class="gap-top--m"
                                 :items="chartItems"
+                                :type="chartSwitchValue"
                                 @select="openComponent('cmp')"/>
                         </section>
                     </div>
@@ -54,11 +61,27 @@ import FootprintContext from "../components/FootprintContext.vue";
 import HeaderLayout from "./layouts/HeaderLayout.vue";
 import CarbonResult from "../components/CarbonResult.vue";
 import ComponentChart from '../components/ComponentChart.vue';
+import InputSwichIcon from '../components/InputSwichIcon.vue';
 import NotFound from './NotFound.vue';
 export default {
     name: "Footprint",
     props: ['id'],
-    components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart, NotFound },
+    components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart, NotFound, InputSwichIcon },
+    data: function () {
+        return {
+            chartSwitchValue: 'bar',
+            chartSwitchOptions: [
+                {
+                    value: 'bar',
+                    icon: 'bar_chart'
+                },
+                {
+                    value: 'doughnut',
+                    icon: 'donut_large'
+                }
+            ]
+        }
+    },
     methods: {
         openComponent: function (componentId) {
             this.$services.history.push({

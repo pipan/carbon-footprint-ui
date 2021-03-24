@@ -1,0 +1,65 @@
+<template>
+    <app-modal
+        modal-title="Name"
+        @click-outside="close()">
+        <div>
+            <form @submit.prevent="submit()">
+                <div class="modal__body">
+                    <input id="footprint-name" class="input" type="text" name="name" autocomplete="off" v-model="internalValue" />
+                </div>
+                <div class="modal__footer">
+                    <button type="submit" class="btn btn--primary">SAVE</button>
+                    <div class="gap-right--m">
+                        <button type="button" @click="close()" class="btn btn--secondary">CANCEL</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </app-modal>
+</template>
+
+<script>
+import AppModal from "../../components/AppModal.vue";
+export default {
+    name: "ComponentNameEdit",
+    components: { AppModal },
+    props: {
+        id: [ String, Number ],
+        index: [String, Number ]
+    },
+    data: function () {
+        return {
+            internalValue: ""
+        }
+    },
+    computed: {
+        draft: function () {
+            return this.$store.getters['draft/model']
+        }
+    },
+    methods: {
+        close: function () {
+            this.$services.history.back({
+                name: 'footprint.write.component',
+                params: {
+                    id: this.id,
+                    index: this.index
+                }
+            })
+        },
+        submit: function () {
+            this.$store.commit('draft/setComponentName', {
+                id: this.id,
+                index: this.index,
+                value: this.internalValue
+            })
+            this.close()
+        }
+    },
+    created: function () {
+        this.internalValue = this.draft.components[this.index].name
+    }
+};
+</script>
+
+<style></style>

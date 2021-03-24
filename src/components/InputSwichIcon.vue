@@ -4,6 +4,7 @@
             v-for="option of options"
             :key="option.value"
             @click="select(option.value)"
+            type="button"
             class="btn btn--circle"
             :class="{ 'btn--primary': option.value === value }">
             <span class="material-icons">{{ option.icon }}</span>

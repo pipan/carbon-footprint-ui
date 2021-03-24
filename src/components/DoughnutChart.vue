@@ -78,7 +78,7 @@ export default {
                 animation: {
                     duration: 0
                 },
-                cutoutPercentage: 65,
+                cutoutPercentage: 75,
                 onClick: function (point, event) {
                     console.log(point, event);
                     if (event.length <= 0) {

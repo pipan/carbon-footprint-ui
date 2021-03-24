@@ -35,6 +35,7 @@ export default {
 @import "./assets/css/button.css";
 @import "./assets/css/input.css";
 @import "./assets/css/list.css";
+@import "./assets/css/tag.css";
 
 @import "./assets/css/modal.css";
 @import "./assets/css/context.css";

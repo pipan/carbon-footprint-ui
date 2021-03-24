@@ -14,6 +14,10 @@ import NameEdit from '../views/modals/NameEdit.vue'
 import TypeEdit from '../views/modals/TypeEdit.vue'
 import DescriptionEdit from '../views/DescriptionEdit.vue'
 import ModelEdit from '../views/ModelEdit.vue'
+import ComponentNameEdit from '../views/modals/ComponentNameEdit.vue'
+import CreateSchemaConstant from '../views/modals/CreateSchemaConstant.vue'
+import UpdateSchemaConstant from '../views/modals/UpdateSchemaConstant.vue'
+import ComponentEdit from '../views/ComponentEdit.vue'
 import InputEdit from '../views/modals/InputEdit.vue'
 import FootprintModal from '../views/modals/FootprintModal.vue'
 import FootprintInput from '../views/modals/FootprintInput.vue'
@@ -99,6 +103,48 @@ const routes = [
         name: 'footprint.write.model',
         component: ModelEdit,
         props: true
+    },
+    {
+        path: '/write/:id/model/component/:index',
+        name: 'footprint.write.component',
+        component: ComponentEdit,
+        props: true
+    },
+    {
+        path: '/write/:id/model/component/:index/name',
+        name: 'footprint.write.component.name',
+        components: {
+            default: ComponentEdit,
+            modal: ComponentNameEdit
+        },
+        props: {
+            default: true,
+            modal: true
+        }
+    },
+    {
+        path: '/write/:id/model/component/:index/schema/new/const',
+        name: 'footprint.write.schema.const.create',
+        components: {
+            default: ComponentEdit,
+            modal: CreateSchemaConstant
+        },
+        props: {
+            default: true,
+            modal: true
+        }
+    },
+    {
+        path: '/write/:id/model/component/:index/schema/:schemaIndex/const',
+        name: 'footprint.write.schema.const',
+        components: {
+            default: ComponentEdit,
+            modal: UpdateSchemaConstant
+        },
+        props: {
+            default: true,
+            modal: true
+        }
     },
     {
         path: '/write/:id/model/input/:inputId',

@@ -15,6 +15,7 @@ import ellipsis from "./filters/Ellipsis"
 import precision from "./filters/Precision"
 import titleCase from "./filters/TitleCase"
 import UnitFactory from "./filters/UnitFactory"
+import SchemaFactory from "./filters/SchemaFactory"
 
 import HistoryService from './services/HistoryService'
 import TitleService from './services/TitleService'
@@ -56,6 +57,11 @@ Vue.filter('unitHuman', unitFactory.filterHuman.bind(unitFactory));
 Vue.filter('ellipsis', ellipsis);
 Vue.filter('precision', precision);
 Vue.filter('titleCase', titleCase);
+let schemaFactory = new SchemaFactory()
+Vue.filter('schemaNormalize', schemaFactory.normalize.bind(schemaFactory));
+Vue.filter('schemaValue', schemaFactory.value.bind(schemaFactory));
+Vue.filter('schemaType', schemaFactory.type.bind(schemaFactory));
+Vue.filter('schemaSimplify', schemaFactory.simplify.bind(schemaFactory));
 
 new Vue({
     router: router,

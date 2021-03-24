@@ -4,7 +4,12 @@ export default function (modelFetch) {
         state: () => {
             return {
                 og: {},
-                draft: {},
+                draft: {
+                    name: '',
+                    description: '',
+                    type: 9,
+                    components: []
+                },
                 saving: false
             }
         },
@@ -25,6 +30,29 @@ export default function (modelFetch) {
             },
             setComponents: function (state, data) {
                 state.draft = Object.assign({}, state.draft, { components: data })
+            },
+            setComponentName: function (state, data) {
+                let components = [...state.draft.components]
+                components[data.index].name = data.value
+                state.draft = Object.assign({}, state.draft, { components: components })
+            },
+            addComponent: function (state, data) {
+                let components = []
+                if (state.draft.components) {
+                    components = [...state.draft.components]
+                }
+                
+                components.push(data)
+                state.draft = Object.assign({}, state.draft, { components: components })
+            },
+            removeComponent: function (state, data) {
+                let index = data.index
+                if (!state.draft.components || !state.draft.components[index]) {
+                    return
+                }
+                let components = [...state.draft.components]
+                components.splice(index, 1)
+                state.draft = Object.assign({}, state.draft, { components: components })
             },
             setOutput: function (state, data) {
                 state.draft = Object.assign({}, state.draft, { output_unit_id: data })
@@ -116,6 +144,46 @@ export default function (modelFetch) {
                         context.commit('setType', {id: 9, name: 'Other'})
                         context.commit('setOg', json)
                     })
+            },
+            addSchema: function (context, data) {
+                let state = context.state
+                let components = []
+                if (state.draft.components) {
+                    components = [...state.draft.components]
+                }
+                
+                if (components[data.index].schema.items.length > 0) {
+                    components[data.index].schema.items.push(data.value.operation)
+                }
+                components[data.index].schema.items.push(data.value.item)
+                context.commit('setComponents', components)
+            },
+            updateSchema: function (context, data) {
+                let state = context.state
+                let components = []
+                if (state.draft.components) {
+                    components = [...state.draft.components]
+                }
+                
+                if (components[data.index].schema.items[data.schemaIndex - 1]) {
+                    components[data.index].schema.items[data.schemaIndex - 1] = data.value.operation
+                }
+                components[data.index].schema.items[data.schemaIndex] = data.value.item
+                context.commit('setComponents', components)
+            },
+            removeSchema: function (context, data) {
+                let state = context.state
+                let components = []
+                if (state.draft.components) {
+                    components = [...state.draft.components]
+                }
+                
+                if (components[data.index].schema.items[data.schemaIndex - 1]) {
+                    components[data.index].schema.items.splice(data.schemaIndex - 1, 2)
+                } else {
+                    components[data.index].schema.items.splice(data.schemaIndex, 2)
+                }
+                context.commit('setComponents', components)
             }
         }
     }

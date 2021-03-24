@@ -12,6 +12,9 @@
 .row.space-around {
     justify-content: space-around;
 }
+.row.space-between {
+    justify-content: space-between;
+}
 .row.center {
     justify-content: center;
 }

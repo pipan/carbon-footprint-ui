@@ -1,29 +1,27 @@
 <template>
-    <header-layout
-        :title="draft.name"
-        secondary="Model"
-        :back-url="{ name: 'footprint.write', params: { id } }">
+    <model-edit-layout
+        :header="header"
+        :inputs="draft.inputs">
         <div class="column flex">
-            <div class="gap-top--m">
-                <div class="detail__inputs row middle">
-                    <div class="row middle flex wrap">
-                        <span class="secondary" v-if="!hasInputs">no input</span>
-                        <input-button
-                            v-for="(input, index) of draft.inputs"
-                            :key="index"
-                            :name="input.name"
-                            :secondary="$store.getters['unit/map'][input.unit_id].name"
-                            @click="openInput(index)" />
-                    </div>
-                    <div class="gap-left--s gap-v--s">
-                        <button @click="openInput('new')" class="btn btn--secondary btn--circle">
-                            <span class="material-icons">add</span>
-                        </button>
-                    </div>
-                </div>
+            <div class="row middle gap--s gap-left--m">
+                <div class="gap-right--m flex">Components</div>
+                <button class="btn btn--circle" @click="createComponent()">
+                    <span class="material-icons">add</span>
+                </button>
             </div>
-            <div class="column gap-top--m gap-h--m flex">
-                <textarea class="input flex" v-model="internalComponents"></textarea>
+            <div class="column flex">
+                <div class="gap--m secondary row center flex thin" v-if="!hasComponents">
+                    Start by adding a component for this model
+                </div>
+                <div v-for="(component, index) of components"
+                    :key="index"
+                    @click="openComponent(index)"
+                    class="gap-left--m gap-right--s gap-v--tiny interactive row middle">
+                        <div class="flex thin">{{ component.name }}</div>
+                        <button type="button" class="btn btn--circle btn--grey" @click.stop="removeComponent(index)">
+                            <span class="material-icons">delete_outline</span>
+                        </button>
+                </div>
             </div>
             <div class="row center middle gap--m">
                 <label class="label--inline" for="output_unit_id">Output</label>
@@ -35,56 +33,80 @@
                 </select>
             </div>
         </div>
-        
-    </header-layout>
+    </model-edit-layout>
 </template>
 
 <script>
-import InputButton from '../components/InputButton.vue';
-import HeaderLayout from "./layouts/HeaderLayout.vue";
+import ModelEditLayout from "./layouts/ModelEditLayout.vue";
 export default {
     name: "ModelEdit",
-    components: { HeaderLayout, InputButton },
+    components: { ModelEditLayout },
     props: {
         id: [String, Number]
     },
     data: function () {
         return {
-            internalComponents: "",
             internalOutput: 1
         }
     },
     computed: {
+        header: function () {
+            return {
+                title: this.draft.name,
+                secondary: 'Model',
+                backUrl: {
+                    name: 'footprint.write',
+                    params: { id: this.id }
+                }
+            }
+        },
         draft: function () {
             return this.$store.getters['draft/model']
         },
-        hasInputs: function () {
-            return this.draft.inputs && this.draft.inputs.length > 0
+        components: function () {
+            return this.draft.components
+        },
+        hasComponents: function () {
+            return this.components.length > 0
         }
     },
     methods: {
-        openInput: function (inputIndex) {
+        openComponent: function (index) {
             this.$services.history.push({
-                name: 'footprint.write.input',
+                name: 'footprint.write.component',
                 params: {
                     id: this.id,
-                    inputId: inputIndex
+                    index: index
                 }
+            })
+        },
+        createComponent: function () {
+            this.$store.commit('draft/addComponent', {
+                name: 'Empty',
+                schema: {
+                    type: 'stack',
+                    items: []
+                }
+            })
+            this.openComponent(this.components.length - 1)
+        },
+        removeComponent: function (index) {
+            this.$store.commit('draft/removeComponent', {
+                index: index
             })
         }
     },
     created: function () {
         this.$services.draft.load(this.id)
-        this.internalComponents = JSON.stringify(this.draft.components)
         this.internalOutput = this.draft.output_unit_id
     },
     beforeDestroy: function () {
-        if (this.internalComponents != JSON.stringify(this.draft.components)) {
-            this.$store.commit('draft/setComponents', JSON.parse(this.internalComponents))
-        }
-        if (this.internalOutput != this.draft.output_unit_id) {
-            this.$store.commit('draft/setOutput', this.internalOutput)
-        }
+        // if (this.internalComponents != JSON.stringify(this.draft.components)) {
+        //     this.$store.commit('draft/setComponents', JSON.parse(this.internalComponents))
+        // }
+        // if (this.internalOutput != this.draft.output_unit_id) {
+        //     this.$store.commit('draft/setOutput', this.internalOutput)
+        // }
     }
 };
 </script>

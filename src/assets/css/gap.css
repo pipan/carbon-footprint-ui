@@ -2,6 +2,10 @@
 .gap--m { padding: var(--m); }
 .gap--l { padding: var(--l); }
 
+.gap-v--tiny {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
 .gap-v--s {
     padding-top: var(--s);
     padding-bottom: var(--s);
@@ -15,6 +19,10 @@
     padding-bottom: var(--l);
 }
 
+.gap-h--tiny {
+    padding-left: 3px;
+    padding-right: 3px;
+}
 .gap-h--s {
     padding-left: var(--s);
     padding-right: var(--s);

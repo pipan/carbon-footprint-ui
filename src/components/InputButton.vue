@@ -1,7 +1,7 @@
 <template>
     <button
         @click="$emit('click')"
-        class="btn">
+        class="btn btn--square">
         <div class="column center">
             <span>{{ name }}</span>
             <span class="gap-top--s small secondary">{{ secondary }}</span>

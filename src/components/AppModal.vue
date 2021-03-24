@@ -12,7 +12,9 @@
 <script>
 export default {
     name: "AppModal",
-    props: ['modalTitle']
+    props: {
+        modalTitle: String
+    }
 };
 </script>
 

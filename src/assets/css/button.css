@@ -17,6 +17,10 @@ a.btn {
     color: var(--primary);
 }
 
+.btn.btn--grey {
+    color: var(--fg-secondary);
+}
+
 .btn.btn--danger {
     color: var(--danger);
 }
@@ -32,4 +36,13 @@ a.btn {
 .btn.btn--circle {
     border-radius: 100%;
     padding: 0.5em;
+}
+
+.btn.btn--square {
+    padding: var(--s);
+}
+
+.btn.btn--drag {
+    padding: var(--s) 0px;
+    color: var(--fg-secondary);
 }

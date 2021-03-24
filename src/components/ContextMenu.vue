@@ -2,13 +2,13 @@
     <div @click.stop class="context">
         <div class="gap--s">
             <button @click="open()" class="btn btn--circle">
-                <span class="material-icons">more_vert</span>
+                <span class="material-icons">{{ icon }}</span>
             </button>
         </div>
         <div class="context__menu abs abs--top abs--right" :class="{hide: !visible}">
             <div class="gap--s row right">
                 <button @click="close()" class="btn btn--circle">
-                    <span class="material-icons">more_vert</span>
+                    <span class="material-icons">{{ icon }}</span>
                 </button>
             </div>
             <slot></slot>
@@ -19,7 +19,16 @@
 <script>
 export default {
     name: 'ContextMenu',
-    props: ['opened'],
+    props: {
+        opened: {
+            type: Boolean,
+            default: false
+        },
+        icon: {
+            type: String,
+            default: 'more_vert'
+        }
+    },
     data: function() {
         return {
             visible: false

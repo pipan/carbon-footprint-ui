@@ -18,11 +18,10 @@
                     </div>
                     <div class="gap-top--l" v-if="hasInput">
                         <div class="detail__inputs gap-h--m">
-                            <button
-                                v-for="input in $store.state.footprint.item.inputs"
+                            <button v-for="input in $store.state.footprint.item.inputs"
                                 :key="input.name"
                                 @click="openInput(input.id)"
-                                class="btn">
+                                class="btn btn--square">
                                 <div class="column center">
                                     <span>{{ input.value | unitHuman(input.unit.id) }}</span>
                                     <span class="gap-top--s small secondary">{{ input.name }}</span>

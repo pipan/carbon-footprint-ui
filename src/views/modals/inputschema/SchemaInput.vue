@@ -1,6 +1,6 @@
 <template>
     <app-modal
-        modal-title="Constant"
+        modal-title="Input"
         @click-outside="close()">
         <form @submit.prevent="submit()">
             <div class="modal__body">
@@ -8,11 +8,14 @@
                     :value="operation"
                     @change="innerModel.operation = $event"
                     class="gap-bottom--m"/>
-                <div>
-                    <label>Value</label>
-                    <unit-input unitId="8"
-                        :value="value"
-                        @change="innerModel.value = $event"></unit-input>
+                <div class="row middle space-between">
+                    <label class="label--inline">Input</label>
+                    <select>
+                        <option v-for="(input, index) of draft.inputs"
+                            :key="index"
+                            :value="input.name"
+                            >{{ input.name }}</option>
+                    </select>
                 </div>
             </div>
             <div class="modal__footer">
@@ -32,12 +35,11 @@
 </template>
 
 <script>
-import AppModal from "../../components/AppModal.vue";
-import SchemaOperationInput from "../../components/SchemaOperationInput.vue";
-import UnitInput from '../../components/UnitInput.vue';
+import AppModal from "../../../components/AppModal.vue";
+import SchemaOperationInput from "../../../components/SchemaOperationInput.vue";
 export default {
-    name: "SchemaConstant",
-    components: { AppModal, UnitInput, SchemaOperationInput },
+    name: "SchemaInput",
+    components: { AppModal, SchemaOperationInput },
     props: {
         model: Object,
         enableRemove: {
@@ -50,8 +52,7 @@ export default {
             innerModel: {
                 operation: '',
                 value: ''
-            },
-            unitId: 8
+            }
         }
     },
     computed: {
@@ -60,6 +61,9 @@ export default {
                 return this.innerModel.value
             }
             return this.model.value
+        },
+        draft: function () {
+            return this.$store.getters['draft/model']
         },
         operation: function () {
             if (this.innerModel.operation) {

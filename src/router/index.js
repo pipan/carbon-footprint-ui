@@ -17,6 +17,7 @@ import ModelEdit from '../views/ModelEdit.vue'
 import ComponentNameEdit from '../views/modals/ComponentNameEdit.vue'
 import CreateSchemaConstant from '../views/modals/CreateSchemaConstant.vue'
 import UpdateSchemaConstant from '../views/modals/UpdateSchemaConstant.vue'
+import CreateSchemaInput from '../views/modals/inputschema/CreateSchemaInput.vue'
 import ComponentEdit from '../views/ComponentEdit.vue'
 import InputEdit from '../views/modals/InputEdit.vue'
 import FootprintModal from '../views/modals/FootprintModal.vue'
@@ -128,6 +129,18 @@ const routes = [
         components: {
             default: ComponentEdit,
             modal: CreateSchemaConstant
+        },
+        props: {
+            default: true,
+            modal: true
+        }
+    },
+    {
+        path: '/write/:id/model/component/:index/schema/new/input',
+        name: 'footprint.write.schema.input.create',
+        components: {
+            default: ComponentEdit,
+            modal: CreateSchemaInput
         },
         props: {
             default: true,

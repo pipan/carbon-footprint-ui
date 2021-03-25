@@ -7,10 +7,13 @@
             <div class="row middle">
                 <div class="gap-right--s" v-if="hasOperation">
                     <div class="tag tag--square tag--blue" v-if="isMultiplication">
-                        <span class="material-icons md-16">close</span>
+                        <span class="entity-icon entity-icon--m">&times;</span>
                     </div>
                     <div class="tag tag--square tag--teal" v-if="isAddition">
-                        <span class="material-icons md-16">add</span>
+                        <span class="entity-icon entity-icon--m">&plus;</span>
+                    </div>
+                    <div class="tag tag--square tag--green" v-if="isDivision">
+                        <span class="entity-icon entity-icon--m">&divide;</span>
                     </div>
                 </div>
                 <div class="gap-right--m thin">{{ name }}</div>
@@ -50,6 +53,9 @@ export default {
         },
         isAddition: function () {
             return this.operation === '+'
+        },
+        isDivision: function () {
+            return this.operation === '/'
         },
         hasOperation: function () {
             return this.operation !== false

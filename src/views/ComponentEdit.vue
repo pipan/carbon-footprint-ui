@@ -14,8 +14,9 @@
                 <div class="row middle gap-v--s gap-left--m overflow-visible">
                     <div class="gap-right--m flex">Schema</div>
                     <context-menu icon="add" ref="contextAdd">
-                        <div>
-                            <button class="btn context__item" @click.stop="createSchema('const:', '+')">Constant</button>
+                        <div class="column left">
+                            <button class="btn context__item" @click.stop="createSchema('const')">Constant</button>
+                            <button class="btn context__item" @click.stop="createSchema('input')">Input</button>
                         </div>
                     </context-menu>
                     <!-- <context-menu icon="close" ref="contextMultiply">
@@ -30,7 +31,7 @@
                     :item="factor.item"
                     :operation="factor.operation"
                     @click="openSchema(index)"
-                    class="gap-h--m row" />
+                    class="gap-h--m gap-v--tiny" />
             </div>
         </header-layout>
     </div>
@@ -87,16 +88,14 @@ export default {
             })
         },
         createSchema: function (type) {
-            console.log(type)
             this.$services.history.push({
-                name: 'footprint.write.schema.const.create',
+                name: 'footprint.write.schema.' + type + '.create',
                 params: {
                     id: this.id,
                     index: this.index
                 }
             })
             this.$refs.contextAdd.close()
-            // this.$refs.contextMultiply.close()
         }
     },
     created: function () {

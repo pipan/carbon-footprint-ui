@@ -77,7 +77,7 @@ export default {
         },
         submit: function () {
             let payload = {
-                item: this.value
+                item: 'const:' + this.value
             }
             if (this.hasOperation) {
                 payload.operation = this.operation

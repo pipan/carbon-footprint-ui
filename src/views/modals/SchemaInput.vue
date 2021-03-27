@@ -10,7 +10,7 @@
                     class="gap-bottom--m"/>
                 <div class="row middle space-between">
                     <label class="label--inline">Input</label>
-                    <select>
+                    <select @change="innerModel.value = $event">
                         <option v-for="(input, index) of draft.inputs"
                             :key="index"
                             :value="input.name"
@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import AppModal from "../../../components/AppModal.vue";
-import SchemaOperationInput from "../../../components/SchemaOperationInput.vue";
+import AppModal from "../../components/AppModal.vue";
+import SchemaOperationInput from "../../components/SchemaOperationInput.vue";
 export default {
     name: "SchemaInput",
     components: { AppModal, SchemaOperationInput },
@@ -81,7 +81,7 @@ export default {
         },
         submit: function () {
             let payload = {
-                item: this.value
+                item: 'input:' + this.value
             }
             if (this.hasOperation) {
                 payload.operation = this.operation
@@ -90,6 +90,11 @@ export default {
         },
         remove: function () {
             this.$emit('remove')
+        }
+    },
+    created: function () {
+        if (!this.innerModel.value) {
+            this.innerModel.value = this.draft.inputs[0].name
         }
     }
 };

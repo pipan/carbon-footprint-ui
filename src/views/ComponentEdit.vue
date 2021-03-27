@@ -16,7 +16,7 @@
                     <context-menu icon="add" ref="contextAdd">
                         <div class="column left">
                             <button class="btn context__item" @click.stop="createSchema('const')">Constant</button>
-                            <button class="btn context__item" @click.stop="createSchema('input')">Input</button>
+                            <button v-if="hasInput" class="btn context__item" @click.stop="createSchema('input')">Input</button>
                         </div>
                     </context-menu>
                     <!-- <context-menu icon="close" ref="contextMultiply">
@@ -53,6 +53,9 @@ export default {
         draft: function () {
             return this.$store.getters['draft/model']
         },
+        hasInput: function () {
+            return this.draft.inputs.length > 0
+        },
         component: function () {
             if (!this.draft.components) {
                 return false
@@ -78,21 +81,24 @@ export default {
     },
     methods: {
         openSchema: function (schemaIndex) {
+            let type = this.$options.filters.schemaType(this.schemaItems[schemaIndex * 2])
             this.$services.history.push({
-                name: 'footprint.write.schema.const',
+                name: 'footprint.write.schema',
                 params: {
                     id: this.id,
                     index: this.index,
-                    schemaIndex: schemaIndex
+                    schemaIndex: schemaIndex,
+                    type: type
                 }
             })
         },
         createSchema: function (type) {
             this.$services.history.push({
-                name: 'footprint.write.schema.' + type + '.create',
+                name: 'footprint.write.schema.create',
                 params: {
                     id: this.id,
-                    index: this.index
+                    index: this.index,
+                    type: type
                 }
             })
             this.$refs.contextAdd.close()

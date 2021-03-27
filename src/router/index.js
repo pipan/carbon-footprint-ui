@@ -15,9 +15,8 @@ import TypeEdit from '../views/modals/TypeEdit.vue'
 import DescriptionEdit from '../views/DescriptionEdit.vue'
 import ModelEdit from '../views/ModelEdit.vue'
 import ComponentNameEdit from '../views/modals/ComponentNameEdit.vue'
-import CreateSchemaConstant from '../views/modals/CreateSchemaConstant.vue'
-import UpdateSchemaConstant from '../views/modals/UpdateSchemaConstant.vue'
-import CreateSchemaInput from '../views/modals/inputschema/CreateSchemaInput.vue'
+import SchemaCreate from '../views/modals/SchemaCreate.vue'
+import SchemaUpdate from '../views/modals/SchemaUpdate.vue'
 import ComponentEdit from '../views/ComponentEdit.vue'
 import InputEdit from '../views/modals/InputEdit.vue'
 import FootprintModal from '../views/modals/FootprintModal.vue'
@@ -124,11 +123,11 @@ const routes = [
         }
     },
     {
-        path: '/write/:id/model/component/:index/schema/new/const',
-        name: 'footprint.write.schema.const.create',
+        path: '/write/:id/model/component/:index/schema/new/:type',
+        name: 'footprint.write.schema.create',
         components: {
             default: ComponentEdit,
-            modal: CreateSchemaConstant
+            modal: SchemaCreate
         },
         props: {
             default: true,
@@ -136,23 +135,11 @@ const routes = [
         }
     },
     {
-        path: '/write/:id/model/component/:index/schema/new/input',
-        name: 'footprint.write.schema.input.create',
+        path: '/write/:id/model/component/:index/schema/:schemaIndex/:type',
+        name: 'footprint.write.schema',
         components: {
             default: ComponentEdit,
-            modal: CreateSchemaInput
-        },
-        props: {
-            default: true,
-            modal: true
-        }
-    },
-    {
-        path: '/write/:id/model/component/:index/schema/:schemaIndex/const',
-        name: 'footprint.write.schema.const',
-        components: {
-            default: ComponentEdit,
-            modal: UpdateSchemaConstant
+            modal: SchemaUpdate
         },
         props: {
             default: true,

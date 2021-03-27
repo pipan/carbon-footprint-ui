@@ -1,19 +1,38 @@
 <template>
-    <schema-input :model="model"
+    <component :is="vueComponent"
+        v-bind="vueComponentProps"
         @close="close()"
         @submit="submit($event)"/>
 </template>
 
 <script>
+import SchemaConstant from './SchemaConstant.vue';
 import SchemaInput from './SchemaInput.vue';
 export default {
-    name: "CreateSchemaInput",
-    components: { SchemaInput },
+    name: "SchemaCreate",
+    components: { SchemaConstant, SchemaInput },
     props: {
         id: [ String, Number ],
-        index: [ String, Number ]
+        index: [ String, Number ],
+        type: [ String ]
+    },
+    data: function () {
+        return {
+            vueComponents: {
+                const: 'schema-constant',
+                input: 'schema-input'
+            }
+        }
     },
     computed: {
+        vueComponent: function () {
+            return this.vueComponents[this.type]
+        },
+        vueComponentProps: function () {
+            return {
+                model: this.model
+            }
+        },
         error: function () {
             if (!this.component) {
                 return 404
@@ -56,7 +75,6 @@ export default {
             })
         },
         submit: function (data) {
-            data.item = 'const:' + data.item
             this.$store.dispatch('draft/addSchema', {
                 index: this.index,
                 value: data

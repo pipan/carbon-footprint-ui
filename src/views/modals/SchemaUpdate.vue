@@ -9,9 +9,9 @@
                 </div>
             </div>
         </app-modal>
-        <schema-constant v-if="!error"
-            :model="model"
-            :enableRemove="true"
+        <component v-if="!error"
+            :is="vueComponent"
+            v-bind="vueComponentProps"
             @close="close()"
             @submit="submit($event)"
             @remove="remove()"/>
@@ -20,16 +20,35 @@
 
 <script>
 import SchemaConstant from './SchemaConstant.vue';
+import SchemaInput from './SchemaInput.vue';
 import AppModal from '../../components/AppModal.vue';
 export default {
-    name: "UpdateSchemaConstant",
-    components: { SchemaConstant, AppModal },
+    name: "SchemaUpdate",
+    components: { SchemaConstant, SchemaInput, AppModal },
     props: {
         id: [ String, Number ],
         index: [ String, Number ],
-        schemaIndex: [ String, Number ]
+        schemaIndex: [ String, Number ],
+        type: [ String ]
+    },
+    data: function () {
+        return {
+            vueComponents: {
+                const: 'schema-constant',
+                input: 'schema-input'
+            }
+        }
     },
     computed: {
+        vueComponent: function () {
+            return this.vueComponents[this.type]
+        },
+        vueComponentProps: function () {
+            return {
+                model: this.model,
+                enableRemove:true
+            }
+        },
         error: function () {
             if (!this.schema) {
                 return 404
@@ -88,7 +107,6 @@ export default {
             })
         },
         submit: function (data) {
-            data.item = 'const:' + data.item
             this.$store.dispatch('draft/updateSchema', {
                 index: this.index,
                 schemaIndex: this.schemaIndex * 2,

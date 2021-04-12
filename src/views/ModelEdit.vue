@@ -73,19 +73,22 @@ export default {
     methods: {
         openComponent: function (index) {
             this.$services.history.push({
-                name: 'footprint.write.component',
+                name: 'footprint.write.component.reference',
                 params: {
                     id: this.id,
-                    index: index
+                    index: index,
+                    reference: 'root'
                 }
             })
         },
         createComponent: function () {
             this.$store.commit('draft/addComponent', {
-                name: 'Empty',
+                name: '-- empty --',
                 schema: {
-                    type: 'stack',
-                    items: []
+                    root: {
+                        type: 'stack',
+                        items: []
+                    }
                 }
             })
             this.openComponent(this.components.length - 1)

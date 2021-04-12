@@ -69,3 +69,71 @@ textarea {
 .radio__option:hover {
     background-color: var(--hover);
 }
+
+.radio-row__option::before {
+    content: '';
+    box-sizing: border-box;
+    width: 1em;
+    height: 1em;
+    border: 2px solid var(--fg-secondary);
+    border-radius: 100%;
+    margin-right: var(--m);
+    transition: 0.12s ease border;
+}
+
+.radio-row__option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: var(--m);
+    border-radius: var(--roundness);
+    flex: 1;
+    cursor: pointer;
+}
+
+.radio-row__option.radio__option--selected::before {
+    border-color: var(--primary);
+    border-width: 4px;
+}
+
+.radio-row__option:hover {
+    background-color: var(--hover);
+}
+
+.switch {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: var(--m);
+    cursor: pointer;
+
+    --pin-overflow-size: 0.2em
+}
+
+.switch::before {
+    content: '';
+    box-sizing: border-box;
+    display: block;
+    width: 1.7em;
+    height: 0.8em;
+    border-radius: 0.4em;
+    background-color: var(--fg-secondary);
+}
+
+.switch::after {
+    position: absolute;
+    left: calc(var(--m) - var(--pin-overflow-size));
+    content: '';
+    display: block;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 100%;
+    background-color: var(--fg-primary);
+    transition: background-color 0.16s ease,
+        left 0.16s ease;
+}
+
+.switch.switch--on::after {
+    background-color: var(--primary);
+    left: calc(var(--m) + 0.5em + var(--pin-overflow-size))
+}

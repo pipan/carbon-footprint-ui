@@ -21,6 +21,9 @@
 .row.middle {
     align-items: center;
 }
+.row.top {
+    align-items: start;
+}
 .row.right {
     justify-content: flex-end;
 }

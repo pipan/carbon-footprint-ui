@@ -1,6 +1,6 @@
 <template>
     <app-modal
-        modal-title="Input"
+        modal-title="Function"
         @click-outside="close()">
         <form @submit.prevent="submit()">
             <div class="modal__body">
@@ -8,14 +8,7 @@
                     :value="operation"
                     @change="innerModel.operation = $event"
                     class="gap-bottom--m row center"/>
-                <div class="row">
-                    <select class="flex" @change="innerModel.value = $event">
-                        <option v-for="(input, index) of draft.inputs"
-                            :key="index"
-                            :value="input.name"
-                            >{{ input.name }}</option>
-                    </select>
-                </div>
+                <model-autocomplete :value="value" @change="setValue($event)"></model-autocomplete>
             </div>
             <div class="modal__footer">
                 <div class="row reverse flex">
@@ -35,10 +28,11 @@
 
 <script>
 import AppModal from "../../components/AppModal.vue";
+import ModelAutocomplete from '../../components/ModelAutocomplete.vue';
 import SchemaOperationInput from "../../components/SchemaOperationInput.vue";
 export default {
-    name: "SchemaInput",
-    components: { AppModal, SchemaOperationInput },
+    name: "SchemaFunction",
+    components: { AppModal, SchemaOperationInput, ModelAutocomplete },
     props: {
         model: Object,
         enableRemove: {
@@ -50,7 +44,7 @@ export default {
         return {
             innerModel: {
                 operation: '',
-                value: ''
+                value: null
             }
         }
     },
@@ -80,7 +74,12 @@ export default {
         },
         submit: function () {
             let payload = {
-                item: 'input:' + this.value
+                item: {
+                    type: 'function',
+                    id: this.value.id,
+                    model: this.value,
+                    inputs: {}
+                }
             }
             if (this.hasOperation) {
                 payload.operation = this.operation
@@ -89,12 +88,11 @@ export default {
         },
         remove: function () {
             this.$emit('remove')
+        },
+        setValue: function (value) {
+            this.innerModel.value = value
         }
-    },
-    created: function () {
-        if (!this.innerModel.value) {
-            this.innerModel.value = this.draft.inputs[0].name
-        }
+
     }
 };
 </script>

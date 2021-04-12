@@ -1,6 +1,5 @@
 <template>
     <div>
-        <label>{{ label }}</label>
         <input-swich-entity :options="operationOptions"
             :value="result"
             @change="change($event)"/>

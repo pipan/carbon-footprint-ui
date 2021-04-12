@@ -17,6 +17,9 @@ export default class Schema {
     }
 
     value(value) {
+        if (this.normalize(value).type === 'function') {
+            return this.normalize(value).model
+        }
         return this.normalize(value).value
     }
 

@@ -119,3 +119,11 @@ body {
 .chart {
     height: 260px;
 }
+
+.round {
+    border-radius: var(--roundness);
+}
+
+.round.round--full {
+    border-radius: 100%;
+}

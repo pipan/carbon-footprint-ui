@@ -22,20 +22,23 @@
 import SchemaConstant from './SchemaConstant.vue';
 import SchemaInput from './SchemaInput.vue';
 import AppModal from '../../components/AppModal.vue';
+import SchemaFunction from './SchemaFunction.vue';
 export default {
     name: "SchemaUpdate",
-    components: { SchemaConstant, SchemaInput, AppModal },
+    components: { SchemaConstant, SchemaInput, SchemaFunction, AppModal },
     props: {
         id: [ String, Number ],
         index: [ String, Number ],
         schemaIndex: [ String, Number ],
-        type: [ String ]
+        type: [ String ],
+        reference: [ String ]
     },
     data: function () {
         return {
             vueComponents: {
                 const: 'schema-constant',
-                input: 'schema-input'
+                input: 'schema-input',
+                function: 'schema-function'
             }
         }
     },
@@ -56,11 +59,14 @@ export default {
             return false
         },
         model: function () {
+            if (!this.referenceSchemaItem) {
+                return {}
+            }
             let model = {
-                value: this.$options.filters.schemaValue(this.schema)
+                value: this.$options.filters.schemaValue(this.referenceSchemaItem)
             }
             if (this.hasOperation) {
-                model.operation = this.operationSchema
+                model.operation = this.referenceSchemaOperation
             }
             return model
         },
@@ -69,28 +75,36 @@ export default {
         },
         component: function () {
             if (!this.draft) {
-                return undefined
+                return false
             }
             return this.draft.components[this.index]
         },
         schema: function () {
-            if (!this.component) {
-                return undefined
-            }
-            if (!this.component.schema.items[this.schemaIndex * 2]) {
-                return undefined
+            if (!this.component || !this.component.schema) {
+                return false
             }
             
-            return this.component.schema.items[this.schemaIndex * 2]
+            return this.component.schema
         },
-        operationSchema: function () {
-            if (!this.component) {
-                return undefined
+        referenceSchema: function () {
+            if (!this.schema || !this.schema[this.reference]) {
+                return false
             }
-            if (!this.component.schema.items[this.schemaIndex * 2 - 1]) {
-                return undefined
+            
+            return this.schema[this.reference]
+        },
+        referenceSchemaItem: function () {
+            if (!this.referenceSchema || !this.referenceSchema.items[this.schemaIndex * 2]) {
+                return false
             }
-            return this.component.schema.items[this.schemaIndex * 2 - 1]
+            
+            return this.referenceSchema.items[this.schemaIndex * 2]
+        },
+        referenceSchemaOperation: function () {
+            if (!this.component || !this.referenceSchema.items[this.schemaIndex * 2 - 1]) {
+                return false
+            }
+            return this.referenceSchema.items[this.schemaIndex * 2 - 1]
         },
         hasOperation: function () {
             return this.schemaIndex > 0
@@ -109,6 +123,7 @@ export default {
         submit: function (data) {
             this.$store.dispatch('draft/updateSchema', {
                 index: this.index,
+                reference: this.reference,
                 schemaIndex: this.schemaIndex * 2,
                 value: data
             })
@@ -117,6 +132,7 @@ export default {
         remove: function () {
             this.$store.dispatch('draft/removeSchema', {
                 index: this.index,
+                reference: this.reference,
                 schemaIndex: this.schemaIndex * 2
             })
             this.close()

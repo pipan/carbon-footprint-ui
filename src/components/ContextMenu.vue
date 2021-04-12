@@ -1,7 +1,7 @@
 <template>
     <div @click.stop class="context">
         <div class="gap--s">
-            <button @click="open()" class="btn btn--circle">
+            <button @click="open()" class="btn btn--circle" :class="{'btn--disabled': disabled}">
                 <span class="material-icons">{{ icon }}</span>
             </button>
         </div>
@@ -27,6 +27,10 @@ export default {
         icon: {
             type: String,
             default: 'more_vert'
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
     data: function() {
@@ -43,8 +47,18 @@ export default {
     destroyed: function () {
         this.close();
     },
+    watch: {
+        disabled: function (newValue) {
+            if (newValue) {
+                this.visible = false
+            }
+        }
+    },
     methods: {
         open: function () {
+            if (this.disabled) {
+                return
+            }
             if (this.visible) {
                 return;
             }

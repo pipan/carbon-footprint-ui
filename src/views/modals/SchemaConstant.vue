@@ -7,9 +7,8 @@
                 <schema-operation-input v-if="hasOperation"
                     :value="operation"
                     @change="innerModel.operation = $event"
-                    class="gap-bottom--m"/>
+                    class="gap-bottom--m row center"/>
                 <div>
-                    <label>Value</label>
                     <unit-input unitId="8"
                         :value="value"
                         @change="innerModel.value = $event"></unit-input>

@@ -1,5 +1,5 @@
 <template>
-    <div @click="back()" aria="button">
+    <div @click="back()" aria="button" class="round round--full">
         <slot></slot>
     </div>
 </template>

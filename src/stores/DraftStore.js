@@ -1,3 +1,8 @@
+function getRandomReference(length) {
+    const str = Math.floor(Math.random() * Math.pow(16, length)).toString(16);
+    return "0".repeat(length - str.length) + str;
+}
+
 export default function (modelFetch) {
     return {
         namespaced: true,
@@ -16,6 +21,30 @@ export default function (modelFetch) {
         getters: {
             model: function (state) {
                 return Object.assign({}, state.og, state.draft)
+            },
+            component: function (state, getters) {
+                return (index) => {
+                    if (!getters.model.components[index]) {
+                        return false
+                    }
+                    return getters.model.components[index]
+                }
+            },
+            schema: function (state, getters) {
+                return (index) => {
+                    if (!getters.component(index) || !getters.component(index).schema) {
+                        return false
+                    }
+                    return getters.component(index).schema
+                }
+            },
+            reference: function (state, getters) {
+                return (componentIndex, reference) => {
+                    if (!getters.schema(componentIndex) || !getters.schema(componentIndex)[reference]) {
+                        return false
+                    }
+                    return getters.schema(componentIndex)[reference]
+                }
             }
         },
         mutations: {
@@ -145,45 +174,134 @@ export default function (modelFetch) {
                         context.commit('setOg', json)
                     })
             },
+            setComponent: function (context, data) {
+                let state = context.state
+                let components = []
+                if (state.draft.components) {
+                    components = [...state.draft.components]
+                }
+
+                components[data.index] = data.value
+                context.commit('setComponents', components)
+            },
+            setSchema: function (context, data) {
+                let component = context.getters.component(data.index)
+                if (!component) {
+                    component = {}
+                }
+
+                context.dispatch('setComponent', {
+                    index: data.index,
+                    value: Object.assign({}, component, { schema: data.value })
+                })
+            },
+            setReferenceSchema: function (context, data) {
+                let schema = context.getters.schema(data.index)
+                if (!schema) {
+                    schema = {}
+                }
+
+                let reference = {}
+                reference[data.reference] = Object.assign({}, schema[data.reference], data.value)
+
+                context.dispatch('setSchema', {
+                    index: data.index,
+                    value: Object.assign({}, schema, reference)
+                })
+            },
             addSchema: function (context, data) {
-                let state = context.state
-                let components = []
-                if (state.draft.components) {
-                    components = [...state.draft.components]
+                let reference = context.getters.reference(data.index, data.reference)
+                let items = []
+                if (reference.items) {
+                    items = [...reference.items]
                 }
                 
-                if (components[data.index].schema.items.length > 0) {
-                    components[data.index].schema.items.push(data.value.operation)
+                if (items.length > 0) {
+                    items.push(data.value.operation)
                 }
-                components[data.index].schema.items.push(data.value.item)
-                context.commit('setComponents', components)
+                items.push(data.value.item)
+
+                context.dispatch('setReferenceSchema', {
+                    index: data.index,
+                    reference: data.reference,
+                    value: { items: items }
+                })
             },
-            updateSchema: function (context, data) {
-                let state = context.state
-                let components = []
-                if (state.draft.components) {
-                    components = [...state.draft.components]
+            updateSchema: function (context, data) {                
+                let reference = context.getters.reference(data.index, data.reference)
+                let items = []
+                if (reference.items) {
+                    items = [...reference.items]
                 }
                 
-                if (components[data.index].schema.items[data.schemaIndex - 1]) {
-                    components[data.index].schema.items[data.schemaIndex - 1] = data.value.operation
+                if (items[data.schemaIndex - 1]) {
+                    items[data.schemaIndex - 1] = data.value.operation
                 }
-                components[data.index].schema.items[data.schemaIndex] = data.value.item
-                context.commit('setComponents', components)
+                items[data.schemaIndex] = data.value.item
+                
+                context.dispatch('setReferenceSchema', {
+                    index: data.index,
+                    reference: data.reference,
+                    value: { items: items }
+                })
             },
-            removeSchema: function (context, data) {
-                let state = context.state
-                let components = []
-                if (state.draft.components) {
-                    components = [...state.draft.components]
+            removeSchema: function (context, data) {                
+                let reference = context.getters.reference(data.index, data.reference)
+                let items = []
+                if (reference.items) {
+                    items = [...reference.items]
                 }
                 
-                if (components[data.index].schema.items[data.schemaIndex - 1]) {
-                    components[data.index].schema.items.splice(data.schemaIndex - 1, 2)
+                if (items[data.schemaIndex - 1]) {
+                    items.splice(data.schemaIndex - 1, 2)
                 } else {
-                    components[data.index].schema.items.splice(data.schemaIndex, 2)
+                    items.splice(data.schemaIndex, 2)
                 }
-                context.commit('setComponents', components)
+                
+                context.dispatch('setReferenceSchema', {
+                    index: data.index,
+                    reference: data.reference,
+                    value: { items: items }
+                })
+            },
+            generateReference: function (context, data) {
+                let referenceId = ''
+                do {
+                    referenceId = getRandomReference(8)
+                } while (context.getters.reference(data.index, referenceId) !== false)
+
+                let reference = context.getters.reference(data.index, data.reference)
+                let items = []
+                if (reference.items) {
+                    items = [...reference.items]
+                }
+
+                items[data.schemaIndex].inputs[data.input] = referenceId
+                
+                context.dispatch('setReferenceSchema', {
+                    index: data.index,
+                    reference: data.reference,
+                    value: { items: items }
+                })
+
+                context.dispatch('setReferenceSchema', {
+                    index: data.index,
+                    reference: referenceId,
+                    value: {
+                        type: 'input',
+                        default: true,
+                        items: []
+                    }
+                })
+
+                return referenceId
+            },
+            setInputDefault: function (context, data) {
+                context.dispatch('setReferenceSchema', {
+                    index: data.index,
+                    reference: data.reference,
+                    value: { default: data.value }
+                })
             }
         }
     }

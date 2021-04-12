@@ -17,7 +17,7 @@ import ModelEdit from '../views/ModelEdit.vue'
 import ComponentNameEdit from '../views/modals/ComponentNameEdit.vue'
 import SchemaCreate from '../views/modals/SchemaCreate.vue'
 import SchemaUpdate from '../views/modals/SchemaUpdate.vue'
-import ComponentEdit from '../views/ComponentEdit.vue'
+import ComponentReferenceEdit from '../views/componentedit/ComponentReferenceEdit.vue'
 import InputEdit from '../views/modals/InputEdit.vue'
 import FootprintModal from '../views/modals/FootprintModal.vue'
 import FootprintInput from '../views/modals/FootprintInput.vue'
@@ -105,16 +105,16 @@ const routes = [
         props: true
     },
     {
-        path: '/write/:id/model/component/:index',
-        name: 'footprint.write.component',
-        component: ComponentEdit,
+        path: '/write/:id/model/component/:index/:reference',
+        name: 'footprint.write.component.reference',
+        component: ComponentReferenceEdit,
         props: true
     },
     {
-        path: '/write/:id/model/component/:index/name',
-        name: 'footprint.write.component.name',
+        path: '/write/:id/model/component/:index/:reference/name',
+        name: 'footprint.write.component.root.name',
         components: {
-            default: ComponentEdit,
+            default: ComponentReferenceEdit,
             modal: ComponentNameEdit
         },
         props: {
@@ -123,10 +123,10 @@ const routes = [
         }
     },
     {
-        path: '/write/:id/model/component/:index/schema/new/:type',
+        path: '/write/:id/model/component/:index/:reference/schema/new/:type',
         name: 'footprint.write.schema.create',
         components: {
-            default: ComponentEdit,
+            default: ComponentReferenceEdit,
             modal: SchemaCreate
         },
         props: {
@@ -135,10 +135,10 @@ const routes = [
         }
     },
     {
-        path: '/write/:id/model/component/:index/schema/:schemaIndex/:type',
+        path: '/write/:id/model/component/:index/:reference/schema/:schemaIndex/:type',
         name: 'footprint.write.schema',
         components: {
-            default: ComponentEdit,
+            default: ComponentReferenceEdit,
             modal: SchemaUpdate
         },
         props: {

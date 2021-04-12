@@ -22,11 +22,13 @@ import TitleService from './services/TitleService'
 import DraftService from './services/DraftService'
 
 import AppLink from './components/AppLink.vue'
+import SearchFetch from './api/SearchFetch'
 
 Vue.use(Vuex)
 
 let api = {
-    model: new ModelFetch()
+    model: new ModelFetch(),
+    search: new SearchFetch()
 }
 
 let store = new Vuex.Store({
@@ -41,7 +43,8 @@ let store = new Vuex.Store({
 Vue.prototype.$services = {
     history: new HistoryService(router),
     title: new TitleService(),
-    draft: new DraftService(store)
+    draft: new DraftService(store),
+    api: api
 };
 
 Vue.component('app-link', AppLink)

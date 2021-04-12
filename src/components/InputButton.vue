@@ -1,7 +1,8 @@
 <template>
     <button
-        @click="$emit('click')"
-        class="btn btn--square">
+        @click.stop="$emit('click')"
+        class="btn btn--square"
+        :disabled="disabled">
         <div class="column center">
             <span>{{ name }}</span>
             <span class="gap-top--s small secondary">{{ secondary }}</span>
@@ -14,7 +15,11 @@ export default {
     name: 'InputButton',
     props: {
         name: String,
-        secondary: String
+        secondary: String,
+        disabled: {
+            type: Boolean,
+            default: false
+        }
     }
 }
 </script>

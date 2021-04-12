@@ -13,6 +13,11 @@ a.btn {
     font-size: 1em;
 }
 
+.btn.btn--disabled, .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .btn.btn--primary {
     color: var(--primary);
 }

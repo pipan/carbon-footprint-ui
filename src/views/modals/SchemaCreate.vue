@@ -8,19 +8,22 @@
 <script>
 import SchemaConstant from './SchemaConstant.vue';
 import SchemaInput from './SchemaInput.vue';
+import SchemaFunction from './SchemaFunction.vue';
 export default {
     name: "SchemaCreate",
-    components: { SchemaConstant, SchemaInput },
+    components: { SchemaConstant, SchemaInput, SchemaFunction },
     props: {
         id: [ String, Number ],
         index: [ String, Number ],
-        type: [ String ]
+        type: [ String ],
+        reference: [ String ]
     },
     data: function () {
         return {
             vueComponents: {
                 const: 'schema-constant',
-                input: 'schema-input'
+                input: 'schema-input',
+                function: 'schema-function'
             }
         }
     },
@@ -52,16 +55,28 @@ export default {
             return this.$store.getters['draft/model']
         },
         component: function () {
-            if (!this.draft) {
-                return undefined
+            if (!this.draft || !this.draft.components[this.index]) {
+                return false
             }
             return this.draft.components[this.index]
         },
-        hasOperation: function () {
-            if (!this.component) {
+        schema: function () {
+            if (!this.component || !this.component.schema) {
                 return false
             }
-            return this.component.schema.items.length > 0
+            return this.component.schema
+        },
+        referenceSchema: function () {
+            if (!this.schema || !this.schema[this.reference]) {
+                return false
+            }
+            return this.schema[this.reference]
+        },
+        hasOperation: function () {
+            if (!this.referenceSchema) {
+                return false
+            }
+            return this.referenceSchema.items.length > 0
         }
     },
     methods: {
@@ -77,6 +92,7 @@ export default {
         submit: function (data) {
             this.$store.dispatch('draft/addSchema', {
                 index: this.index,
+                reference: this.reference,
                 value: data
             })
             this.close()

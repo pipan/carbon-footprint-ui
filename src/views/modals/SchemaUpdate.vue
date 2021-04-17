@@ -1,7 +1,7 @@
 <template>
     <div>
         <app-modal v-if="error"
-            :modal-title="error + ''"
+            :modal-title="error"
             @click-outside="close()">
             <div class="modal__footer">
                 <div class="row reverse flex">
@@ -28,114 +28,109 @@ export default {
     components: { SchemaConstant, SchemaInput, SchemaFunction, AppModal },
     props: {
         id: [ String, Number ],
-        index: [ String, Number ],
-        schemaIndex: [ String, Number ],
-        type: [ String ],
+        componentId: [ String, Number ],
+        itemReference: [ String ],
         reference: [ String ]
     },
     data: function () {
         return {
             vueComponents: {
-                const: 'schema-constant',
+                constant: 'schema-constant',
                 input: 'schema-input',
-                function: 'schema-function'
+                model: 'schema-function'
             }
         }
     },
     computed: {
+        type: function () {
+            if (!this.itemSchema) {
+                return ''
+            }
+            return this.itemSchema.type
+        },
         vueComponent: function () {
             return this.vueComponents[this.type]
         },
         vueComponentProps: function () {
             return {
                 model: this.model,
-                enableRemove:true
+                enableRemove: true
             }
         },
         error: function () {
-            if (!this.schema) {
-                return 404
+            if (!this.itemSchema) {
+                return '404'
             }
             return false
         },
         model: function () {
-            if (!this.referenceSchemaItem) {
-                return {}
+            if (!this.itemSchema) {
+                return {
+                    item: {}
+                }
             }
             let model = {
-                value: this.$options.filters.schemaValue(this.referenceSchemaItem)
+                item: this.itemSchema
             }
             if (this.hasOperation) {
-                model.operation = this.referenceSchemaOperation
+                model.operation = this.operation
             }
             return model
         },
-        draft: function () {
-            return this.$store.getters['draft/model']
+        itemSchema: function () {
+            return this.$store.getters['draft/reference'](this.componentId, this.itemReference)
         },
-        component: function () {
-            if (!this.draft) {
+        itemIndex: function () {
+            return this.$store.getters['draft/itemIndex'](this.componentId, this.reference, this.itemReference)
+        },
+        operation: function () {
+            if (this.itemIndex < 1) {
                 return false
             }
-            return this.draft.components[this.index]
-        },
-        schema: function () {
-            if (!this.component || !this.component.schema) {
-                return false
-            }
-            
-            return this.component.schema
-        },
-        referenceSchema: function () {
-            if (!this.schema || !this.schema[this.reference]) {
-                return false
-            }
-            
-            return this.schema[this.reference]
-        },
-        referenceSchemaItem: function () {
-            if (!this.referenceSchema || !this.referenceSchema.items[this.schemaIndex * 2]) {
-                return false
-            }
-            
-            return this.referenceSchema.items[this.schemaIndex * 2]
-        },
-        referenceSchemaOperation: function () {
-            if (!this.component || !this.referenceSchema.items[this.schemaIndex * 2 - 1]) {
-                return false
-            }
-            return this.referenceSchema.items[this.schemaIndex * 2 - 1]
+
+            return this.$store.getters['draft/item'](this.componentId, this.reference, this.itemIndex - 1)
         },
         hasOperation: function () {
-            return this.schemaIndex > 0
+            return this.operation !== false
         }
     },
     methods: {
         close: function () {
             this.$services.history.back({
-                name: 'footprint.write.component',
-                params: {
-                    id: this.id,
-                    index: this.index
-                }
+                name: 'footprint.write.component.reference'
             })
         },
         submit: function (data) {
-            this.$store.dispatch('draft/updateSchema', {
-                index: this.index,
-                reference: this.reference,
-                schemaIndex: this.schemaIndex * 2,
-                value: data
+            let referenceData = {...data.item, parent: this.reference }
+
+            this.$store.dispatch('draft/updateReference', {
+                id: this.componentId,
+                reference: this.itemReference,
+                value: referenceData
+            }).then((result) => {
+                let itemIndex = this.$store.getters['draft/itemIndex'](this.componentId, this.reference, this.itemReference)
+                if (itemIndex < 1) {
+                    return result
+                }
+
+                return this.$store.dispatch('draft/updateSchemaItem', {
+                    id: this.componentId,
+                    reference: this.reference,
+                    index: itemIndex - 1,
+                    value: data.operation
+                })
+            }).then(() => {
+                this.close()
             })
-            this.close()
         },
         remove: function () {
-            this.$store.dispatch('draft/removeSchema', {
-                index: this.index,
+            this.$store.dispatch('draft/removeSchemaItem', {
+                id: this.componentId,
                 reference: this.reference,
-                schemaIndex: this.schemaIndex * 2
+                itemReference: this.itemReference,
+            }).then(() => {
+                this.close()
             })
-            this.close()
         }
     }
 };

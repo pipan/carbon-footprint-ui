@@ -5,6 +5,7 @@
 
 .context__menu {
     position: absolute;
+    min-width: 140px;
     background-color: var(--bg-secondary);
     border-radius: var(--roundness-l);
     box-shadow: var(--shadow);

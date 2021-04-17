@@ -3,19 +3,20 @@
         <not-found v-if="!schema" />
         <header-layout
             v-if="schema"
-            :title="modelName"
-            :secondary="breadcrumps"
-            :back-url="{ name: 'footprint.write.model', params: { id } }">
+            :title="footprintName"
+            :secondary="headerSecondary"
+            :back-url="{ name: 'footprint.write.model' }">
             <div class="column flex">
                 <div class="row middle interactive" @click="$refs.defaultSwitch.toggle()">
                     <div class="gap-h--m flex">Default</div>
                     <input-switch :value="schema.default" @change="setDefault($event)" ref="defaultSwitch" />
                 </div>
-                <schema-stack :index="index"
+                <schema-stack :componentId="componentId"
                     :reference="reference"
-                    :inputs="draft.inputs"
                     :items="schemaItems"
-                    :disabled="schema.default"/>
+                    :inputs="draft.inputs"
+                    @selectItem="openItem($event)"
+                    @selectReference="openReference($event)" />
             </div>
         </header-layout>
     </div>
@@ -30,11 +31,11 @@ export default {
     name: "ComponentInputEdit",
     components: { HeaderLayout, NotFound, InputSwitch, SchemaStack },
     props: {
-        id: [String, Number],
-        index: [String, Number],
-        reference: [String],
-        schema: [Object, Boolean],
-        modelName: [String]
+        componentId: [ Number, String ],
+        reference: [ String ],
+        component: [ Object, Boolean ],
+        footprintName: [ String ],
+        schema: [ Object, Boolean ]
     },
     data: function () {
         return {
@@ -42,6 +43,15 @@ export default {
         }
     },
     computed: {
+        parent: function () {
+            return this.$store.getters['draft/reference'](this.componentId, this.schema.parent)
+        },
+        breadcrumps: function () {
+            return ['Function', this.parent.model.name, this.schema.model.name]
+        },
+        headerSecondary: function () {
+            return this.breadcrumps.join(" &#x27A4; ")
+        },
         draft: function () {
             return this.$store.getters['draft/model']
         },
@@ -51,29 +61,31 @@ export default {
             }
             return this.schema.items
         },
-        breadcrumps: function () {
-            return 'Crumps of the Bread'
-        }
     },
     methods: {
         setDefault: function (value) {
             this.$store.dispatch('draft/setInputDefault', {
-                index: this.index,
+                componentId: this.componentId,
                 reference: this.reference,
                 value: value
             })
+        },
+        openItem: function (ref) {
+            this.$services.history.push({
+                name: 'footprint.write.schema',
+                params: {
+                    itemReference: ref
+                }
+            })
+        },
+        openReference: function (ref) {
+            this.$services.history.push({
+                name: 'footprint.write.component.reference',
+                params: {
+                    reference: ref
+                }
+            })
         }
-    },
-    created: function () {
-        this.$services.draft.load(this.id)
-    },
-    beforeDestroy: function () {
-        // if (this.internalComponents != JSON.stringify(this.draft.components)) {
-        //     this.$store.commit('draft/setComponents', JSON.parse(this.internalComponents))
-        // }
-        // if (this.internalOutput != this.draft.output_unit_id) {
-        //     this.$store.commit('draft/setOutput', this.internalOutput)
-        // }
     }
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
     <model-edit-layout
+        :id="id"
         :header="header"
         :inputs="draft.inputs">
         <div class="column flex">
@@ -13,12 +14,12 @@
                 <div class="gap--m secondary row center flex thin" v-if="!hasComponents">
                     Start by adding a component for this model
                 </div>
-                <div v-for="(component, index) of components"
-                    :key="index"
-                    @click="openComponent(index)"
+                <div v-for="component of components"
+                    :key="component.id"
+                    @click="openComponent(component.id)"
                     class="gap-left--m gap-right--s gap-v--tiny interactive row middle">
                         <div class="flex thin">{{ component.name }}</div>
-                        <button type="button" class="btn btn--circle btn--grey" @click.stop="removeComponent(index)">
+                        <button type="button" class="btn btn--circle btn--grey" @click.stop="removeComponent(component.id)">
                             <span class="material-icons">delete_outline</span>
                         </button>
                 </div>
@@ -56,7 +57,6 @@ export default {
                 secondary: 'Model',
                 backUrl: {
                     name: 'footprint.write',
-                    params: { id: this.id }
                 }
             }
         },
@@ -71,45 +71,29 @@ export default {
         }
     },
     methods: {
-        openComponent: function (index) {
+        openComponent: function (id) {
             this.$services.history.push({
                 name: 'footprint.write.component.reference',
                 params: {
                     id: this.id,
-                    index: index,
+                    componentId: id,
                     reference: 'root'
                 }
             })
         },
         createComponent: function () {
-            this.$store.commit('draft/addComponent', {
-                name: '-- empty --',
-                schema: {
-                    root: {
-                        type: 'stack',
-                        items: []
-                    }
-                }
-            })
-            this.openComponent(this.components.length - 1)
+            this.$store.dispatch('draft/createComponent')
+                .then((result) => {
+                    this.openComponent(result.id)
+                })
         },
-        removeComponent: function (index) {
-            this.$store.commit('draft/removeComponent', {
-                index: index
-            })
+        removeComponent: function (id) {
+            this.$store.dispatch('draft/removeComponent', id)
         }
     },
     created: function () {
         this.$services.draft.load(this.id)
         this.internalOutput = this.draft.output_unit_id
-    },
-    beforeDestroy: function () {
-        // if (this.internalComponents != JSON.stringify(this.draft.components)) {
-        //     this.$store.commit('draft/setComponents', JSON.parse(this.internalComponents))
-        // }
-        // if (this.internalOutput != this.draft.output_unit_id) {
-        //     this.$store.commit('draft/setOutput', this.internalOutput)
-        // }
     }
 };
 </script>

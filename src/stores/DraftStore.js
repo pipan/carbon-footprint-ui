@@ -1,6 +1,16 @@
+import Mutator from "./Mutator";
+
 function getRandomReference(length) {
     const str = Math.floor(Math.random() * Math.pow(16, length)).toString(16);
     return "0".repeat(length - str.length) + str;
+}
+
+function getUniqueRandomReference(length, map) {
+    let referenceId = ''
+    do {
+        referenceId = getRandomReference(length)
+    } while (map[referenceId])
+    return referenceId
 }
 
 export default function (modelFetch) {
@@ -9,113 +19,131 @@ export default function (modelFetch) {
         state: () => {
             return {
                 og: {},
-                draft: {
+                draft: {},
+                init: {
                     name: '',
                     description: '',
-                    type: 9,
-                    components: []
+                    output_unit_id: 9,
+                    components: [],
+                    inputs: []
                 },
                 saving: false
             }
         },
         getters: {
             model: function (state) {
-                return Object.assign({}, state.og, state.draft)
+                return Object.assign({}, state.init, state.og, state.draft)
+            },
+            inputMap: function (state, getters) {
+                let map = {}
+                for (let input of getters.model.inputs) {
+                    map[input.reference] = input
+                }
+                return map
+            },
+            inputIndex: function (state, getters) {
+                return (reference) => {
+                    let inputs = getters.model.inputs
+                    if (!inputs) {
+                        return -1
+                    }
+
+                    for (let i = 0; i <inputs.length; i++) {
+                        if (inputs[i].reference != reference) {
+                            continue
+                        }
+                        return i
+                    }
+                    return -1
+                }
+            },
+            input: function (state, getters) {
+                return (id) => {
+                    return getters.inputMap[id] ? getters.inputMap[id] : false
+                }
+            },
+            componentMap: function (state, getters) {
+                let map = {}
+                for (let comopnent of getters.model.components) {
+                    map[comopnent.id] = comopnent
+                }
+                return map
             },
             component: function (state, getters) {
-                return (index) => {
-                    if (!getters.model.components[index]) {
+                return (id) => {
+                    return getters.componentMap[id] ? getters.componentMap[id] : false
+                }
+            },
+            componentIndex: function (state, getters) {
+                return (id) => {
+                    let model = getters.model
+                    for (let i = 0; i < model.components.length; i++) {
+                        if (model.components[i].id !== id) {
+                            continue
+                        }
+                        return i
+                    }
+                    return -1
+                }
+            },
+            item: function (state, getters) {
+                return (componentId, reference, index) => {
+                    let referenceSchema = getters.reference(componentId, reference)
+                    if (!referenceSchema || !referenceSchema.items || !referenceSchema.items[index]) {
                         return false
                     }
-                    return getters.model.components[index]
+
+                    return referenceSchema.items[index]
+                }
+            },
+            itemIndex: function (state, getters) {
+                return (componentId, reference, itemReference) => {
+                    let referenceSchema = getters.reference(componentId, reference)
+                    if (!referenceSchema || !referenceSchema.items) {
+                        return -1
+                    }
+
+                    let search = "reference:" + itemReference
+                    for (let i = 0; i < referenceSchema.items.length; i++) {
+                        if (referenceSchema.items[i] != search) {
+                            continue
+                        }
+                        return i
+                    }
+                    return -1
                 }
             },
             schema: function (state, getters) {
-                return (index) => {
-                    if (!getters.component(index) || !getters.component(index).schema) {
+                return (id) => {
+                    let component = getters.component(id)
+                    if (!component || !component.schema) {
                         return false
                     }
-                    return getters.component(index).schema
+                    return component.schema
                 }
             },
             reference: function (state, getters) {
-                return (componentIndex, reference) => {
-                    if (!getters.schema(componentIndex) || !getters.schema(componentIndex)[reference]) {
+                return (componentId, reference) => {
+                    let schema = getters.schema(componentId)
+                    if (!schema || !schema[reference]) {
                         return false
                     }
-                    return getters.schema(componentIndex)[reference]
+                    return schema[reference]
                 }
             }
         },
         mutations: {
+            setDraft: function (state, data) {
+                state.draft = data
+            },
             setName: function (state, data) {
                 state.draft = Object.assign({}, state.draft, { name: data })
-            },
-            setType: function (state, data) {
-                state.draft = Object.assign({}, state.draft, { type: data })
             },
             setDescription: function (state, data) {
                 state.draft = Object.assign({}, state.draft, { description: data })
             },
-            setComponents: function (state, data) {
-                state.draft = Object.assign({}, state.draft, { components: data })
-            },
-            setComponentName: function (state, data) {
-                let components = [...state.draft.components]
-                components[data.index].name = data.value
-                state.draft = Object.assign({}, state.draft, { components: components })
-            },
-            addComponent: function (state, data) {
-                let components = []
-                if (state.draft.components) {
-                    components = [...state.draft.components]
-                }
-                
-                components.push(data)
-                state.draft = Object.assign({}, state.draft, { components: components })
-            },
-            removeComponent: function (state, data) {
-                let index = data.index
-                if (!state.draft.components || !state.draft.components[index]) {
-                    return
-                }
-                let components = [...state.draft.components]
-                components.splice(index, 1)
-                state.draft = Object.assign({}, state.draft, { components: components })
-            },
             setOutput: function (state, data) {
                 state.draft = Object.assign({}, state.draft, { output_unit_id: data })
-            },
-            setInput: function (state, data) {
-                let valueCopy = Object.assign({}, data.value)
-                let inputs = []
-                if (state.draft.inputs) {
-                    inputs = [...state.draft.inputs]
-                } else {
-                    inputs = [...state.og.inputs]
-                }
-                
-                if (inputs[data.index]) {
-                    inputs[data.index] = valueCopy
-                } else {
-                    inputs.push(valueCopy)
-                }
-                state.draft = Object.assign({}, state.draft, { inputs: inputs })
-            },
-            removeInput: function (state, index) {
-                let inputs = []
-                if (state.draft.inputs) {
-                    inputs = [...state.draft.inputs]
-                } else {
-                    inputs = [...state.og.inputs]
-                }
-                
-                if (!inputs.length === 0 || !inputs[index]) {
-                    return
-                }
-                
-                inputs.splice(index, 1)
-                state.draft = Object.assign({}, state.draft, { inputs: inputs })
             },
             setOg: function (state, data) {
                 state.og = Object.assign({}, data)
@@ -170,138 +198,166 @@ export default function (modelFetch) {
                 modelFetch.get(id)
                     .then(response => response.json())
                     .then(json => {
-                        context.commit('setType', {id: 9, name: 'Other'})
                         context.commit('setOg', json)
                     })
             },
-            setComponent: function (context, data) {
-                let state = context.state
-                let components = []
-                if (state.draft.components) {
-                    components = [...state.draft.components]
-                }
 
-                components[data.index] = data.value
-                context.commit('setComponents', components)
+            addInput: function (context, data) {
+                data.value.reference = getUniqueRandomReference(8, context.getters.inputMap)
+                let draft = Mutator.fromSource(context.getters.model)
+                    .push('inputs', data.value)
+                
+                context.commit('setDraft', draft)
             },
-            setSchema: function (context, data) {
-                let component = context.getters.component(data.index)
-                if (!component) {
-                    component = {}
+            updateInput: function (context, data) {
+                let draft = Mutator.fromSource(context.getters.model)
+                    .arrayItem('inputs', context.getters.inputIndex(data.reference))
+                    .updateAll(data.value)
+                
+                context.commit('setDraft', draft)
+            },
+            removeInput: function (context, index) {
+                let draft = Mutator.fromSource(context.getters.model)
+                    .arrayRemove('inputs', context.getters.inputIndex(index))
+                
+                context.commit('setDraft', draft)
+            },
+
+            createComponent: function (context) {
+                let componentId = getUniqueRandomReference(8, context.getters.componentMap)
+                let component = {
+                    name: '-- new --',
+                    id: componentId,
+                    schema: {
+                        root: {
+                            type: 'stack',
+                            items: []
+                        }
+                    }
                 }
 
-                context.dispatch('setComponent', {
-                    index: data.index,
-                    value: Object.assign({}, component, { schema: data.value })
+                let draft = Mutator.fromSource(context.getters.model)
+                    .push('components', component)
+                
+                context.commit('setDraft', draft)
+                return component
+            },
+            removeComponent: function (context, id) {
+                let draft = Mutator.fromSource(context.getters.model)
+                    .arrayRemove('components', context.getters.componentIndex(id))
+                
+                context.commit('setDraft', draft)
+            },
+            setComponentName: function (context, data) {
+                let draft = Mutator.fromSource(context.getters.model)
+                    .arrayItem('components', context.getters.componentIndex(data.id))
+                    .update('name', data.value)
+                
+                context.commit('setDraft', draft)
+            },
+
+            updateReference: function (context, data) {
+                let draft = Mutator.fromSource(context.getters.model)
+                    .arrayItem('components', context.getters.componentIndex(data.id))
+                    .property('schema')
+                    .update(data.reference, data.value)
+                
+                context.commit('setDraft', draft)
+            },
+            addReference: function (context, data) {
+                let draft = Mutator.fromSource(context.getters.model)
+                    .arrayItem('components', context.getters.componentIndex(data.id))
+                    .property('schema')
+                    .update(data.reference, data.value)
+                
+                context.commit('setDraft', draft)
+            },
+            generateReference: function (context, data) {
+                let referenceId = getUniqueRandomReference(8, context.getters.componentMap)
+
+                let draft = Mutator.fromSource(context.getters.model)
+                    .arrayItem('components', context.getters.componentIndex(data.componentId))
+                    .property('schema')
+                    .update(referenceId, data.value)
+
+                context.commit('setDraft', draft)
+                return referenceId
+            },
+            generateInputReference: function (context, data) {
+                return context.dispatch('generateReference', {
+                    componentId: data.componentId,
+                    value: {
+                        ...data,
+                        type: 'function_input',
+                        default: true,
+                        items: []
+                    }
                 })
             },
-            setReferenceSchema: function (context, data) {
-                let schema = context.getters.schema(data.index)
-                if (!schema) {
-                    schema = {}
-                }
 
-                let reference = {}
-                reference[data.reference] = Object.assign({}, schema[data.reference], data.value)
-
-                context.dispatch('setSchema', {
-                    index: data.index,
-                    value: Object.assign({}, schema, reference)
-                })
-            },
-            addSchema: function (context, data) {
-                let reference = context.getters.reference(data.index, data.reference)
-                let items = []
-                if (reference.items) {
-                    items = [...reference.items]
-                }
+            addSchemaItem: function (context, data) {
+                let reference = context.getters.reference(data.id, data.reference)
+                let items = [...reference.items]
                 
                 if (items.length > 0) {
                     items.push(data.value.operation)
                 }
                 items.push(data.value.item)
 
-                context.dispatch('setReferenceSchema', {
-                    index: data.index,
+                context.dispatch('updateReference', {
+                    id: data.id,
                     reference: data.reference,
                     value: { items: items }
                 })
             },
-            updateSchema: function (context, data) {                
-                let reference = context.getters.reference(data.index, data.reference)
-                let items = []
-                if (reference.items) {
-                    items = [...reference.items]
-                }
-                
-                if (items[data.schemaIndex - 1]) {
-                    items[data.schemaIndex - 1] = data.value.operation
-                }
-                items[data.schemaIndex] = data.value.item
-                
-                context.dispatch('setReferenceSchema', {
-                    index: data.index,
+            updateSchemaItem: function (context, data) {
+                let reference = context.getters.reference(data.id, data.reference)
+                let items = [...reference.items]
+
+                items[data.index] = data.value
+
+                context.dispatch('updateReference', {
+                    id: data.id,
                     reference: data.reference,
                     value: { items: items }
                 })
             },
-            removeSchema: function (context, data) {                
-                let reference = context.getters.reference(data.index, data.reference)
-                let items = []
-                if (reference.items) {
-                    items = [...reference.items]
-                }
-                
-                if (items[data.schemaIndex - 1]) {
-                    items.splice(data.schemaIndex - 1, 2)
+            removeSchemaItem: function (context, data) {
+                let reference = context.getters.reference(data.id, data.reference)
+                let items = [...reference.items]
+                let itemIndex = context.getters.itemIndex(data.id, data.reference, data.itemReference)
+
+                if (itemIndex > 1) {
+                    items.splice(itemIndex - 1, 2)
                 } else {
-                    items.splice(data.schemaIndex, 2)
+                    items.splice(itemIndex, 2)
                 }
-                
-                context.dispatch('setReferenceSchema', {
-                    index: data.index,
+
+                context.dispatch('updateReference', {
+                    id: data.id,
                     reference: data.reference,
                     value: { items: items }
                 })
             },
-            generateReference: function (context, data) {
-                let referenceId = ''
-                do {
-                    referenceId = getRandomReference(8)
-                } while (context.getters.reference(data.index, referenceId) !== false)
 
-                let reference = context.getters.reference(data.index, data.reference)
-                let items = []
-                if (reference.items) {
-                    items = [...reference.items]
-                }
-
-                items[data.schemaIndex].inputs[data.input] = referenceId
+            setFunctionInput: function (context, data) {
+                console.log(context.state.draft, data)
+                let draft = Mutator.fromSource(context.state.draft)
+                    .arrayItem('components', context.getters.componentIndex(data.componentId))
+                    .property('schema')
+                    .property(data.reference)
+                    .property('inputs')
+                    .update(data.inputId, data.value)
                 
-                context.dispatch('setReferenceSchema', {
-                    index: data.index,
-                    reference: data.reference,
-                    value: { items: items }
-                })
-
-                context.dispatch('setReferenceSchema', {
-                    index: data.index,
-                    reference: referenceId,
-                    value: {
-                        type: 'input',
-                        default: true,
-                        items: []
-                    }
-                })
-
-                return referenceId
+                context.commit('setDraft', draft)
             },
             setInputDefault: function (context, data) {
-                context.dispatch('setReferenceSchema', {
-                    index: data.index,
-                    reference: data.reference,
-                    value: { default: data.value }
-                })
+                let draft = Mutator.fromSource(context.state.draft)
+                    .arrayItem('components', context.getters.componentIndex(data.componentId))
+                    .property('schema')
+                    .update(data.reference, { default: data.value })
+                
+                context.commit('setDraft', draft)
             }
         }
     }

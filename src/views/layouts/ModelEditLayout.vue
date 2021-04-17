@@ -9,11 +9,11 @@
                     <div class="row middle flex wrap">
                         <span class="secondary gap-left--s" v-if="!hasInputs">no input</span>
                         <input-button
-                            v-for="(input, index) of inputs"
-                            :key="index"
+                            v-for="input of inputs"
+                            :key="input.reference"
                             :name="input.name"
                             :secondary="$store.getters['unit/map'][input.unit_id].name"
-                            @click="openInput(index)" />
+                            @click="openInput(input.reference)" />
                     </div>
                     <div class="gap-left--s gap-v--s">
                         <button @click="openInput('new')" class="btn btn--secondary btn--circle">
@@ -34,6 +34,7 @@ export default {
     name: "ModelEditLayout",
     components: { HeaderLayout, InputButton },
     props: {
+        id: [ String, Number ],
         inputs: {
             type: Array,
             default: () => []

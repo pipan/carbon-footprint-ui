@@ -5,34 +5,100 @@
             <div class="abs abs--right">
                 <context-menu icon="add" ref="contextAdd" :disabled="disabled">
                     <div class="column left">
-                        <button class="btn context__item" @click.stop="createSchema('const')">Constant</button>
+                        <button class="btn context__item" @click.stop="createSchema('constant')">Constant</button>
                         <button v-if="hasInput" class="btn context__item" @click.stop="createSchema('input')">Input</button>
-                        <button class="btn context__item" @click.stop="createSchema('function')">Function</button>
+                        <button class="btn context__item" @click.stop="createSchema('model')">Function</button>
                     </div>
                 </context-menu>
             </div>
         </div>
-        <component-factor
+        <schema-stack-item
             v-for="(factor, i) of factors"
             :key="i"
             :item="factor.item"
             :operation="factor.operation"
-            :componentIndex="index"
+            :reference="factor.ref"
             :disabled="disabled"
-            @select="openSchema(i)"
-            @selectInput="openInput(i, $event)"
+            @selectItem="$emit('selectItem', $event)"
+            @selectInput="openInput($event, factor.ref)"
             class="gap-h--m gap-v--tiny" />
     </div>
 </template>
 
 <script>
-import ComponentFactor from './ComponentFactor.vue';
+import SchemaStackItem from './SchemaStackItem.vue';
 import ContextMenu from './ContextMenu.vue';
+
+class ConstantAdapter {
+    adapt(item) {
+        return {
+            name: item.value,
+            tag: 'C',
+            inputs: []
+        }
+    }
+}
+
+class InputAdapter {
+    adapt(item) {
+        return {
+            name: item.name,
+            tag: 'I',
+            inputs: []
+        }
+    }
+}
+
+class FunctionAdapter {
+    constructor(componentId, store) {
+        this.componentId = componentId
+        this.store = store
+    }
+
+    adapt(item) {
+        let inputs = []
+        for (let input of item.model.inputs) {
+            let ref = item.inputs[input.id] 
+            let secondary = 'default'
+            if (ref) {
+                let funcionInput = this.store.getters['draft/reference'](this.componentId, ref)
+                secondary = funcionInput.default ? 'default' : 'custom'
+            }
+            inputs.push({
+                primary: input.name,
+                secondary: secondary,
+                ref: ref,
+                id: input.id
+            })
+        }
+
+        return {
+            name: item.model.name,
+            tag: 'F',
+            inputs: inputs
+        }
+    }
+}
+
+class ItemAdapter {
+    constructor(componentId, store) {
+        this.adapters = {
+            constant: new ConstantAdapter(),
+            model: new FunctionAdapter(componentId, store),
+            input: new InputAdapter()
+        }
+    }
+
+    adapt(item) {
+        return this.adapters[item.type].adapt(item)
+    }
+}
+
 export default {
     name: 'SchemaStack',
-    components: { ComponentFactor, ContextMenu },
+    components: { SchemaStackItem, ContextMenu },
     props: {
-        index: [ String, Number ],
+        componentId: [ Number, String ],
         reference: [ String ],
         items: [ Array ],
         inputs: [ Array ],
@@ -43,11 +109,15 @@ export default {
     },
     computed: {
         factors: function () {
+            let adapter = new ItemAdapter(this.componentId, this.$store)
             let result = []
             for (let i = 0; i < this.items.length; i += 2) {
+                let split = this.items[i].split(":")
+                let itemReference = this.$store.getters['draft/reference'](this.componentId, split[1])
                 result.push({
-                    item: this.items[i],
-                    operation: i > 0 ? this.items[i - 1] : false,
+                    ref: split[1],
+                    item: adapter.adapt(itemReference),
+                    operation: i > 0 ? this.items[i - 1] : '',
                 })
             }
             return result
@@ -66,39 +136,28 @@ export default {
             })
             this.$refs.contextAdd.close()
         },
-        openSchema: function (schemaIndex) {
-            let type = this.$options.filters.schemaType(this.items[schemaIndex * 2])
-            this.$services.history.push({
-                name: 'footprint.write.schema',
-                params: {
-                    schemaIndex: schemaIndex,
-                    type: type
-                }
-            })
-        },
-        openInput: function (schemaIndex, inputId) {
-            let reference = this.factors[schemaIndex].item.inputs[inputId]
-            if (!reference) {
-                this.$store.dispatch('draft/generateReference', {
-                    index: this.index,
-                    reference: this.reference,
-                    schemaIndex: schemaIndex * 2,
-                    input: inputId
+        openInput: function (input, parent) {
+            if (!input.ref) {
+                this.$store.dispatch('draft/generateInputReference', {
+                    componentId: this.componentId,
+                    parent: parent,
+                    model: {
+                        name: input.primary
+                    }
                 }).then((result) => {
-                    this.openReference(result)
+                    return this.$store.dispatch('draft/setFunctionInput', {
+                        componentId: this.componentId,
+                        reference: parent,
+                        inputId: input.id,
+                        value: result
+                    }).then(() => {
+                        this.$emit('selectReference', result)
+                    })
                 })
                 return
             }
 
-            this.openReference(reference)
-        },
-        openReference: function (reference) {
-            this.$services.history.push({
-                name: 'footprint.write.component.reference',
-                params: {
-                    reference: reference
-                }
-            })
+            this.$emit('selectReference', input.ref)
         }
     }
 }

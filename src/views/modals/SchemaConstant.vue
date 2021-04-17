@@ -58,7 +58,10 @@ export default {
             if (this.innerModel.value) {
                 return this.innerModel.value
             }
-            return this.model.value
+            if (this.model.item.value) {
+                return this.model.item.value
+            }
+            return ''
         },
         operation: function () {
             if (this.innerModel.operation) {
@@ -76,7 +79,10 @@ export default {
         },
         submit: function () {
             let payload = {
-                item: 'const:' + this.value
+                item: {
+                    type: 'constant',
+                    value: this.value
+                }
             }
             if (this.hasOperation) {
                 payload.operation = this.operation

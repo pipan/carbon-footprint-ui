@@ -9,10 +9,10 @@
                     @change="innerModel.operation = $event"
                     class="gap-bottom--m row center"/>
                 <div class="row">
-                    <select class="flex" @change="innerModel.value = $event">
-                        <option v-for="(input, index) of draft.inputs"
-                            :key="index"
-                            :value="input.name"
+                    <select class="flex" @change="set('value', $event.target.value)" :value="value">
+                        <option v-for="input of inputs"
+                            :key="input.reference"
+                            :value="input.reference"
                             >{{ input.name }}</option>
                     </select>
                 </div>
@@ -59,10 +59,22 @@ export default {
             if (this.innerModel.value) {
                 return this.innerModel.value
             }
-            return this.model.value
+            if (this.model.item.reference) {
+                return this.model.item.reference
+            }
+            if (this.inputs.length > 0) {
+                return this.inputs[0].reference
+            }
+            return ''
         },
         draft: function () {
             return this.$store.getters['draft/model']
+        },
+        inputs: function () {
+            if (!this.draft.inputs) {
+                return []
+            }
+            return this.draft.inputs
         },
         operation: function () {
             if (this.innerModel.operation) {
@@ -75,12 +87,29 @@ export default {
         }
     },
     methods: {
+        set: function(key, value) {
+            let property = {}
+            property[key] = value
+            this.innerModel = Object.assign({}, this.innerModel, property)
+        },
+        getInputByReference: function (reference) {
+            for (let input of this.inputs) {
+                if (input.reference === reference) {
+                    return input
+                }
+            }
+            return {}
+        },
         close: function () {
             this.$emit('close')
         },
         submit: function () {
             let payload = {
-                item: 'input:' + this.value
+                item: {
+                    type: 'input',
+                    name: this.getInputByReference(this.value).name,
+                    reference: this.value
+                }
             }
             if (this.hasOperation) {
                 payload.operation = this.operation
@@ -89,11 +118,6 @@ export default {
         },
         remove: function () {
             this.$emit('remove')
-        }
-    },
-    created: function () {
-        if (!this.innerModel.value) {
-            this.innerModel.value = this.draft.inputs[0].name
         }
     }
 };

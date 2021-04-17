@@ -12,7 +12,7 @@
         <div class="gap-left--m" v-if="hasScales">
             <select
                 v-model="selectValue"
-                @change="onSelectChange($event)">
+                @change="onSelectChange($event.target.value)">
                 <option
                     v-for="scale of scales"
                     :key="scale.id"
@@ -25,7 +25,10 @@
 <script>
 export default {
     name: 'UnitInput',
-    props: ['unitId', 'value'],
+    props: {
+        unitId: [ Number, String ],
+        value: [ Number, String ]
+    },
     data: function () {
         return {
             inputValue: this.$options.filters.unitValue(this.value, this.unitId),
@@ -50,9 +53,16 @@ export default {
         }
     },
     watch: {
-        unitId: function (newValue) {
-            this.inputValue = this.$options.filters.unitValue(this.value, newValue),
-            this.selectValue = this.$options.filters.unitLabelId(this.value, newValue)
+        scales: function (newValue) {
+            let isSelectedValueValid = false
+            for (let scale of newValue) {
+                if (scale.id === this.selectValue) {
+                    isSelectedValueValid = true
+                }
+            }
+            if (!isSelectedValueValid) {
+                this.selectValue = newValue[0].id
+            }
         }
     },
     methods: {

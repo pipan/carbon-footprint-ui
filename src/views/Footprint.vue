@@ -18,15 +18,11 @@
                     </div>
                     <div class="gap-top--l" v-if="hasInput">
                         <div class="detail__inputs gap-h--m">
-                            <button v-for="input in $store.state.footprint.item.inputs"
+                            <input-button v-for="input in $store.state.footprint.item.inputs"
                                 :key="input.name"
-                                @click="openInput(input.id)"
-                                class="btn btn--square">
-                                <div class="column center">
-                                    <span>{{ input.value | unitHuman(input.unit.id) }}</span>
-                                    <span class="gap-top--s small secondary">{{ input.name }}</span>
-                                </div>
-                            </button>
+                                :name="input.value | unitHuman(input.unit.id)"
+                                :secondary="input.name"
+                                @click="openInput(input.reference)"/>
                         </div>
                     </div>
                     <div class="gap-v--l gap-h--m">
@@ -62,10 +58,11 @@ import CarbonResult from "../components/CarbonResult.vue";
 import ComponentChart from '../components/ComponentChart.vue';
 import InputSwichIcon from '../components/InputSwichIcon.vue';
 import NotFound from './NotFound.vue';
+import InputButton from '../components/InputButton.vue';
 export default {
     name: "Footprint",
     props: ['id'],
-    components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart, NotFound, InputSwichIcon },
+    components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart, NotFound, InputSwichIcon, InputButton },
     data: function () {
         return {
             chartSwitchValue: 'bar',
@@ -92,12 +89,12 @@ export default {
                 query: this.$route.query
             })
         },
-        openInput: function (inputId) {
+        openInput: function (inputReference) {
             this.$services.history.push({
                 name: 'footprint.input',
                 params: {
                     id: this.id,
-                    inputId: inputId
+                    inputReference: inputReference
                 },
                 query: this.$route.query
             })

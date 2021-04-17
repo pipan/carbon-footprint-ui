@@ -15,7 +15,7 @@ export default function (modelFetch) {
                 }
                 let map = {}
                 for (const input of state.item.inputs) {
-                    map[input.id] = input
+                    map[input.reference] = input
                 }
                 return map
             }

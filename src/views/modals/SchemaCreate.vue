@@ -14,16 +14,16 @@ export default {
     components: { SchemaConstant, SchemaInput, SchemaFunction },
     props: {
         id: [ String, Number ],
-        index: [ String, Number ],
+        componentId: [ String, Number ],
         type: [ String ],
         reference: [ String ]
     },
     data: function () {
         return {
             vueComponents: {
-                const: 'schema-constant',
+                constant: 'schema-constant',
                 input: 'schema-input',
-                function: 'schema-function'
+                model: 'schema-function'
             }
         }
     },
@@ -37,40 +37,22 @@ export default {
             }
         },
         error: function () {
-            if (!this.component) {
+            if (!this.referenceSchema) {
                 return 404
             }
             return false
         },
         model: function () {
             let model = {
-                value: ''
+                item: {}
             }
             if (this.hasOperation) {
                 model.operation = '+'
             }
             return model
         },
-        draft: function () {
-            return this.$store.getters['draft/model']
-        },
-        component: function () {
-            if (!this.draft || !this.draft.components[this.index]) {
-                return false
-            }
-            return this.draft.components[this.index]
-        },
-        schema: function () {
-            if (!this.component || !this.component.schema) {
-                return false
-            }
-            return this.component.schema
-        },
         referenceSchema: function () {
-            if (!this.schema || !this.schema[this.reference]) {
-                return false
-            }
-            return this.schema[this.reference]
+            return this.$store.getters['draft/reference'](this.componentId, this.reference)
         },
         hasOperation: function () {
             if (!this.referenceSchema) {
@@ -82,20 +64,27 @@ export default {
     methods: {
         close: function () {
             this.$services.history.back({
-                name: 'footprint.write.component',
-                params: {
-                    id: this.id,
-                    index: this.index
-                }
+                name: 'footprint.write.component.reference'
             })
         },
         submit: function (data) {
-            this.$store.dispatch('draft/addSchema', {
-                index: this.index,
-                reference: this.reference,
-                value: data
+            let referenceData = {...data.item, parent: this.reference }
+
+            this.$store.dispatch('draft/generateReference', {
+                componentId: this.componentId,
+                value: referenceData
+            }).then((result) => {
+                return this.$store.dispatch('draft/addSchemaItem', {
+                    id: this.componentId,
+                    reference: this.reference,
+                    value: {
+                        item: "reference:" + result,
+                        operation: data.operation
+                    }
+                })
+            }).then(() => {
+                this.close()
             })
-            this.close()
         }
     }
 };

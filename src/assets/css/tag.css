@@ -15,15 +15,22 @@
     padding: 2px;
 }
 
+.tag.tag--transparent {
+    background-color: transparent;
+}
 .tag--teal {
-    background-color: #37808A;
+    background-color: transparent;
+    color: #37808A;
 }
 .tag--blue {
-    background-color: #39337A;
+    background-color: transparent;
+    color: #574EB0; /*#39337A*/
 }
 .tag--green {
-    background-color: #51823F;
+    background-color: transparent;
+    color: #51823F;
 }
 .tag--pink {
-    background-color: #78337A;
+    background-color: transparent;
+    color: #78337A;
 }

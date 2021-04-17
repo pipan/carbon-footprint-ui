@@ -6,7 +6,7 @@
             </button>
         </div>
         <div class="context__menu abs abs--top abs--right" :class="{hide: !visible}">
-            <div class="gap--s row right">
+            <div class="gap-top--s gap-h--s row right">
                 <button @click="close()" class="btn btn--circle">
                     <span class="material-icons">{{ icon }}</span>
                 </button>

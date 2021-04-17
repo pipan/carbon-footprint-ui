@@ -5,7 +5,12 @@
         <div>
             <form @submit.prevent="submit()">
                 <div class="modal__body">
-                    <input id="footprint-name" class="input" type="text" name="name" autocomplete="off" v-model="internalValue" />
+                    <input id="footprint-name"
+                        class="input"
+                        type="text"
+                        name="name"
+                        autocomplete="off"
+                        v-model="value"/>
                 </div>
                 <div class="modal__footer">
                     <button type="submit" class="btn btn--primary">SAVE</button>
@@ -25,39 +30,46 @@ export default {
     components: { AppModal },
     props: {
         id: [ String, Number ],
-        index: [String, Number ]
+        componentId: [ String ]
     },
     data: function () {
         return {
-            internalValue: ""
+            internalValue: false
         }
     },
     computed: {
         draft: function () {
             return this.$store.getters['draft/model']
+        },
+        component: function () {
+            return this.$store.getters['draft/component'](this.componentId)
+        },
+        value: {
+            get: function () {
+                if (this.internalValue !== false) {
+                    return this.internalValue
+                }
+                return this.component ? this.component.name : ""
+            },
+            set: function (value) {
+                this.internalValue = value
+            }
         }
     },
     methods: {
         close: function () {
             this.$services.history.back({
-                name: 'footprint.write.component',
-                params: {
-                    id: this.id,
-                    index: this.index
-                }
+                name: 'footprint.write.component.reference',
             })
         },
         submit: function () {
-            this.$store.commit('draft/setComponentName', {
-                id: this.id,
-                index: this.index,
-                value: this.internalValue
+            this.$store.dispatch('draft/setComponentName', {
+                id: this.componentId,
+                value: this.value
+            }).then(() => {
+                this.close()
             })
-            this.close()
         }
-    },
-    created: function () {
-        this.internalValue = this.draft.components[this.index].name
     }
 };
 </script>

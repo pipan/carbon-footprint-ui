@@ -53,7 +53,7 @@ export default {
             if (this.innerModel.value) {
                 return this.innerModel.value
             }
-            return this.model.value
+            return this.model.item.model
         },
         draft: function () {
             return this.$store.getters['draft/model']
@@ -75,7 +75,7 @@ export default {
         submit: function () {
             let payload = {
                 item: {
-                    type: 'function',
+                    type: 'model',
                     id: this.value.id,
                     model: this.value,
                     inputs: {}

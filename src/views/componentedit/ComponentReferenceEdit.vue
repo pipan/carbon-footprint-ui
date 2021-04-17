@@ -14,15 +14,18 @@ export default {
     name: "ComponentReferenceEdit",
     components: { NotFound, ComponentRootEdit, ComponentInputEdit },
     props: {
-        id: [ String, Number ],
-        index: [ String, Number ],
-        reference: [ String ]
+        id: [ Number, String ],
+        componentId: [ Number, String ],
+        reference: {
+            type: [ String ],
+            default: 'root'
+        }
     },
     data: function () {
         return {
             vueComponents: {
                 root: 'component-root-edit',
-                input: 'component-input-edit'
+                function_input: 'component-input-edit'
             }
         }
     },
@@ -41,29 +44,21 @@ export default {
         vueComponentProps: function () {
             return {
                 id: this.id,
-                index: this.index,
+                componentId: this.componentId,
                 reference: this.reference,
+                component: this.component,
                 schema: this.referenceSchema,
-                modelName: this.draft.name
+                footprintName: this.draft.name
             }
         },
         draft: function () {
             return this.$store.getters['draft/model']
         },
         component: function () {
-            if (!this.draft.components) {
-                return false
-            }
-            return this.draft.components[this.index]
-        },
-        schema: function () {
-            if (!this.component || !this.component.schema) {
-                return false
-            }
-            return this.component.schema
+            return this.$store.getters['draft/component'](this.componentId)
         },
         referenceSchema: function () {
-            return this.$store.getters['draft/reference'](this.index, this.reference)
+            return this.$store.getters['draft/reference'](this.componentId, this.reference)
         },
         referenceType: function () {
             if (!this.referenceSchema || !this.referenceSchema.type) {
@@ -71,7 +66,10 @@ export default {
             }
             return this.referenceSchema.type
         }
-    }
+    },
+    created: function () {
+        this.$services.draft.load(this.id)
+    },
 };
 </script>
 

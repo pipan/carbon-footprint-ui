@@ -3,18 +3,20 @@
         <not-found v-if="!component" />
         <header-layout
             v-if="component"
-            :title="modelName"
+            :title="footprintName"
             :secondary="headerSecondary"
-            :back-url="{ name: 'footprint.write.model', params: { id } }">
+            :back-url="{ name: 'footprint.write.model' }">
             <div class="column flex">
-                <app-link :route="{ name: 'footprint.write.component.root.name' }" class="list-item list-item--interactive link--inherit column">
+                <app-link :route="{ name: 'footprint.write.component.name' }" class="list-item list-item--interactive link--inherit column">
                     <div>Name</div>
                     <div class="secondary gap-top--s">{{ component.name }}</div>
                 </app-link>
-                <schema-stack :index="index"
-                    :reference="reference"
+                <schema-stack :componentId="componentId"
+                    :reference="'root'"
                     :items="schemaItems"
-                    :inputs="draft.inputs"/>
+                    :inputs="draft.inputs"
+                    @selectItem="openItem($event)"
+                    @selectReference="openReference($event)" />
             </div>
         </header-layout>
     </div>
@@ -28,27 +30,20 @@ export default {
     name: "ComponentRootEdit",
     components: { HeaderLayout, NotFound, SchemaStack },
     props: {
-        id: [ String, Number ],
-        index: [ String, Number ],
-        schema: [ Object, Boolean ],
-        modelName: [ String ],
-        reference: [ String ]
+        componentId: [ Number, String ],
+        component: [ Object, Boolean ],
+        footprintName: [ String ],
+        schema: [ Object, Boolean ]
     },
     computed: {
         breadcrumps: function () {
-            return ['Model', this.component.name]
+            return ['Component', this.component.name]
         },
         headerSecondary: function () {
-            return this.breadcrumps.join(" / ")
+            return this.breadcrumps.join(" &#x27A4; ")
         },
         draft: function () {
             return this.$store.getters['draft/model']
-        },
-        component: function () {
-            if (!this.draft.components) {
-                return false
-            }
-            return this.draft.components[this.index]
         },
         schemaItems: function () {
             if (!this.schema || !this.schema.items) {
@@ -57,17 +52,23 @@ export default {
             return this.schema.items
         },
     },
-    created: function () {
-        this.$services.draft.load(this.id)
-        this.internalOutput = this.draft.output_unit_id
-    },
-    beforeDestroy: function () {
-        // if (this.internalComponents != JSON.stringify(this.draft.components)) {
-        //     this.$store.commit('draft/setComponents', JSON.parse(this.internalComponents))
-        // }
-        // if (this.internalOutput != this.draft.output_unit_id) {
-        //     this.$store.commit('draft/setOutput', this.internalOutput)
-        // }
+    methods: {
+        openItem: function (ref) {
+            this.$services.history.push({
+                name: 'footprint.write.schema',
+                params: {
+                    itemReference: ref
+                }
+            })
+        },
+        openReference: function (ref) {
+            this.$services.history.push({
+                name: 'footprint.write.component.reference',
+                params: {
+                    reference: ref
+                }
+            })
+        }
     }
 };
 </script>

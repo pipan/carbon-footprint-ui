@@ -6,12 +6,7 @@ export default class ToUnitFactory {
     }
 
     getUnitById(unitId) {
-        for (let unit of this.store.items) {
-            if (unit.id === unitId) {
-                return unit
-            }
-        }
-        return null
+        return this.store.getters['unit/map'][unitId]
     }
 
     filter(value, unitId) {

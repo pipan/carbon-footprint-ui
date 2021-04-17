@@ -1,7 +1,7 @@
 <template>
     <header-layout
         :title="draft.name"
-        :back-url="{ name: 'index' }"
+        :back-url="backUrl"
         action="SAVE"
         @action="save()">
         <div>
@@ -36,6 +36,15 @@ export default {
     computed: {
         draft: function () {
             return this.$store.getters['draft/model']
+        },
+        isNew: function() {
+            return this.id === 'new'
+        },
+        backUrl: function () {
+            if (!this.isNew) {
+                return { name: 'footprint' }
+            }
+            return { name: 'index' }
         }
     },
     methods: {

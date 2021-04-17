@@ -50,7 +50,7 @@ Vue.prototype.$services = {
 Vue.component('app-link', AppLink)
 Vue.config.productionTip = false
 
-let unitFactory = new UnitFactory(store.state.unit)
+let unitFactory = new UnitFactory(store)
 Vue.filter('toUnit', unitFactory.filter.bind(unitFactory));
 Vue.filter('unitLabel', unitFactory.filterLabel.bind(unitFactory));
 Vue.filter('unitLabelText', unitFactory.filterLabelText.bind(unitFactory));

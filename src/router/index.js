@@ -105,14 +105,14 @@ const routes = [
         props: true
     },
     {
-        path: '/write/:id/model/component/:index/:reference',
+        path: '/write/:id/model/component/:componentId/:reference',
         name: 'footprint.write.component.reference',
         component: ComponentReferenceEdit,
         props: true
     },
     {
-        path: '/write/:id/model/component/:index/:reference/name',
-        name: 'footprint.write.component.root.name',
+        path: '/write/:id/model/component/:componentId/:reference/name',
+        name: 'footprint.write.component.name',
         components: {
             default: ComponentReferenceEdit,
             modal: ComponentNameEdit
@@ -123,11 +123,11 @@ const routes = [
         }
     },
     {
-        path: '/write/:id/model/component/:index/:reference/schema/new/:type',
-        name: 'footprint.write.schema.create',
+        path: '/write/:id/model/component/:componentId/:reference/item/:itemReference',
+        name: 'footprint.write.schema',
         components: {
             default: ComponentReferenceEdit,
-            modal: SchemaCreate
+            modal: SchemaUpdate
         },
         props: {
             default: true,
@@ -135,11 +135,11 @@ const routes = [
         }
     },
     {
-        path: '/write/:id/model/component/:index/:reference/schema/:schemaIndex/:type',
-        name: 'footprint.write.schema',
+        path: '/write/:id/model/component/:componentId/:reference/item/new/:type',
+        name: 'footprint.write.schema.create',
         components: {
             default: ComponentReferenceEdit,
-            modal: SchemaUpdate
+            modal: SchemaCreate
         },
         props: {
             default: true,
@@ -165,7 +165,7 @@ const routes = [
         props: true
     },
     {
-        path: '/footprint/:id/input/:inputId',
+        path: '/footprint/:id/input/:inputReference',
         name: 'footprint.input',
         components: {
             default: Footprint,
@@ -187,28 +187,6 @@ const routes = [
             default: true,
             modal: true
         }
-    },
-    {
-        path: '/footprint/:id/update',
-        name: 'footprint.update',
-        component: FootprintUpdate,
-        props: true
-    },
-    {
-        path: '/footprint/:id/update/name',
-        components: {
-            default: FootprintUpdate,
-            modal: NameEdit
-        },
-        props: true
-    },
-    {
-        path: '/footprint/:id/update/type',
-        components: {
-            default: FootprintUpdate,
-            modal: TypeEdit
-        },
-        props: true
     },
     {
         path: '/article/what-is-a-carbon-footprint',

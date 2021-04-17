@@ -10,7 +10,7 @@
             </div>
             <div class="column flex">
                 <h3 class="gap-right--s ellipsis">{{ title }}</h3>
-                <div class="small secondary" v-if="secondary">{{ secondary }}</div>
+                <div class="small secondary gap-top--s" v-if="secondary" v-html="secondary"></div>
             </div>
             <div v-if="action" class="gap-right--s">
                 <button @click="$emit('action')" class="btn btn--primary">

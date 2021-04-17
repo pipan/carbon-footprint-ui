@@ -27,7 +27,10 @@ import AppModal from "../../components/AppModal.vue";
 import UnitInput from "../../components/UnitInput.vue";
 export default {
     name: "FootprintInput",
-    props: ['id', 'inputId'],
+    props: {
+        id: [ String, Number ],
+        inputReference: [ String ]
+    },
     components: { AppModal, UnitInput },
     data: function () {
         return {
@@ -36,7 +39,7 @@ export default {
     },
     computed: {
         input: function () {
-            return this.$store.getters['footprint/inputMap'][this.inputId]
+            return this.$store.getters['footprint/inputMap'][this.inputReference]
         }
     },
     methods: {
@@ -48,7 +51,7 @@ export default {
         },
         submit: function () {
             let query = this.$route.query;
-            query[this.input.name] = this.value + ""
+            query[this.input.reference] = this.value + ""
             this.$services.history.replace({
                 path: '/footprint/' + this.id,
                 query: query

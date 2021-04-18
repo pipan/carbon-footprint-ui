@@ -66,8 +66,9 @@ export default {
                     data: this.chartData,
                     backgroundColor: this.chartColors,
                     hoverBackgroundColor: this.chartColors,
-                    borderWidth: 4,
-                    borderColor: '#15141a'
+                    borderWidth: 1,
+                    borderColor: '#15141a',
+                    borderAlign: 'inner'
                 }]
             }, {
                 responsive: true,
@@ -78,9 +79,8 @@ export default {
                 animation: {
                     duration: 0
                 },
-                cutoutPercentage: 75,
+                cutoutPercentage: 60,
                 onClick: function (point, event) {
-                    console.log(point, event);
                     if (event.length <= 0) {
                         return;
                     }

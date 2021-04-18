@@ -8,7 +8,8 @@
             name="name"
             autocomplete="off"
             @input="onInputChange($event.target.value)"
-            v-model="inputValue" />
+            v-model="inputValue"
+            v-app-autofocus="autofocus"/>
         <div class="gap-left--m" v-if="hasScales">
             <select
                 v-model="selectValue"
@@ -27,7 +28,11 @@ export default {
     name: 'UnitInput',
     props: {
         unitId: [ Number, String ],
-        value: [ Number, String ]
+        value: [ Number, String ],
+        autofocus: {
+            type: Boolean,
+            default: false
+        }
     },
     data: function () {
         return {

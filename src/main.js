@@ -23,6 +23,7 @@ import DraftService from './services/DraftService'
 
 import AppLink from './components/AppLink.vue'
 import SearchFetch from './api/SearchFetch'
+import Autofocus from './directives/Autofocus'
 
 Vue.use(Vuex)
 
@@ -48,6 +49,7 @@ Vue.prototype.$services = {
 };
 
 Vue.component('app-link', AppLink)
+Vue.directive('app-autofocus', Autofocus)
 Vue.config.productionTip = false
 
 let unitFactory = new UnitFactory(store)

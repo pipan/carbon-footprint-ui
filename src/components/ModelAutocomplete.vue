@@ -4,7 +4,8 @@
             <input class="input flex"
                 placeholder="Find model"
                 v-model="searchQuery"
-                @input="search($event.target.value)" />
+                @input="search($event.target.value)"
+                v-app-autofocus="autofocus"/>
         </div>
         <div class="column gap-top--l" role="radiogroup" v-if="hasOptions">
             <radio-input 
@@ -27,6 +28,10 @@ export default {
         value: {
             type: [ Object, Number, String, Boolean ],
             default: null
+        },
+        autofocus: {
+            type: Boolean,
+            default: false
         }
     },
     data: function () {

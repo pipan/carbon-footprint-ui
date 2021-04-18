@@ -9,6 +9,7 @@
                     <unit-input
                         :unit-id="input.unit.id"
                         :value="input.value"
+                        :autofocus="true"
                         @change="onChange($event)" />
                 </div>
                 <div class="modal__footer">

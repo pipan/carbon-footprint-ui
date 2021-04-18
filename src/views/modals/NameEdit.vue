@@ -5,7 +5,13 @@
         <div>
             <form @submit.prevent="submit()">
                 <div class="modal__body">
-                    <input id="footprint-name" class="input" type="text" name="name" autocomplete="off" v-model="internalValue" />
+                    <input id="footprint-name"
+                        class="input"
+                        type="text"
+                        name="name"
+                        autocomplete="off"
+                        v-model="internalValue" 
+                        v-app-autofocus="true"/>
                 </div>
                 <div class="modal__footer">
                     <button type="submit" class="btn btn--primary">SAVE</button>

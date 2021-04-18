@@ -11,6 +11,7 @@
                 <div>
                     <unit-input unitId="8"
                         :value="value"
+                        :autofocus="true"
                         @change="innerModel.value = $event"></unit-input>
                 </div>
             </div>

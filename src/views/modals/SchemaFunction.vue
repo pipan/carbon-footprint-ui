@@ -8,7 +8,7 @@
                     :value="operation"
                     @change="innerModel.operation = $event"
                     class="gap-bottom--m row center"/>
-                <model-autocomplete :value="value" @change="setValue($event)"></model-autocomplete>
+                <model-autocomplete :value="value" @change="setValue($event)" :autofocus="true"></model-autocomplete>
             </div>
             <div class="modal__footer">
                 <div class="row reverse flex">

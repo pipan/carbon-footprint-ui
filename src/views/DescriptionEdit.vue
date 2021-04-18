@@ -6,7 +6,7 @@
         action="PREVIEW"
         @action="preview()">
         <div class="gap--m column flex">
-            <textarea class="input flex" v-model="internalValue"></textarea>
+            <textarea class="input flex" v-model="internalValue" v-app-autofocus="true"></textarea>
         </div>
     </header-layout>
 </template>

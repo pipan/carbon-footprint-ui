@@ -10,7 +10,8 @@
                         type="text"
                         name="name"
                         autocomplete="off"
-                        v-model="value"/>
+                        v-model="value"
+                        v-app-autofocus="true"/>
                 </div>
                 <div class="modal__footer">
                     <button type="submit" class="btn btn--primary">SAVE</button>

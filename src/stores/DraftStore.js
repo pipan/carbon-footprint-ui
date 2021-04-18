@@ -78,7 +78,7 @@ export default function (modelFetch) {
                 return (id) => {
                     let model = getters.model
                     for (let i = 0; i < model.components.length; i++) {
-                        if (model.components[i].id !== id) {
+                        if (model.components[i].id != id) {
                             continue
                         }
                         return i
@@ -341,7 +341,6 @@ export default function (modelFetch) {
             },
 
             setFunctionInput: function (context, data) {
-                console.log(context.state.draft, data)
                 let draft = Mutator.fromSource(context.state.draft)
                     .arrayItem('components', context.getters.componentIndex(data.componentId))
                     .property('schema')

@@ -77,7 +77,6 @@ export default {
                     duration: 0
                 },
                 onClick: function (point, event) {
-                    console.log(point, event);
                     if (event.length <= 0) {
                         return;
                     }

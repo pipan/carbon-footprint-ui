@@ -2,7 +2,7 @@
     <header-layout
         title="404"
         :back-url="{ name: 'index' }">
-        <div style="height: calc(100vh - 56px)">
+        <div style="height: calc(100vh - 66px)">
             <div class="container">
                 <div class="column center" style="position:relative; top: 160px">
                     <img src="/image/404.svg" />

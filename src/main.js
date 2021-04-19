@@ -24,6 +24,7 @@ import DraftService from './services/DraftService'
 import AppLink from './components/AppLink.vue'
 import SearchFetch from './api/SearchFetch'
 import Autofocus from './directives/Autofocus'
+import './registerServiceWorker'
 
 Vue.use(Vuex)
 

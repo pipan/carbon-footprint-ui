@@ -3,6 +3,10 @@
     z-index: 10;
 }
 
+.context.context--open {
+    z-index: 11;
+}
+
 .context__menu {
     position: absolute;
     min-width: 140px;

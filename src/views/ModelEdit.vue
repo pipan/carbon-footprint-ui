@@ -17,11 +17,15 @@
                 <div v-for="component of components"
                     :key="component.id"
                     @click="openComponent(component.id)"
-                    class="gap-left--m gap-right--s gap-v--tiny interactive row middle">
+                    class="gap--m interactive row middle overflow-visible">
                         <div class="flex secondary">{{ component.name }}</div>
-                        <button type="button" class="btn btn--circle btn--grey" @click.stop="removeComponent(component.id)">
-                            <span class="material-icons">delete_outline</span>
-                        </button>
+                        <div class="abs abs--right">
+                            <context-menu>
+                                <div class="column left">
+                                    <button class="btn context__item" @click="removeComponent(component.id)">Remove</button>
+                                </div>
+                            </context-menu>
+                        </div>
                 </div>
             </div>
             <div class="row center middle gap--m">
@@ -39,9 +43,10 @@
 
 <script>
 import ModelEditLayout from "./layouts/ModelEditLayout.vue";
+import ContextMenu from '../components/ContextMenu.vue'
 export default {
     name: "ModelEdit",
-    components: { ModelEditLayout },
+    components: { ModelEditLayout, ContextMenu },
     props: {
         id: [String, Number]
     },

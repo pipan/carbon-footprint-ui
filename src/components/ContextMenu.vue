@@ -1,5 +1,5 @@
 <template>
-    <div @click.stop class="context">
+    <div @click.stop class="context" :class="{ 'context--open': visible }">
         <div class="gap--s">
             <button @click="open()" class="btn btn--circle" :class="{'btn--disabled': disabled}">
                 <span class="material-icons">{{ icon }}</span>

@@ -40,7 +40,7 @@ export default {
             return ['Component', this.component.name]
         },
         headerSecondary: function () {
-            return this.breadcrumps.join(" &#x27A4; ")
+            return this.breadcrumps.join(" &bullet; ")
         },
         draft: function () {
             return this.$store.getters['draft/model']

@@ -18,7 +18,7 @@
                     :key="component.id"
                     @click="openComponent(component.id)"
                     class="gap-left--m gap-right--s gap-v--tiny interactive row middle">
-                        <div class="flex thin">{{ component.name }}</div>
+                        <div class="flex secondary">{{ component.name }}</div>
                         <button type="button" class="btn btn--circle btn--grey" @click.stop="removeComponent(component.id)">
                             <span class="material-icons">delete_outline</span>
                         </button>

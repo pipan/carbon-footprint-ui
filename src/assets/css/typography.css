@@ -73,6 +73,10 @@ p.secondary {
     font-weight: 100;
 }
 
+.mono {
+    font-family: monospace;
+}
+
 .ellipsis {
     white-space: nowrap;
     overflow: hidden;

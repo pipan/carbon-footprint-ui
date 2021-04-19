@@ -11,7 +11,7 @@
                         :value="operation"/>
                     <div class="gap-right--m thin">{{ item.name }}</div>
                 </div>
-                <div class="tag tag--secondary tag--transparent">{{ item.tag }}</div>
+                <div class="tag tag--secondary tag--transparent mono">{{ item.tag }}</div>
             </div>
             <div class="row gap-bottom--s small" v-if="hasInputs">
                 <input-button v-for="input of item.inputs"

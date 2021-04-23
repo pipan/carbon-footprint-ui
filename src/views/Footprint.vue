@@ -1,8 +1,8 @@
 <template>
     <div>
-        <not-found
-            v-if="isNotFound"
+        <not-found v-if="isNotFound"
             description="Footprint does not exists"/>
+        <server-error v-if="isServerError" />
         <header-layout
             v-if="isOk"
             :title="$store.state.footprint.item.name"
@@ -58,11 +58,12 @@ import CarbonResult from "../components/CarbonResult.vue";
 import ComponentChart from '../components/ComponentChart.vue';
 import InputSwichIcon from '../components/InputSwichIcon.vue';
 import NotFound from './NotFound.vue';
+import ServerError from './ServerError.vue';
 import InputButton from '../components/InputButton.vue';
 export default {
     name: "Footprint",
     props: ['id'],
-    components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart, NotFound, InputSwichIcon, InputButton },
+    components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart, NotFound, InputSwichIcon, InputButton, ServerError },
     data: function () {
         return {
             chartSwitchValue: 'bar',
@@ -101,6 +102,9 @@ export default {
         }
     },
     computed: {
+        error: function () {
+            return this.$store.state.footprint.error
+        },
         hasInput: function () {
             return this.$store.state.footprint.item.inputs
                 && this.$store.state.footprint.item.inputs.length > 0;
@@ -116,10 +120,13 @@ export default {
             return items
         },
         isNotFound: function () {
-            return !this.isOk && this.$store.state.footprint.error.status === 404
+            return !this.isOk && this.error.status === 404
+        },
+        isServerError: function () {
+            return !this.isOk && this.error.status >= 500
         },
         isOk: function () {
-            return this.$store.state.footprint.error === false
+            return this.error === false
         }
     },
     created: function () {

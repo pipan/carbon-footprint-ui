@@ -110,7 +110,7 @@ body {
 .detail__inputs {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     background-color: var(--bg-secondary);
     box-shadow: var(--shadow);
     padding: 0px var(--s);

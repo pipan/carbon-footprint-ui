@@ -6,9 +6,6 @@
         <div class="column flex">
             <div class="row middle gap--s gap-left--m">
                 <div class="gap-right--m flex">Components</div>
-                <!-- <button class="btn btn--circle" @click="createComponent()">
-                    <span class="material-icons">add</span>
-                </button> -->
             </div>
             <div class="column flex">
                 <div class="gap--m secondary row center thin" v-if="!hasComponents">
@@ -31,15 +28,6 @@
                     <button class="btn btn--suggest" @click="createComponent()">New</button>
                 </div>
             </div>
-            <!-- <div class="row center middle gap--m">
-                <label class="label--inline" for="output_unit_id">Output</label>
-                <select id="output_unit_id" v-model="internalOutput">
-                    <option
-                        v-for="unit of $store.state.unit.items"
-                        :key="unit.id"
-                        :value="unit.id">{{ unit.name }}</option>
-                </select>
-            </div> -->
         </div>
     </model-edit-layout>
 </template>

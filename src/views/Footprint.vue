@@ -17,7 +17,7 @@
                             layout="row"/>
                     </div>
                     <div class="gap-top--l" v-if="hasInput">
-                        <div class="detail__inputs gap-h--m">
+                        <div class="detail__inputs row wrap gap-grid--s">
                             <input-button v-for="input in $store.state.footprint.item.inputs"
                                 :key="input.name"
                                 :name="input.value | unitHuman(input.unit.id)"

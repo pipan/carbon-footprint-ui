@@ -6,7 +6,7 @@
         <div class="column flex">
             <div class="gap-v--m">
                 <div class="detail__inputs row middle">
-                    <div class="row middle flex wrap">
+                    <div class="row middle flex wrap gap-grid--s">
                         <span class="secondary gap-left--s small" v-if="!hasInputs">no input</span>
                         <input-button
                             v-for="input of inputs"

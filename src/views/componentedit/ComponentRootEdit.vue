@@ -50,7 +50,7 @@ export default {
                 return []
             }
             return this.schema.items
-        },
+        }
     },
     methods: {
         openItem: function (ref) {

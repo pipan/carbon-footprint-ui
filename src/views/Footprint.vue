@@ -8,7 +8,7 @@
             :title="$store.state.footprint.item.name"
             :back-url="{ name: 'index' }">
             <div class="rel" v-if="$store.state.footprint.item">
-                <footprint-context :id="id"/>
+                <footprint-context :id="id" class="gap--s"/>
                 <div>
                     <div class="large">
                         <carbon-result

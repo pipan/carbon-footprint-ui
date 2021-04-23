@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <app-context></app-context>
+        <app-context class="gap--s"></app-context>
         <div class="gap-v--l gap-h--m">
             <app-logo/>
         </div>

@@ -2,15 +2,6 @@
     <div>
         <div class="row middle gap--m overflow-visible" :class="{'secondary': disabled}">
             <div class="flex">Schema</div>
-            <div class="abs abs--right">
-                <context-menu icon="add" ref="contextAdd" :disabled="disabled">
-                    <div class="column left">
-                        <button class="btn context__item" @click.stop="createSchema('constant')">Constant</button>
-                        <button v-if="hasInput" class="btn context__item" @click.stop="createSchema('input')">Input</button>
-                        <button class="btn context__item" @click.stop="createSchema('model')">Function</button>
-                    </div>
-                </context-menu>
-            </div>
         </div>
         <schema-stack-item
             v-for="(factor, i) of factors"
@@ -22,12 +13,20 @@
             @selectItem="$emit('selectItem', $event)"
             @selectInput="openInput($event, factor.ref)"
             class="gap-h--m gap-v--tiny" />
+        <div class="row gap--m center">
+            <button @click="createSchema('constant')" class="btn btn--suggest">Constant</button>
+            <div class="gap-left--m" v-if="hasInput">
+                <button @click="createSchema('input')" class="btn btn--suggest">Input</button>
+            </div>
+            <div class="gap-left--m">
+                <button @click="createSchema('model')" class="btn btn--suggest">Function</button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import SchemaStackItem from './SchemaStackItem.vue';
-import ContextMenu from './ContextMenu.vue';
 
 class ConstantAdapter {
     adapt(item) {
@@ -96,7 +95,7 @@ class ItemAdapter {
 
 export default {
     name: 'SchemaStack',
-    components: { SchemaStackItem, ContextMenu },
+    components: { SchemaStackItem },
     props: {
         componentId: [ Number, String ],
         reference: [ String ],
@@ -127,15 +126,6 @@ export default {
         }
     },
     methods: {
-        createSchema: function (type) {
-            this.$services.history.push({
-                name: 'footprint.write.schema.create',
-                params: {
-                    type: type
-                }
-            })
-            this.$refs.contextAdd.close()
-        },
         openInput: function (input, parent) {
             if (!input.ref) {
                 this.$store.dispatch('draft/generateInputReference', {
@@ -158,6 +148,15 @@ export default {
             }
 
             this.$emit('selectReference', input.ref)
+        },
+        createSchema: function (type) {
+            this.$services.history.push({
+                name: 'footprint.write.schema.create',
+                params: {
+                    type: type
+                }
+            })
+            this.$refs.contextAdd.close()
         }
     }
 }

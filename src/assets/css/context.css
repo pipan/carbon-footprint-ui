@@ -8,12 +8,33 @@
 }
 
 .context__menu {
+    display: none;
+    flex-direction: column;
     position: absolute;
     min-width: 140px;
     background-color: var(--bg-secondary);
     border-radius: var(--roundness-l);
     box-shadow: var(--shadow);
 }
+
+.context__menu.context__menu--top {
+    top: calc(-1 * var(--s));
+}
+.context__menu.context__menu--right {
+    right: calc(-1 * var(--s));
+}
+.context__menu.context__menu--bottom {
+    bottom: calc(-1 * var(--s));
+    flex-direction: column-reverse;
+}
+.context__menu.context__menu--left {
+    left: calc(-1 * var(--s));
+}
+
+.context.context--open .context__menu {
+    display: flex;
+}
+
 .context__item {
     display: block;
     padding: var(--m);

@@ -6,12 +6,12 @@
         <div class="column flex">
             <div class="row middle gap--s gap-left--m">
                 <div class="gap-right--m flex">Components</div>
-                <button class="btn btn--circle" @click="createComponent()">
+                <!-- <button class="btn btn--circle" @click="createComponent()">
                     <span class="material-icons">add</span>
-                </button>
+                </button> -->
             </div>
             <div class="column flex">
-                <div class="gap--m secondary row center flex thin" v-if="!hasComponents">
+                <div class="gap--m secondary row center thin" v-if="!hasComponents">
                     Start by adding a component for this model
                 </div>
                 <div v-for="component of components"
@@ -19,7 +19,7 @@
                     @click="openComponent(component.id)"
                     class="gap--m interactive row middle overflow-visible">
                         <div class="flex secondary">{{ component.name }}</div>
-                        <div class="abs abs--right">
+                        <div class="abs abs--right gap--s">
                             <context-menu>
                                 <div class="column left">
                                     <button class="btn context__item" @click="removeComponent(component.id)">Remove</button>
@@ -27,8 +27,11 @@
                             </context-menu>
                         </div>
                 </div>
+                <div class="row gap--m center">
+                    <button class="btn btn--suggest" @click="createComponent()">New</button>
+                </div>
             </div>
-            <div class="row center middle gap--m">
+            <!-- <div class="row center middle gap--m">
                 <label class="label--inline" for="output_unit_id">Output</label>
                 <select id="output_unit_id" v-model="internalOutput">
                     <option
@@ -36,7 +39,7 @@
                         :key="unit.id"
                         :value="unit.id">{{ unit.name }}</option>
                 </select>
-            </div>
+            </div> -->
         </div>
     </model-edit-layout>
 </template>

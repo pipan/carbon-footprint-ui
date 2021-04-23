@@ -60,7 +60,7 @@ export default {
                 return []
             }
             return this.schema.items
-        },
+        }
     },
     methods: {
         setDefault: function (value) {

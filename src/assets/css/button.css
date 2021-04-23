@@ -51,3 +51,12 @@ a.btn {
     padding: var(--s) 0px;
     color: var(--fg-secondary);
 }
+
+.btn.btn--suggest {
+    border: 1px dashed var(--fg-secondary);
+    color: var(--fg-secondary)
+}
+
+.btn.btn--no-padding {
+    padding: 0px;
+}

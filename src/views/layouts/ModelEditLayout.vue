@@ -7,7 +7,7 @@
             <div class="gap-v--m">
                 <div class="detail__inputs row middle">
                     <div class="row middle flex wrap">
-                        <span class="secondary gap-left--s" v-if="!hasInputs">no input</span>
+                        <span class="secondary gap-left--s small" v-if="!hasInputs">no input</span>
                         <input-button
                             v-for="input of inputs"
                             :key="input.reference"

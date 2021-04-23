@@ -51,3 +51,7 @@
 .gap-left--s { padding-left: var(--s); }
 .gap-left--m { padding-left: var(--m); }
 .gap-left--l { padding-left: var(--l); }
+
+.gap-grid--s { gap: var(--s); }
+.gap-grid--m { gap: var(--m); }
+.gap-grid--l { gap: var(--l); }

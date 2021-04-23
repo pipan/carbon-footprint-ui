@@ -20,28 +20,37 @@ export default class ToUnitFactory {
         }
 
         let scales = unit.scales;
-        let result = {
-            value: value,
-            label: {
-                text: scales[0].label,
-                id: scales[0].id
-            },
-            human: value
-        };
+        let best = {
+            scale: scales[0],
+            converted: value / scales[0].multiplier * scales[0].devider
+        }
+        
         for (let scale of scales) {
             const next = value / scale.multiplier;
             if (next < 1) {
-                break;
+                continue;
             }
-            result.value = next;
-            result.label = {
-                text: scale.label,
-                id: scale.id
+            if (next > best.converted) {
+                continue
+            }
+            if (next == best.converted && scale.priority <= best.scale.priority) {
+                continue
+            }
+
+            best = {
+                scale: scale,
+                converted: next
             }
         }
 
-        result.human = result.value + " " + result.label.text;
-        return result
+        return {
+            value: best.converted,
+            label: {
+                text: best.scale.label,
+                id: best.scale.id
+            },
+            human: best.converted + " " + best.scale.label
+        }
     }
 
     filterValue(value, unitId) {

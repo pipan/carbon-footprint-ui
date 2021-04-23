@@ -9,6 +9,12 @@
                 <h3 class="ellipsis list-item__title">{{ item.name }}</h3>
             </div>
             <p class="no-gap-before secondary compact">{{ item.description | ellipsis }}</p>
+            <div class="row gap-grid--s gap-v--s">
+                <span v-for="input of item.inputs"
+                    :key="input.id"
+                    :title="input.name"
+                    class="tag tag--secondary">{{ input.default_value | unitHuman(input.unit.id) }}</span>
+            </div>
         </div>
     </div>
 </template>

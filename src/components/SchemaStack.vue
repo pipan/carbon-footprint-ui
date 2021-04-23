@@ -156,7 +156,6 @@ export default {
                     type: type
                 }
             })
-            this.$refs.contextAdd.close()
         }
     }
 }

@@ -5,6 +5,7 @@
                 placeholder="Find model"
                 v-model="searchQuery"
                 @input="search($event.target.value)"
+                @keypress.enter.prevent
                 v-app-autofocus="autofocus"/>
         </div>
         <div class="column gap-top--l" role="radiogroup" v-if="hasOptions">

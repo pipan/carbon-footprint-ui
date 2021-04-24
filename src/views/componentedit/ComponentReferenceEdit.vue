@@ -25,7 +25,7 @@ export default {
         return {
             vueComponents: {
                 root: 'component-root-edit',
-                function_input: 'component-input-edit'
+                model_input: 'component-input-edit'
             }
         }
     },

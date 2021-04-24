@@ -57,7 +57,12 @@ class FunctionAdapter {
     adapt(item) {
         let inputs = []
         for (let input of item.model.inputs) {
-            let ref = item.inputs[input.id] 
+            let ref = ""
+            if (item.inputs[input.id]) {
+                let inputSchema = item.inputs[input.id]
+                let split = inputSchema.split(":")
+                ref = split.length > 1 ? split[1] : ref
+            }
             let secondary = 'default'
             if (ref) {
                 let funcionInput = this.store.getters['draft/reference'](this.componentId, ref)
@@ -67,6 +72,7 @@ class FunctionAdapter {
                 primary: input.name,
                 secondary: secondary,
                 ref: ref,
+                uid: input.reference,
                 id: input.id
             })
         }
@@ -138,8 +144,8 @@ export default {
                     return this.$store.dispatch('draft/setFunctionInput', {
                         componentId: this.componentId,
                         reference: parent,
-                        inputId: input.id,
-                        value: result
+                        inputId: input.uid,
+                        value: "reference:" + result
                     }).then(() => {
                         this.$emit('selectReference', result)
                     })

@@ -288,7 +288,7 @@ export default function (modelFetch) {
                     componentId: data.componentId,
                     value: {
                         ...data,
-                        type: 'function_input',
+                        type: 'model_input',
                         default: true,
                         items: []
                     }

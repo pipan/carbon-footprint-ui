@@ -13,6 +13,7 @@ import FootprintUpdate from '../views/FootprintUpdate.vue'
 import NameEdit from '../views/modals/NameEdit.vue'
 import TypeEdit from '../views/modals/TypeEdit.vue'
 import DescriptionEdit from '../views/DescriptionEdit.vue'
+import DescriptionPreview from '../views/DescriptionPreview.vue'
 import ModelEdit from '../views/ModelEdit.vue'
 import ComponentNameEdit from '../views/modals/ComponentNameEdit.vue'
 import SchemaCreate from '../views/modals/SchemaCreate.vue'
@@ -91,6 +92,12 @@ const routes = [
             default: true,
             modal: true
         }
+    },
+    {
+        path: '/write/:id/description/preview',
+        name: 'footprint.write.description.preview',
+        component: DescriptionPreview,
+        props: true
     },
     {
         path: '/write/:id/description',

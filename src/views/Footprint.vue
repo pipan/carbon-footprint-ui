@@ -28,7 +28,7 @@
                     <div class="gap-v--l gap-h--m">
                         <section>
                             <h3>Description</h3>
-                            <p>{{ $store.state.footprint.item.description }}</p>
+                            <vue-markdown>{{ $store.state.footprint.item.description }}</vue-markdown>
                         </section>
                         <section class="gap-top--l">
                             <div class="row middle">
@@ -60,10 +60,11 @@ import InputSwichIcon from '../components/InputSwichIcon.vue';
 import NotFound from './NotFound.vue';
 import ServerError from './ServerError.vue';
 import InputButton from '../components/InputButton.vue';
+import VueMarkdown from 'vue-markdown'
 export default {
     name: "Footprint",
     props: ['id'],
-    components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart, NotFound, InputSwichIcon, InputButton, ServerError },
+    components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart, NotFound, InputSwichIcon, InputButton, ServerError, VueMarkdown },
     data: function () {
         return {
             chartSwitchValue: 'bar',

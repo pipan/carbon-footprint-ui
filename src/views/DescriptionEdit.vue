@@ -2,7 +2,7 @@
     <header-layout
         :title="draft.name"
         secondary="Description"
-        :back-url="{ name: 'footprint.write', params: { id } }"
+        :back-url="{ name: 'footprint.write' }"
         action="PREVIEW"
         @action="preview()">
         <div class="gap--m column flex">
@@ -14,7 +14,7 @@
 <script>
 import HeaderLayout from "./layouts/HeaderLayout.vue";
 export default {
-    name: "FootprintUpdate",
+    name: "DescriptionUpdate",
     components: { HeaderLayout },
     props: {
         id: [String, Number]
@@ -31,7 +31,9 @@ export default {
     },
     methods: {
         preview: function () {
-            console.log("PREVIEW");
+            this.$services.history.replace({
+                name: 'footprint.write.description.preview'
+            })
         }
     },
     created: function () {

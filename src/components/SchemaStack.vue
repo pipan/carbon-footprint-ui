@@ -58,8 +58,8 @@ class FunctionAdapter {
         let inputs = []
         for (let input of item.model.inputs) {
             let ref = ""
-            if (item.inputs[input.id]) {
-                let inputSchema = item.inputs[input.id]
+            if (item.inputs[input.reference]) {
+                let inputSchema = item.inputs[input.reference]
                 let split = inputSchema.split(":")
                 ref = split.length > 1 ? split[1] : ref
             }

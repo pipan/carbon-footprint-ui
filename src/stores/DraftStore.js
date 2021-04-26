@@ -341,7 +341,7 @@ export default function (modelFetch) {
             },
 
             setFunctionInput: function (context, data) {
-                let draft = Mutator.fromSource(context.state.draft)
+                let draft = Mutator.fromSource(context.getters.model)
                     .arrayItem('components', context.getters.componentIndex(data.componentId))
                     .property('schema')
                     .property(data.reference)
@@ -351,7 +351,7 @@ export default function (modelFetch) {
                 context.commit('setDraft', draft)
             },
             setInputDefault: function (context, data) {
-                let draft = Mutator.fromSource(context.state.draft)
+                let draft = Mutator.fromSource(context.getters.model)
                     .arrayItem('components', context.getters.componentIndex(data.componentId))
                     .property('schema')
                     .update(data.reference, { default: data.value })

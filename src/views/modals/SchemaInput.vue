@@ -92,14 +92,6 @@ export default {
             property[key] = value
             this.innerModel = Object.assign({}, this.innerModel, property)
         },
-        getInputByReference: function (reference) {
-            for (let input of this.inputs) {
-                if (input.reference === reference) {
-                    return input
-                }
-            }
-            return {}
-        },
         close: function () {
             this.$emit('close')
         },
@@ -107,7 +99,6 @@ export default {
             let payload = {
                 item: {
                     type: 'input',
-                    name: this.getInputByReference(this.value).name,
                     reference: this.value
                 }
             }

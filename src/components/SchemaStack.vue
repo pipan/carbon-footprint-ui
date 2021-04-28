@@ -29,9 +29,13 @@
 import SchemaStackItem from './SchemaStackItem.vue';
 
 class ConstantAdapter {
+    constructor(filters) {
+        this.filters = filters
+    }
+
     adapt(item) {
         return {
-            name: item.value,
+            name: this.filters.unitHuman(item.value, item.unit || 8),
             tag: 'C',
             inputs: []
         }
@@ -39,9 +43,13 @@ class ConstantAdapter {
 }
 
 class InputAdapter {
+    constructor(store) {
+        this.store = store
+    }
+
     adapt(item) {
         return {
-            name: item.name,
+            name: this.store.getters['draft/inputMap'][item.reference].name,
             tag: 'I',
             inputs: []
         }
@@ -86,11 +94,11 @@ class FunctionAdapter {
 }
 
 class ItemAdapter {
-    constructor(componentId, store) {
+    constructor(componentId, store, filters) {
         this.adapters = {
-            constant: new ConstantAdapter(),
+            constant: new ConstantAdapter(filters),
             model: new FunctionAdapter(componentId, store),
-            input: new InputAdapter()
+            input: new InputAdapter(store)
         }
     }
 
@@ -114,7 +122,7 @@ export default {
     },
     computed: {
         factors: function () {
-            let adapter = new ItemAdapter(this.componentId, this.$store)
+            let adapter = new ItemAdapter(this.componentId, this.$store, this.$options.filters)
             let result = []
             for (let i = 0; i < this.items.length; i += 2) {
                 let split = this.items[i].split(":")

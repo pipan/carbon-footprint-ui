@@ -6,13 +6,24 @@
             <div class="modal__body">
                 <schema-operation-input v-if="hasOperation"
                     :value="operation"
-                    @change="innerModel.operation = $event"
+                    @change="internalOperation = $event"
                     class="gap-bottom--m row center"/>
-                <div>
-                    <unit-input unitId="8"
-                        :value="value"
+                <div class="row">
+                    <select class="flex"
+                        :value="item.unit"
+                        @change="setUnit($event.target.value)">
+                        <option
+                            id="input-type"
+                            v-for="unit of units"
+                            :key="unit.id"
+                            :value="unit.id">{{ unit.name }}</option>
+                    </select>
+                </div>
+                <div class="gap-top--m">
+                    <unit-input :unitId="item.unit"
+                        :value="item.value"
                         :autofocus="true"
-                        @change="innerModel.value = $event"></unit-input>
+                        @change="setValue($event)"></unit-input>
                 </div>
             </div>
             <div class="modal__footer">
@@ -47,34 +58,45 @@ export default {
     },
     data: function () {
         return {
-            innerModel: {
-                operation: '',
-                value: ''
+            internal: {},
+            default: {
+                value: '',
+                unit: 8
             },
-            unitId: 8
+            internalOperation: ''
         }
     },
     computed: {
-        value: function () {
-            if (this.innerModel.value) {
-                return this.innerModel.value
-            }
-            if (this.model.item.value) {
-                return this.model.item.value
-            }
-            return ''
-        },
         operation: function () {
-            if (this.innerModel.operation) {
-                return this.innerModel.operation
+            if (this.internalOperation) {
+                return this.internalOperation
             }
-            return this.model.operation
+            if (this.model.operation) {
+                return this.model.operation
+            }
+            return '+'
+        },
+        item: function () {
+            return Object.assign({}, this.default, this.model.item, this.internal)
+        },
+        units: function () {
+            return this.$store.state.unit.items
         },
         hasOperation: function () {
             return this.model.operation
         }
     },
     methods: {
+        setUnit: function (unit) {
+            this.internal = Object.assign({}, this.internal, {
+                unit: unit
+            })
+        },
+        setValue: function (value) {
+            this.internal = Object.assign({}, this.internal, {
+                value: value
+            })
+        },
         close: function () {
             this.$emit('close')
         },
@@ -82,7 +104,8 @@ export default {
             let payload = {
                 item: {
                     type: 'constant',
-                    value: this.value
+                    value: this.item.value,
+                    unit: this.item.unit
                 }
             }
             if (this.hasOperation) {

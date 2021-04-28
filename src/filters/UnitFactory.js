@@ -1,3 +1,6 @@
+import Precision from "./Precision";
+
+
 export default class ToUnitFactory {
     store = null
 
@@ -49,7 +52,7 @@ export default class ToUnitFactory {
                 text: best.scale.label,
                 id: best.scale.id
             },
-            human: best.converted + " " + best.scale.label
+            human: Precision(best.converted, 2) + " " + best.scale.label
         }
     }
 

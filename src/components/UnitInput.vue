@@ -12,7 +12,7 @@
             v-app-autofocus="autofocus"/>
         <div class="gap-left--m" v-if="hasScales">
             <select
-                v-model="selectValue"
+                v-model="scaleValue"
                 @change="onSelectChange($event.target.value)">
                 <option
                     v-for="scale of scales"
@@ -36,8 +36,8 @@ export default {
     },
     data: function () {
         return {
-            inputValue: this.$options.filters.unitValue(this.value, this.unitId),
-            selectValue: this.$options.filters.unitLabelId(this.value, this.unitId),
+            inputValue: 1,
+            scaleValue: false,
         }
     },
     computed: {
@@ -54,41 +54,43 @@ export default {
             return this.scales && this.scales.length > 1
         },
         selectedScale: function () {
-            return this.$store.getters['unit/scaleMap'][this.selectValue]
+            return this.$store.getters['unit/scaleMap'][this.scaleValue]
         }
     },
     watch: {
         scales: function (newValue) {
-            let isSelectedValueValid = false
-            for (let scale of newValue) {
-                if (scale.id === this.selectValue) {
-                    isSelectedValueValid = true
-                }
+            console.log("scales")
+            if (!newValue) {
+                this.onSelectChange(false)
+                return
             }
-            if (!isSelectedValueValid) {
-                this.selectValue = newValue[0].id
-            }
+            this.onSelectChange(newValue[0].id)
         }
     },
     methods: {
+        update: function () {
+            this.inputValue = this.$options.filters.unitValue(this.value, this.unitId)
+            this.scaleValue = this.$options.filters.unitLabelId(this.value, this.unitId)
+        },
+        notify: function () {
+            if (!this.selectedScale) {
+                this.$emit(this.inputValue)
+                return
+            }
+            this.$emit('change', this.inputValue * this.selectedScale.multiplier / this.selectedScale.devider)
+        },
         onInputChange: function (value) {
             value = parseFloat(value)
-            if (!this.selectedScale) {
-                this.change(value)
-                return
-            }
-            this.change(value * this.selectedScale.multiplier)
+            this.inputValue = value
+            this.notify()
         },
-        onSelectChange: function () {
-            if (!this.selectedScale) {
-                this.change(this.inputValue)
-                return
-            }
-            this.change(this.inputValue * this.selectedScale.multiplier)
-        },
-        change: function (value) {
-            this.$emit('change', value)
+        onSelectChange: function (value) {
+            this.scaleValue = value
+            this.notify()
         }
+    },
+    created: function() {
+        this.update()
     }
 }
 </script>

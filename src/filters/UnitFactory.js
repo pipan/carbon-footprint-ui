@@ -29,7 +29,7 @@ export default class ToUnitFactory {
         }
         
         for (let scale of scales) {
-            const next = value / scale.multiplier;
+            const next = value / scale.multiplier * scales[0].devider;
             if (next < 1) {
                 continue;
             }

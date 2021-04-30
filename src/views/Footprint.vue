@@ -6,7 +6,10 @@
         <header-layout
             v-if="isOk"
             :title="$store.state.footprint.item.name"
-            :back-url="{ name: 'index' }">
+            action="search"
+            action-icon="search"
+            :back-url="{ name: 'index' }"
+            @action="goTo({ name: 'index' })">
             <div class="rel" v-if="$store.state.footprint.item">
                 <footprint-context :id="id" class="gap--s"/>
                 <div>
@@ -100,6 +103,9 @@ export default {
                 },
                 query: this.$route.query
             })
+        },
+        goTo: function (route) {
+            this.$services.history.push(route)
         }
     },
     computed: {

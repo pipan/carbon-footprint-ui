@@ -13,8 +13,8 @@
                 <div class="small secondary gap-top--s" v-if="secondary" v-html="secondary"></div>
             </div>
             <div v-if="action" class="gap-right--s">
-                <button @click="$emit('action')" class="btn btn--primary">
-                    {{ action }}
+                <button @click="$emit('action')" :class="actionConfig.button">
+                    <span :class="actionConfig.span">{{ actionContent }}</span>
                 </button>
             </div>
         </header>
@@ -33,7 +33,39 @@ export default {
       title: String,
       secondary: String,
       action: String,
+      actionIcon: String,
       backUrl: [Object, String]
+  },
+  data: function () {
+      return {
+          actions: {
+              text: {
+                  button: ['btn', 'btn--primary'],
+                  span: []
+              },
+              icon: {
+                  button: ['btn', 'btn--circle'],
+                  span: ['material-icons']
+              }
+          }
+      }
+  },
+  computed: {
+      actionType: function () {
+          if (this.actionIcon) {
+              return "icon"
+          }
+          return "text"
+      },
+      actionContent: function () {
+          if (this.actionType === 'icon') {
+              return this.actionIcon
+          }
+          return this.action
+      },
+      actionConfig: function () {
+          return this.actions[this.actionType]
+      }
   },
   watch: {
       title: function (newValue, oldValue) {

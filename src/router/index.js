@@ -196,8 +196,9 @@ const routes = [
         }
     },
     {
-        path: '/article/what-is-a-carbon-footprint',
+        path: '/article/:slug',
         component: Article,
+        props: true
     },
     {
         path: '*',

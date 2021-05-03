@@ -20,13 +20,12 @@
                 <app-link class="link--no-style" route="article/what-is-a-carbon-footprint">What is a carbon footprint?</app-link>
             </h3>
             <p class="secondary compact no-gap-before">
-            Carbon footrprint is the amount of greanhouse gases released into the
-            atmosphere during production, transpor...
+            Carbon footprint is the amount of greenhouse gases, you released into the atmosphere. You are increasing your ...
             </p>
         </article>
         <article class="column gap-top--l">
             <h3>
-                <app-link class="link--no-style" route="article/2">
+                <app-link class="link--no-style" route="article/why-is-footprint-measured-in-kg-of-co2">
                     <span>Why is footprint measured in </span>
                     <span class="carbon-unit">
                     <span class="carbon-unit__weight">kg</span>
@@ -39,17 +38,15 @@
                 </app-link>
             </h3>
             <p class="secondary compact no-gap-before">
-            CO2 is the most iconic greenhouse gas molecule. Therofore, it is used
-            as a standard measure for carbon footrpint. Global war...
+            CO<sub>2</sub> is the most iconic greenhouse gas molecule. When we talk about global warming we probably imagine burnig ...
             </p>
         </article>
         <article class="column gap-top--l">
             <h3>
-                <app-link class="link--no-style" route="article/3">How can I create a new footprint?</app-link>
+                <app-link class="link--no-style" route="article/how-do-we-model-footprints">How do we model footprints?</app-link>
             </h3>
             <p class="secondary compact no-gap-before">
-            Every footprint is internaly represented as a mathematical function.
-            This function can accept any number of inputs. The output ...
+            Primary goal of every model is to show you the amount of CO2 released into the atmosphere. To get to the final number we need ...
             </p>
         </article>
         </div>

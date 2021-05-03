@@ -8,7 +8,7 @@
                     </button>
                 </back-button>
             </div>
-            <div class="column flex">
+            <div class="column flex ellipsis">
                 <h3 class="gap-right--s ellipsis">{{ title }}</h3>
                 <div class="small secondary gap-top--s" v-if="secondary" v-html="secondary"></div>
             </div>

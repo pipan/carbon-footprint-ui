@@ -16,9 +16,13 @@ h3 {
     font-size: 1.2rem;
 }
 
+h4 {
+    padding-bottom: var(--m);
+}
+
 p {
     font-weight: 100;
-    padding: var(--m) 0px 0px 0px;
+    padding: 0px 0px var(--m) 0px;
     margin: 0px;
     line-height: 1.5;
 }
@@ -81,7 +85,7 @@ p.secondary {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
 }
 
 .entity--math {

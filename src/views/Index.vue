@@ -19,8 +19,8 @@
             <h3>
                 <app-link class="link--no-style" route="article/what-is-a-carbon-footprint">What is a carbon footprint?</app-link>
             </h3>
-            <p class="secondary compact no-gap-before">
-            Carbon footprint is the amount of greenhouse gases, you released into the atmosphere. You are increasing your ...
+            <p class="secondary compact no-gap-after">
+            Carbon footprint is the amount of greenhouse gases, you released into the atmosphere. You are increasing your footprint by every ...
             </p>
         </article>
         <article class="column gap-top--l">
@@ -37,15 +37,15 @@
                     <span>?</span>
                 </app-link>
             </h3>
-            <p class="secondary compact no-gap-before">
-            CO<sub>2</sub> is the most iconic greenhouse gas molecule. When we talk about global warming we probably imagine burnig ...
+            <p class="secondary compact no-gap-after">
+            CO<sub>2</sub> is the most iconic greenhouse gas molecule. When we talk about global warming we probably imagine burnig stuff. And ...
             </p>
         </article>
         <article class="column gap-top--l">
             <h3>
                 <app-link class="link--no-style" route="article/how-do-we-model-footprints">How do we model footprints?</app-link>
             </h3>
-            <p class="secondary compact no-gap-before">
+            <p class="secondary compact no-gap-after">
             Primary goal of every model is to show you the amount of CO2 released into the atmosphere. To get to the final number we need ...
             </p>
         </article>

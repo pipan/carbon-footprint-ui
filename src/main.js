@@ -12,6 +12,7 @@ import footprintStoreFactory from './stores/FootprintStore'
 import draftStoreFactory from './stores/DraftStore'
 
 import ellipsis from "./filters/Ellipsis"
+import markdownParagraph from "./filters/MarkdownParagraph"
 import precision from "./filters/Precision"
 import titleCase from "./filters/TitleCase"
 import UnitFactory from "./filters/UnitFactory"
@@ -61,6 +62,7 @@ Vue.filter('unitLabelId', unitFactory.filterLabelId.bind(unitFactory));
 Vue.filter('unitValue', unitFactory.filterValue.bind(unitFactory));
 Vue.filter('unitHuman', unitFactory.filterHuman.bind(unitFactory));
 Vue.filter('ellipsis', ellipsis);
+Vue.filter('markdownParagraph', markdownParagraph);
 Vue.filter('precision', precision);
 Vue.filter('titleCase', titleCase);
 let schemaFactory = new SchemaFactory()

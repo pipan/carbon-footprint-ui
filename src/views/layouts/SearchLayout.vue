@@ -2,7 +2,7 @@
     <div class="container">
         <app-context class="gap--s"></app-context>
         <div class="gap-v--l gap-h--m">
-            <app-logo/>
+        <app-logo/>
         </div>
         <search-input
             class="gap-h--m"

@@ -8,7 +8,7 @@
                 <span v-if="verified" class="material-icons primary md-18 gap-right--s">check_circle_outline</span>
                 <h3 class="ellipsis list-item__title">{{ item.name }}</h3>
             </div>
-            <p class="no-gap-before secondary compact">{{ item.description | ellipsis }}</p>
+            <p class="no-gap-after secondary compact">{{ item.description | markdownParagraph | ellipsis }}</p>
             <div class="row gap-grid--s gap-top--s">
                 <span v-for="input of item.inputs"
                     :key="input.id"

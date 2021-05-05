@@ -29,8 +29,8 @@ p {
 p.compact {
     line-height: 1.15;
 }
-p.no-gap-before {
-    padding-top: 0px;
+p.no-gap-after, li > p {
+    padding-bottom: 0px;
 }
 
 a {

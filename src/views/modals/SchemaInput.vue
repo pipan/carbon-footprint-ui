@@ -9,12 +9,10 @@
                     @change="innerModel.operation = $event"
                     class="gap-bottom--m row center"/>
                 <div class="row">
-                    <select class="flex" @change="set('value', $event.target.value)" :value="value">
-                        <option v-for="input of inputs"
-                            :key="input.reference"
-                            :value="input.reference"
-                            >{{ input.name }}</option>
-                    </select>
+                    <radio-input-group class="flex"
+                        :options="radioInputs"
+                        :value="value"
+                        @change="set('value', $event.id)" />
                 </div>
             </div>
             <div class="modal__footer">
@@ -35,10 +33,11 @@
 
 <script>
 import AppModal from "../../components/AppModal.vue";
+import RadioInputGroup from "../../components/RadioInputGroup.vue";
 import SchemaOperationInput from "../../components/SchemaOperationInput.vue";
 export default {
     name: "SchemaInput",
-    components: { AppModal, SchemaOperationInput },
+    components: { AppModal, SchemaOperationInput, RadioInputGroup },
     props: {
         model: Object,
         enableRemove: {
@@ -75,6 +74,16 @@ export default {
                 return []
             }
             return this.draft.inputs
+        },
+        radioInputs: function () {
+            let result = []
+            for (let input of this.inputs) {
+                result.push({
+                    id: input.reference,
+                    name: input.name
+                })
+            }
+            return result
         },
         operation: function () {
             if (this.innerModel.operation) {

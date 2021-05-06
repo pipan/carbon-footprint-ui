@@ -1,5 +1,4 @@
-export default function (value) {
-    let limit = 120;
+export default function (value, limit = 120) {
     if (value.length < limit) {
         return value
     }

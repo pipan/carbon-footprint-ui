@@ -33,6 +33,10 @@ p.no-gap-after, li > p {
     padding-bottom: 0px;
 }
 
+li {
+    word-break: break-word;
+}
+
 a {
     color: var(--primary);
     cursor: pointer;

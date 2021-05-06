@@ -48,6 +48,10 @@ class InputAdapter {
     }
 
     adapt(item) {
+        let input = this.store.getters['draft/inputMap'][item.reference]
+        if (!input) {
+            return null
+        }
         return {
             name: this.store.getters['draft/inputMap'][item.reference].name,
             tag: 'I',
@@ -127,9 +131,13 @@ export default {
             for (let i = 0; i < this.items.length; i += 2) {
                 let split = this.items[i].split(":")
                 let itemReference = this.$store.getters['draft/reference'](this.componentId, split[1])
+                let adaptedItem = adapter.adapt(itemReference)
+                if (!adaptedItem) {
+                    continue
+                }
                 result.push({
                     ref: split[1],
-                    item: adapter.adapt(itemReference),
+                    item: adaptedItem,
                     operation: i > 0 ? this.items[i - 1] : '',
                 })
             }

@@ -16,6 +16,9 @@ export default {
     },
     methods: {
         navigate: function () {
+            if (this.$router.resolve(this.route).href === this.$route.fullPath) {
+                return;
+            }
             if (this.mode === 'push') {
                 this.$services.history.push(this.route)
             } else if (this.mode === 'replace') {

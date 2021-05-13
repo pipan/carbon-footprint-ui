@@ -5,23 +5,23 @@
         <server-error v-if="isServerError" />
         <header-layout
             v-if="isOk"
-            :title="$store.state.footprint.item.name"
+            :title="item.name"
             action="search"
             action-icon="search"
             :back-url="{ name: 'index' }"
             @action="goTo({ name: 'index' })">
-            <div class="rel" v-if="$store.state.footprint.item">
+            <div class="rel" v-if="item">
                 <footprint-context :id="id" class="gap--s"/>
                 <div>
                     <div class="large">
                         <carbon-result
                             class="gap-top--l"
-                            :carbon="$store.state.footprint.item.eval"
+                            :carbon="item.eval"
                             layout="row"/>
                     </div>
                     <div class="gap-top--l" v-if="hasInput">
                         <div class="detail__inputs row wrap gap-grid--s">
-                            <input-button v-for="input in $store.state.footprint.item.inputs"
+                            <input-button v-for="input in item.inputs"
                                 :key="input.name"
                                 :name="input.value | unitHuman(input.unit.id)"
                                 :secondary="input.name"
@@ -31,7 +31,7 @@
                     <div class="gap-v--l gap-h--m">
                         <section>
                             <h3>Description</h3>
-                            <vue-markdown>{{ $store.state.footprint.item.description }}</vue-markdown>
+                            <vue-markdown>{{ item.description }}</vue-markdown>
                         </section>
                         <section class="gap-top--l">
                             <div class="row middle">
@@ -68,6 +68,17 @@ export default {
     name: "Footprint",
     props: ['id'],
     components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart, NotFound, InputSwichIcon, InputButton, ServerError, VueMarkdown },
+    metaInfo: function () {
+        return {
+            title: this.item.name + " | Carbon Footprint",
+            meta: [
+                {
+                    name: "description",
+                    content: "Carbon footprint for " + this.item.name + ". " + this.$options.filters.markdownParagraph(this.item.description)
+                }
+            ]
+        }
+    },
     data: function () {
         return {
             chartSwitchValue: 'bar',
@@ -112,13 +123,16 @@ export default {
         error: function () {
             return this.$store.state.footprint.error
         },
+        item: function () {
+            return this.$store.state.footprint.item
+        },
         hasInput: function () {
-            return this.$store.state.footprint.item.inputs
-                && this.$store.state.footprint.item.inputs.length > 0;
+            return this.item.inputs
+                && this.item.inputs.length > 0;
         },
         chartItems: function () {
             let items = []
-            for (let item of this.$store.state.footprint.item.components) {
+            for (let item of this.item.components) {
                 items.push({
                     name: item.name,
                     value: item.eval

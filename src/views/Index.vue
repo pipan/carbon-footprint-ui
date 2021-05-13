@@ -56,8 +56,17 @@
 <script>
 export default {
     name: "Index",
-    created: function () {
-        this.$services.title.set("Carbon Footprint")
+    metaInfo: {
+        title: "Carbon Footprint",
+        meta: [
+            {
+                name: "description",
+                content: "Carbon footprint is the amount of greenhouse gases, you released into the atmosphere. You are increasing your footprint by every activity you do. Calculate your impact on our atmoshpere and start reducing your carbon footprint. You can make better decision with the right information."
+            }, {
+                name: "keywords",
+                content: "carbon footprint, co2, atmosphere, footprint, environment, eco, ecology, emissions, human impact, global warming, sustainability, calculator, responsibility, earth"
+            }
+        ]
     }
 };
 </script>

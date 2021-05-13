@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VueMeta from 'vue-meta'
 
 import ModelFetch from './api/ModelFetch'
 
@@ -28,6 +29,7 @@ import Autofocus from './directives/Autofocus'
 import './registerServiceWorker'
 
 Vue.use(Vuex)
+Vue.use(VueMeta)
 
 let api = {
     model: new ModelFetch(),

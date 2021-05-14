@@ -35,6 +35,14 @@ import AppPagination from '../components/AppPagination.vue';
 import SearchListItem from '../components/SearchListItem.vue';
 export default {
     name: "Search",
+    props: {
+        query: String,
+        page: {
+            type: Number,
+            default: 1
+        }
+    },
+    components: { SearchListItem, AppPagination },
     metaInfo: function () {
         return {
             title: "results for \"" + this.query + "\" | Carbon Footprint",
@@ -49,14 +57,6 @@ export default {
             ]
         }
     },
-    props: {
-        query: String,
-        page: {
-            type: Number,
-            default: 1
-        }
-    },
-    components: { SearchListItem, AppPagination },
     computed: {
         items: function () {
             return this.$store.state.search.items

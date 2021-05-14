@@ -66,15 +66,35 @@ import InputButton from '../components/InputButton.vue';
 import VueMarkdown from 'vue-markdown'
 export default {
     name: "Footprint",
-    props: ['id'],
+    props: {
+        id: [ String, Number ]
+    },
     components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart, NotFound, InputSwichIcon, InputButton, ServerError, VueMarkdown },
     metaInfo: function () {
+        if (!this.item) {
+            return {
+                title: "Carbon Footprint",
+            }
+        }
+        let inputs = []
+        for (let input of this.item.inputs) {
+            inputs.push(input.name + " is " + this.$options.filters.unitHuman(input.value, input.unit.id))
+        }
+
+        let inputDescription = ""
+        if (inputs.length > 0) {
+            inputDescription = " when " + inputs.join(", ")
+        }
+        
         return {
             title: this.item.name + " | Carbon Footprint",
             meta: [
                 {
                     name: "description",
-                    content: "Carbon footprint for " + this.item.name + ". " + this.$options.filters.markdownParagraph(this.item.description)
+                    content: "Carbon footprint of " + this.item.name + " is " + this.$options.filters.unitHuman(this.item.eval, 9) + inputDescription + ". " + this.$options.filters.markdownParagraph(this.item.description)
+                }, {
+                    name: "keywords",
+                    content: "carbon footprint, co2, atmosphere, footprint, environment, eco, ecology, emissions, human impact, global warming, sustainability, calculator, responsibility, earth"
                 }
             ]
         }

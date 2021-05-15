@@ -20,7 +20,7 @@ import SchemaCreate from '../views/modals/SchemaCreate.vue'
 import SchemaUpdate from '../views/modals/SchemaUpdate.vue'
 import ComponentReferenceEdit from '../views/componentedit/ComponentReferenceEdit.vue'
 import InputEdit from '../views/modals/InputEdit.vue'
-import FootprintModal from '../views/modals/FootprintModal.vue'
+// import FootprintModal from '../views/modals/FootprintModal.vue'
 import FootprintInput from '../views/modals/FootprintInput.vue'
 
 Vue.use(VueRouter)
@@ -53,6 +53,42 @@ const routes = [
             }
         ]
     },
+    {
+        path: '/footprint/:id',
+        name: 'footprint',
+        component: Footprint,
+        props: true
+    },
+    {
+        path: '/footprint/:id/input/:inputReference',
+        name: 'footprint.input',
+        components: {
+            default: Footprint,
+            modal: FootprintInput
+        },
+        props: {
+            default: true,
+            modal: true
+        }
+    },
+    {
+        path: '/article/:slug',
+        name: 'article',
+        component: Article,
+        props: true
+    },
+    // {
+    //     path: 'footprint/:id/component/:componentId',
+    //     name: 'footprint.component',
+    //     components: {
+    //         default: Footprint,
+    //         modal: FootprintModal
+    //     },
+    //     props: {
+    //         default: true,
+    //         modal: true
+    //     }
+    // },
     {
         path: '/create',
         name: 'footprint.create',
@@ -164,41 +200,6 @@ const routes = [
             default: true,
             modal: true
         }
-    },
-    {
-        path: '/footprint/:id',
-        name: 'footprint',
-        component: Footprint,
-        props: true
-    },
-    {
-        path: '/footprint/:id/input/:inputReference',
-        name: 'footprint.input',
-        components: {
-            default: Footprint,
-            modal: FootprintInput
-        },
-        props: {
-            default: true,
-            modal: true
-        }
-    },
-    {
-        path: '/footprint/:id/component/:componentId',
-        name: 'footprint.component',
-        components: {
-            default: Footprint,
-            modal: FootprintModal
-        },
-        props: {
-            default: true,
-            modal: true
-        }
-    },
-    {
-        path: '/article/:slug',
-        component: Article,
-        props: true
     },
     {
         path: '*',

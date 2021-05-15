@@ -2,29 +2,48 @@
     <div>
         <not-found v-if="!exists"
             description="Article does not exists"/>
-        <header-layout v-if="exists"
-            :title="article.title"
-            :back-url="{ name: 'index' }">
-            <div class="gap--m">
-                <vue-markdown>{{ article.body }}</vue-markdown>
-            </div>
-        </header-layout>
+        <footer-layout>
+            <header-layout v-if="exists"
+                :title="article.title"
+                :back-url="{ name: 'index' }">
+                <div class="gap--m">
+                    <vue-markdown :source="article.body"></vue-markdown>
+                </div>
+            </header-layout>
+        </footer-layout>
     </div>
 </template>
 
 <script>
 import HeaderLayout from './layouts/HeaderLayout.vue';
+import FooterLayout from './layouts/FooterLayout.vue';
 import NotFound from './NotFound.vue';
 import VueMarkdown from 'vue-markdown'
 export default {
     name: "Article",
-    components: { HeaderLayout, VueMarkdown, NotFound },
+    components: { HeaderLayout, FooterLayout, VueMarkdown, NotFound },
     props: {
         slug: [ String ]
     },
     data: function () {
         return {
             articles: {
+                'about': {
+                    title: 'About',
+                    body: "#### License\n\n[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)\n\n#### Contact\n\n[carbonfootprint@gmail.com](mailto:carbonfootprint@gmail.com)\n\n#### Year of birth\n\n 2021\n\n#### Our mission\n\nWe want to inform, as precisly as we can, about the impact everything has on our atmosphere and on the increasing global temperature. We believe, that  by providing reliable information we can make  people start thinking about their action and decrease their carbon footprint (in process slow down global warming).\n\n#### FAQs\n\n[What is a carbon footprint?](/article/what-is-a-carbon-footprint)\n[Why is footprint measured in kg of CO2?](/article/why-is-footprint-measured-in-kg-of-co2)\n[How do we model footprints?](/article/how-do-we-model-footprints)",
+                    meta: {
+                        title: "About | Carbon Footprint",
+                        meta: [
+                            {
+                                name: "description",
+                                content: "We want to inform, as precisly as we can, about the impact everything has on our atmosphere and on the increasing global temperature. We believe, that  by providing reliable information we can make  people start thinking about their action and decrease their carbon footprint (in process slow down global warming)."
+                            }, {
+                                name: "keywords",
+                                content: "carbon footprint, co2, atmosphere, footprint, environment, eco, ecology, emissions, human impact, global warming, sustainability, calculator, responsibility, earth"
+                            }
+                        ]
+                    }
+                },
                 'what-is-a-carbon-footprint': {
                     title: 'What is a carbon footprint?',
                     body: "Carbon footprint is the amount of greenhouse gases, you released into the atmosphere. You are increasing your footprint by every activity you do. It may be by direct actions like car ride, cooking on a camp fire or using electricity generated from fosile fuels. Or it may be indirect action like buying things, eating, using delivery service.\n\n#### GHGs are biproduct of everything\n\nThink about today and think about all the things you did. I guess you brush your teeth in the morning. And you probably used a toothbrush and a toothpaste. All theese items had to be produced. And for production we had to use some materials and energy. The toothbrush and toothpaste had to be transported to the store so you could buy it. All of these actions released som GHG into the atmosphere. You did not created those grenhouse gases directly but by buying it, you took the responsibility for those greenhouse gases.\n\nIf you skiped your morning hygien, maybe you had a cup of coffee in the morning. Think about the origin of the coffee and the process for the coffee beans to get to your cup. Does it look like a lot of energy had to be spend? and did that energy come from renewable sources?\n\n#### Anxiety relief\n\nDon't worry. The point is not to stop living (or brushing our teeth), but to start living responsibly. It's good to know your carbon footprint so you can start reducing it efficiently. You can start by tackleing the thing with the biggest impact on your carbon footprint. So instead of giving up 20 things, you can give up 1 thing with the same impact. If giving up things is not possible, then looking for alternative ways of doing things, that are more environment friendly, may be the way for you. Everybody has to eat, we have to keep buying necessery items, so we cannot stop doing those things, but maybe there is more responsible way with lower emissions. It's very hard to live responsibly without suficient information. It actually may be discuraging or borderline imposible to reduce our carbon footprint without knowing the carbon price of our actions.\n\n#### Offseting does not solve the main issue\n\n Your carbon footprin can also be  reduced by doing something that actualy takes carbon from the atmosphere - offsetting. We could say that those actions provide negative carbon footprint. It's very good if you do offset your carbon footprint. However we want to motivate people to reduce their footprint by realizing that their action do harm the atmospehere and offseting does not solve the main issue. We simply put too much GHGs into our atmosphere.",

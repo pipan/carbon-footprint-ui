@@ -3,54 +3,56 @@
         <not-found v-if="isNotFound"
             description="Footprint does not exists"/>
         <server-error v-if="isServerError" />
-        <header-layout
-            v-if="isOk"
-            :title="item.name"
-            action="search"
-            action-icon="search"
-            :back-url="{ name: 'index' }"
-            @action="goTo({ name: 'index' })">
-            <div class="rel" v-if="item">
-                <footprint-context :id="id" class="gap--s"/>
-                <div>
-                    <div class="large">
-                        <carbon-result
-                            class="gap-top--l"
-                            :carbon="item.eval"
-                            layout="row"/>
-                    </div>
-                    <div class="gap-top--l" v-if="hasInput">
-                        <div class="detail__inputs row wrap gap-grid--s">
-                            <input-button v-for="input in item.inputs"
-                                :key="input.name"
-                                :name="input.value | unitHuman(input.unit.id)"
-                                :secondary="input.name"
-                                @click="openInput(input.reference)"/>
+        <footer-layout>
+            <header-layout
+                v-if="isOk"
+                :title="item.name"
+                action="search"
+                action-icon="search"
+                :back-url="{ name: 'index' }"
+                @action="goTo({ name: 'index' })">
+                <div class="rel" v-if="item">
+                    <footprint-context :id="id" class="gap--s"/>
+                    <div>
+                        <div class="large">
+                            <carbon-result
+                                class="gap-top--l"
+                                :carbon="item.eval"
+                                layout="row"/>
+                        </div>
+                        <div class="gap-top--l" v-if="hasInput">
+                            <div class="detail__inputs row wrap gap-grid--s">
+                                <input-button v-for="input in item.inputs"
+                                    :key="input.name"
+                                    :name="input.value | unitHuman(input.unit.id)"
+                                    :secondary="input.name"
+                                    @click="openInput(input.reference)"/>
+                            </div>
+                        </div>
+                        <div class="gap-v--l gap-h--m">
+                            <section>
+                                <h3>Description</h3>
+                                <vue-markdown>{{ item.description }}</vue-markdown>
+                            </section>
+                            <section class="gap-top--l">
+                                <div class="row middle">
+                                    <h3 class="flex">Components</h3>
+                                    <input-swich-icon
+                                        :value="chartSwitchValue"
+                                        :options="chartSwitchOptions"
+                                        @change="chartSwitchValue = $event"/>
+                                </div>
+                                <component-chart 
+                                    class="gap-top--m"
+                                    :items="chartItems"
+                                    :type="chartSwitchValue"
+                                    @select="openComponent('cmp')"/>
+                            </section>
                         </div>
                     </div>
-                    <div class="gap-v--l gap-h--m">
-                        <section>
-                            <h3>Description</h3>
-                            <vue-markdown>{{ item.description }}</vue-markdown>
-                        </section>
-                        <section class="gap-top--l">
-                            <div class="row middle">
-                                <h3 class="flex">Components</h3>
-                                <input-swich-icon
-                                    :value="chartSwitchValue"
-                                    :options="chartSwitchOptions"
-                                    @change="chartSwitchValue = $event"/>
-                            </div>
-                            <component-chart 
-                                class="gap-top--m"
-                                :items="chartItems"
-                                :type="chartSwitchValue"
-                                @select="openComponent('cmp')"/>
-                        </section>
-                    </div>
                 </div>
-            </div>
-        </header-layout>
+            </header-layout>
+        </footer-layout>
     </div>
 </template>
 
@@ -64,12 +66,13 @@ import NotFound from './NotFound.vue';
 import ServerError from './ServerError.vue';
 import InputButton from '../components/InputButton.vue';
 import VueMarkdown from 'vue-markdown'
+import FooterLayout from './layouts/FooterLayout.vue';
 export default {
     name: "Footprint",
     props: {
         id: [ String, Number ]
     },
-    components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart, NotFound, InputSwichIcon, InputButton, ServerError, VueMarkdown },
+    components: { HeaderLayout, FootprintContext, CarbonResult, ComponentChart, NotFound, InputSwichIcon, InputButton, ServerError, VueMarkdown, FooterLayout },
     metaInfo: function () {
         if (!this.item) {
             return {
@@ -116,14 +119,15 @@ export default {
     },
     methods: {
         openComponent: function (componentId) {
-            this.$services.history.push({
-                name: 'footprint.component',
-                params: {
-                    id: this.id,
-                    componentId: componentId,    
-                },
-                query: this.$route.query
-            })
+            console.log("open component", componentId)
+            // this.$services.history.push({
+            //     name: 'footprint.component',
+            //     params: {
+            //         id: this.id,
+            //         componentId: componentId,    
+            //     },
+            //     query: this.$route.query
+            // })
         },
         openInput: function (inputReference) {
             this.$services.history.push({

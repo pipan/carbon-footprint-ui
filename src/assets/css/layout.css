@@ -42,3 +42,12 @@ header {
 header.elevate {
     box-shadow: var(--shadow);
 }
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--bg-secondary);
+    padding: var(--s);
+}

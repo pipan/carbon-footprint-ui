@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueMeta from 'vue-meta'
 
+import * as Sentry from "@sentry/vue";
+
 import ModelFetch from './api/ModelFetch'
 
 import App from './App.vue'
@@ -72,6 +74,14 @@ Vue.filter('schemaNormalize', schemaFactory.normalize.bind(schemaFactory));
 Vue.filter('schemaValue', schemaFactory.value.bind(schemaFactory));
 Vue.filter('schemaType', schemaFactory.type.bind(schemaFactory));
 Vue.filter('schemaSimplify', schemaFactory.simplify.bind(schemaFactory));
+
+if (process.env.VUE_APP_SENTRY_DSN) {
+    Sentry.init({
+        Vue,
+        dsn: process.env.VUE_APP_SENTRY_DSN,
+        environment: process.env.VUE_APP_SENTRY_ENVIRONMENT
+    });
+}
 
 new Vue({
     router: router,

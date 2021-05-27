@@ -57,6 +57,10 @@ p.secondary {
     margin: var(--s) 0px 0px 0px;
 }
 
+p.center {
+    text-align: center;
+}
+
 .secondary {
     color: var(--fg-secondary);
 }

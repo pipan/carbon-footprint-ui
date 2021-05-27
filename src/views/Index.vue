@@ -1,17 +1,17 @@
 <template>
     <div>
-        <div class="row space-around gap-v--l gap-h--m">
-        <div class="column center gap--l">
-            <div class="">1.2k</div>
-            <div class="primary small gap-top--s">footprints</div>
+        <div class="row space-around gap-v--l">
+        <div class="column center gap-v--l gap-h--m">
+            <div class="primary">evaluate</div>
+            <p class="center small gap-top--s">your impact</p>
         </div>
-        <div class="column center gap--l">
-            <div class="">400</div>
-            <div class="primary small gap-top--s">verified</div>
+        <div class="column center gap-v--l gap-h--m">
+            <div class="primary">compare</div>
+            <p class="center small gap-top--s">other alternatives</p>
         </div>
-        <div class="column center gap--l">
-            <div class="">6</div>
-            <div class="primary small gap-top--s">countries</div>
+        <div class="column center gap-v--l gap-h--m">
+            <div class="primary">adjust</div>
+            <p class="center small gap-top--s">your lifestyle</p>
         </div>
         </div>
         <div class="column gap-h--m gap-bottom--l">

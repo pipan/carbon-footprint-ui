@@ -46,7 +46,8 @@ header.elevate {
 footer {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-end;
+    gap: var(--m);
     align-items: center;
     background-color: var(--bg-secondary);
     padding: var(--s);

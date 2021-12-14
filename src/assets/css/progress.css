@@ -1,0 +1,33 @@
+.progress {
+    position: relative;
+    width: 100%;
+    background-color: var(--color-border);
+    border-radius: 3px;
+    height: 7px;
+    overflow: hidden;
+}
+
+.progress.progress--infinite::before {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 25%;
+    height: 100%;
+    border-radius: 3px;
+    background-color: var(--primary);
+    animation-name: slideright ;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes slideright {
+    0% {
+      left: 0%;
+      transform: translateX(-100%);
+    }
+    100% {
+      left: 100%;
+      transform: translateX(0%);
+    }
+  }

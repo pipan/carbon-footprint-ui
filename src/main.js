@@ -13,6 +13,7 @@ import unitStore from './stores/UnitStore'
 import searchStore from './stores/SearchStore'
 import footprintStoreFactory from './stores/FootprintStore'
 import draftStoreFactory from './stores/DraftStore'
+import appStore from './stores/AppStore'
 
 import ellipsis from "./filters/Ellipsis"
 import markdownParagraph from "./filters/MarkdownParagraph"
@@ -43,7 +44,8 @@ let store = new Vuex.Store({
         unit: unitStore,
         search: searchStore,
         footprint: footprintStoreFactory(api.model),
-        draft: draftStoreFactory(api.model)
+        draft: draftStoreFactory(api.model),
+        app: appStore
     }
 });
 
